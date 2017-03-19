@@ -14,24 +14,19 @@ Disable WooCommerce scripts and CSS on non Woo Pages.
 Planned features if there is enough support/usage for the plugin: Offload Google and Fontawesome fonts to our MaxCDN account or re-write rules to
 load from yours.
 
-<b>Emojis</b>
-Disabling Emojis does not disable emoticons, it disables the support for Emojis added since WP 4.2, it also gets rid of 1 HTTP request helping speed up your site.
+Disabling Emojis does not disable emoticons, it disables the support for Emojis added since WP 4.2 and removes 1 HTTP request.<br>
 
-<b>Embeds</b>
-Disabling Embeds This is a script that auto formats pasted content in the visual editor, such as videos, tweets, etc. However, this is not really needed.
-A big issue with this script is that it loads on every single page, whether it is being used or not. You can still use the default embed code from YouTube
-and Twitter to included content, even when this script is disabled. And we get rid of another HTTP Request
+Disabling Embeds  - script that auto formats pasted content in the visual editor, eg videos, etc. Big issue with this script is it loads on every
+single page. You can still use the default embed code from YouTube, Twitter etc to included content.
 
-<b>Remove Query Strings</b>
-If you look at your source or a waterfall view of your page load, you will see your query strings end in something like ver=1.12.4 or vers=3.4.1. These are
+Remove Query Strings: If you look at the waterfall view of your page load, you will see your query strings end in something like ver=1.12.4. These are
 called query strings and help determine the version of the script. The problem with query strings like these is that it isn’t very efficient for caching
-purposes and sometimes prevents caching those assets altogether.  If you are using a CDN already, you can ignore this OPTION_KEY
+purposes and sometimes prevents caching those assets altogether.  If you are using a CDN already, you can ignore this.
 
-<b>Gravatars</b>
-Disabling Gravatars is completely optional, advise, if you dont use them, disable as it gets rid of one more useless HTTP request.
+Disabling Gravatars is completely optional, advise, if you don't use them, disable as it gets rid of one more useless HTTP request.
 
-<b>General Performance improvements</b>
-Added support for : disable ping/trackbacks, close comments after 28 days, force pagingation after 20 posts, Disable WooCommerce scripts and CSS on non WooCommerce Pages
+General Performance improvements: Added support for : disable ping/trackbacks, close comments after 28 days, force pagingation after 20 posts,
+Disable WooCommerce scripts and CSS on non WooCommerce Pages.
 
 <b>Have an idea ?</b><br>
 <a href="https://github.com/hosting-io/wp-disable">Public repo on GitHub</a> if you would like to contribute or have any ideas to add.

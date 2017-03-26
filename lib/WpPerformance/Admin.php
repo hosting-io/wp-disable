@@ -8,6 +8,8 @@ class WpPerformance_Admin
         add_action('init', array($this, 'wp_performance_speed_stop_loading_wp_embed'));
         add_filter('script_loader_src', array($this, 'wp_performance_remove_script_version'), 15, 1);
         add_filter('init', array($this, 'wp_performace_disable_woo_stuffs'));
+        add_filter('init', array($this, 'wp_performance_optimize_cleanups'));
+
     }
 
     public function menu()
@@ -26,15 +28,25 @@ class WpPerformance_Admin
     public function updatesettings()
     {
         $array = array(
-            'disable_gravatars'             => ($_POST['disable_gravatars']) ? 1 : 0,
-            'disable_emoji'                 => ($_POST['disable_emoji']) ? 1 : 0,
-            'disable_embeds'                => ($_POST['disable_embeds']) ? 1 : 0,
-            'remove_querystrings'           => ($_POST['remove_querystrings']) ? 1 : 0,
-            'lazyload'                      => ($_POST['lazyload']) ? 1 : 0,
-            'default_ping_status'           => ($_POST['default_ping_status']) ? 1 : 0,
-            'close_comments'                => ($_POST['close_comments']) ? 1 : 0,
-            'paginate_comments'             => ($_POST['paginate_comments']) ? 1 : 0,
-            'disable_woocommerce_non_pages' => ($_POST['disable_woocommerce_non_pages']) ? 1 : 0,
+            'disable_gravatars'                => ($_POST['disable_gravatars']) ? 1 : 0,
+            'disable_emoji'                    => ($_POST['disable_emoji']) ? 1 : 0,
+            'disable_embeds'                   => ($_POST['disable_embeds']) ? 1 : 0,
+            'remove_querystrings'              => ($_POST['remove_querystrings']) ? 1 : 0,
+            'lazyload'                         => ($_POST['lazyload']) ? 1 : 0,
+            'default_ping_status'              => ($_POST['default_ping_status']) ? 1 : 0,
+            'close_comments'                   => ($_POST['close_comments']) ? 1 : 0,
+            'paginate_comments'                => ($_POST['paginate_comments']) ? 1 : 0,
+            'disable_woocommerce_non_pages'    => ($_POST['disable_woocommerce_non_pages']) ? 1 : 0,
+            'remove_rsd'                       => ($_POST['remove_rsd']) ? 1 : 0,
+            'remove_windows_live_writer'       => ($_POST['remove_windows_live_writer']) ? 1 : 0,
+            'remove_wordpress_generator_tag'   => ($_POST['remove_wordpress_generator_tag']) ? 1 : 0,
+            'remove_shortlink_tag'             => ($_POST['remove_shortlink_tag']) ? 1 : 0,
+            'remove_wordpress_api_from_header' => ($_POST['remove_wordpress_api_from_header']) ? 1 : 0,
+            'disable_rss'                      => ($_POST['disable_rss']) ? 1 : 0,
+            'disable_xmlrpc'                   => ($_POST['disable_xmlrpc']) ? 1 : 0,
+            'disable_autosave'                 => ($_POST['disable_autosave']) ? 1 : 0,
+            'disable_revisions'                => ($_POST['disable_revisions']) ? 1 : 0,
+            'disable_woocommerce_reviews'      => ($_POST['disable_woocommerce_reviews']) ? 1 : 0,
         );
         if ($_POST['disable_gravatars'] == 1) {
             update_option('show_avatars', false);
@@ -193,6 +205,63 @@ class WpPerformance_Admin
                 wp_dequeue_script('wc-cart-fragments');
             }
         }
+    }
+    public function disabler_kill_rss()
+    {
+        wp_die(_e("No feeds available.", 'ippy_dis'));
+    }
+
+    public function disabler_kill_autosave()
+    {
+        wp_deregister_script('autosave');
+    }
+
+    public function wcs_woo_remove_reviews_tab($tabs)
+    {
+        unset($tabs['reviews']);
+        return $tabs;
+    }
+
+    public function wp_performance_optimize_cleanups()
+    {
+        $settings = get_option(WpPerformance::OPTION_KEY . '_settings', array());
+        if ($settings['rsd_clean']) {
+            remove_action('wp_head', 'rsd_link');
+        }
+        if ($settings['remove_windows_live_writer']) {
+            remove_action('wp_head', 'wlwmanifest_link');
+        }
+        if ($settings['remove_wordpress_generator_tag']) {
+            remove_action('wp_head', 'wp_generator');
+        }
+        if ($settings['remove_shortlink_tag']) {
+            remove_action('wp_head', 'wp_shortlink_wp_head');
+        }
+        if ($settings['remove_wordpress_api_from_header']) {
+            remove_action('wp_head', 'rest_output_link_wp_head');
+        }
+
+        if ($settings['disable_revisions']) {
+            remove_action('pre_post_update', 'wp_save_post_revision');
+        }
+
+        if ($settings['disable_rss']) {
+            add_action('do_feed', array($this, 'disabler_kill_rss'), 1);
+            add_action('do_feed_rdf', array($this, 'disabler_kill_rss'), 1);
+            add_action('do_feed_rss', array($this, 'disabler_kill_rss'), 1);
+            add_action('do_feed_rss2', array($this, 'disabler_kill_rss'), 1);
+            add_action('do_feed_atom', array($this, 'disabler_kill_rss'), 1);
+        }
+        if ($settings['disable_xmlrpc']) {
+            add_filter('xmlrpc_enabled', '__return_false');
+        }
+        if ($settings['disable_autosave']) {
+            add_action('wp_print_scripts', array($this, 'disabler_kill_autosave'));
+        }
+        if ($settings['disable_woocommerce_reviews']) {
+            add_filter('woocommerce_product_tabs', array($this, 'wcs_woo_remove_reviews_tab'), 98);
+        }
+
     }
 
 }

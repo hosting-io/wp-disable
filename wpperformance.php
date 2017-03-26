@@ -1,14 +1,11 @@
 <?php
 /*
 Plugin Name: WP Disable
-Plugin URI: https://hosting.io
+Plugin URI: https://optimisation.io
 Description: Improve WordPress performance by disabling unused items.
-Author: pigeonhut, Jody Nesbitt
-Author URI:https://hosting.io
-Version: 1.1.1
-Having used disable items in the past, it made sense to put everything in one place, so its a single plugin with a few options instead of 4 plugins.
-Planned features if there is enough support/usage for the plugin
-Offload Google fonts and Fontawesome to our MaxCDN account or re-writing rules to load Google and MaxCDN from your own CDN.
+Author: pigeonhut, Jody Nesbitt, optimisation.io
+Author URI:https://optimisation.io
+Version: 1.1.3
 
 /** Load all of the necessary class files for the plugin */
 spl_autoload_register('WpPerformance::autoload');

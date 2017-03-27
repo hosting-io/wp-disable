@@ -63,7 +63,7 @@ ul.tabs li.current {
 
         <form method="post" action="<?php echo admin_url('admin.php?page=updatewpperformance-settings'); ?>">
 <div class="form">
-<table id="disable_settings">
+<table class="disable_settings">
     <tr>
 
         <td><input name="disable_emoji" type="checkbox" id="disable_emoji" <?php if ($settings['disable_emoji'] == 1) {
@@ -104,7 +104,7 @@ submit_button('Update', 'button button-primary button-large', 'submit', false);
     <div id="tab-2" class="tab-content">
 <form method="post" action="<?php echo admin_url('admin.php?page=updatewpperformance-settings'); ?>">
 <div class="form">
-<table id="disable_settings">
+<table class="disable_settings">
 
             <tr>
                 <td><input name="disable_woocommerce_non_pages" <?php if ($settings['disable_woocommerce_non_pages'] == 1) {
@@ -140,7 +140,7 @@ submit_button('Update', 'button button-primary button-large', 'submit', false);
     <div id="tab-3" class="tab-content">
         <form method="post" action="<?php echo admin_url('admin.php?page=updatewpperformance-settings'); ?>">
 <div class="form">
-<table id="disable_settings">
+<table class="disable_settings">
 
 
     <tr>
@@ -185,7 +185,7 @@ submit_button('Update', 'button button-primary button-large', 'submit', false);
     <div id="tab-4" class="tab-content">
          <form method="post" action="<?php echo admin_url('admin.php?page=updatewpperformance-settings'); ?>">
 <div class="form">
-<table id="disable_settings">
+<table class="disable_settings">
 
         <tr>
             <td><input name="disable_revisions" <?php if ($settings['disable_revisions'] == 1) {
@@ -209,7 +209,7 @@ submit_button('Update', 'button button-primary button-large', 'submit', false);
      <div id="tab-5" class="tab-content">
        <form method="post" action="<?php echo admin_url('admin.php?page=updatewpperformance-settings'); ?>">
 <div class="form">
-<table id="disable_settings">
+<table class="disable_settings">
 
      <tr>
         <td><input name="disable_gravatars" <?php if ($settings['disable_gravatars'] == 1) {
@@ -318,12 +318,12 @@ submit_button('Update', 'button button-primary button-large', 'submit', false);
 <script type="text/javascript">
     function checkall()
     {
-        jQuery('#disable_settings').find('input[type="checkbox"]').prop('checked', true);
+        jQuery('.disable_settings').find('input[type="checkbox"]:visible').prop('checked', true);
     }
 
     function uncheckall()
     {
-        jQuery('#disable_settings').find('input[type="checkbox"]').prop('checked', false);
+        jQuery('.disable_settings').find('input[type="checkbox"]:visible').prop('checked', false);
     }
 
 

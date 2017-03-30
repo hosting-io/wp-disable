@@ -126,7 +126,7 @@ class WpPerformance_Admin
     {
 
         $settings = get_option(WpPerformance::OPTION_KEY . '_settings', array());
-        if ($settings['disable_emoji'] == 1) {
+        if (isset($settings['disable_emoji']) && $settings['disable_emoji'] == 1) {
             remove_action('wp_head', 'print_emoji_detection_script', 7);
             remove_action('admin_print_scripts', 'print_emoji_detection_script');
             remove_action('wp_print_styles', 'print_emoji_styles');
@@ -141,7 +141,7 @@ class WpPerformance_Admin
     public function wp_performance_speed_stop_loading_wp_embed()
     {
         $settings = get_option(WpPerformance::OPTION_KEY . '_settings', array());
-        if ($settings['disable_embeds'] == 1) {
+        if (isset($settings['disable_embeds']) && $settings['disable_embeds'] == 1) {
             if (!is_admin()) {
                 wp_deregister_script('wp-embed');
             }
@@ -152,7 +152,7 @@ class WpPerformance_Admin
     public function wp_performance_remove_script_version($src)
     {
         $settings = get_option(WpPerformance::OPTION_KEY . '_settings', array());
-        if ($settings['remove_querystrings'] == 1) {
+        if (isset($settings['remove_querystrings']) && $settings['remove_querystrings'] == 1) {
             $parts = explode('?ver', $src);
             return $parts[0];
         } else {
@@ -163,7 +163,7 @@ class WpPerformance_Admin
     public function wp_performace_disable_woo_stuffs()
     {
         $settings = get_option(WpPerformance::OPTION_KEY . '_settings', array());
-        if ($settings['disable_woocommerce_non_pages'] == 1) {
+        if (isset($settings['disable_woocommerce_non_pages']) && $settings['disable_woocommerce_non_pages'] == 1) {
             add_action('wp_print_scripts', array($this, 'wp_performance_woocommerce_de_script'), 100);
             add_action('wp_enqueue_scripts', array($this, 'wp_performance_remove_woocommerce_generator'), 99);
             add_action('wp_enqueue_scripts', array($this, 'child_manage_woocommerce_css'));
@@ -225,40 +225,40 @@ class WpPerformance_Admin
     public function wp_performance_optimize_cleanups()
     {
         $settings = get_option(WpPerformance::OPTION_KEY . '_settings', array());
-        if ($settings['rsd_clean']) {
+        if (isset($settings['rsd_clean']) && $settings['rsd_clean']) {
             remove_action('wp_head', 'rsd_link');
         }
-        if ($settings['remove_windows_live_writer']) {
+        if (isset($settings['remove_windows_live_writer']) && $settings['remove_windows_live_writer']) {
             remove_action('wp_head', 'wlwmanifest_link');
         }
-        if ($settings['remove_wordpress_generator_tag']) {
+        if (isset($settings['remove_wordpress_generator_tag']) && $settings['remove_wordpress_generator_tag']) {
             remove_action('wp_head', 'wp_generator');
         }
-        if ($settings['remove_shortlink_tag']) {
+        if (isset($settings['remove_shortlink_tag']) && $settings['remove_shortlink_tag']) {
             remove_action('wp_head', 'wp_shortlink_wp_head');
         }
-        if ($settings['remove_wordpress_api_from_header']) {
+        if (isset($settings['remove_wordpress_api_from_header']) && $settings['remove_wordpress_api_from_header']) {
             remove_action('wp_head', 'rest_output_link_wp_head');
         }
 
-        if ($settings['disable_revisions']) {
+        if (isset($settings['disable_revisions']) && $settings['disable_revisions']) {
             remove_action('pre_post_update', 'wp_save_post_revision');
         }
 
-        if ($settings['disable_rss']) {
+        if (isset($settings['disable_rss']) && $settings['disable_rss']) {
             add_action('do_feed', array($this, 'disabler_kill_rss'), 1);
             add_action('do_feed_rdf', array($this, 'disabler_kill_rss'), 1);
             add_action('do_feed_rss', array($this, 'disabler_kill_rss'), 1);
             add_action('do_feed_rss2', array($this, 'disabler_kill_rss'), 1);
             add_action('do_feed_atom', array($this, 'disabler_kill_rss'), 1);
         }
-        if ($settings['disable_xmlrpc']) {
+        if (isset($settings['disable_xmlrpc']) && $settings['disable_xmlrpc']) {
             add_filter('xmlrpc_enabled', '__return_false');
         }
-        if ($settings['disable_autosave']) {
+        if (isset($settings['disable_autosave']) && $settings['disable_autosave']) {
             add_action('wp_print_scripts', array($this, 'disabler_kill_autosave'));
         }
-        if ($settings['disable_woocommerce_reviews']) {
+        if (isset($settings['disable_woocommerce_reviews']) && $settings['disable_woocommerce_reviews']) {
             add_filter('woocommerce_product_tabs', array($this, 'wcs_woo_remove_reviews_tab'), 98);
         }
 

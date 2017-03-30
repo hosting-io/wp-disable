@@ -3,7 +3,7 @@ Contributors: pigeonhut, Jody Nesbitt, optimisation.io
 Tags: Disable Emoji, Disable Embeds, Disable Gravatars, Remove Querystrings, Reduce HTTP Requests, WooCommerce disable, Close comments, force pagination
 Requires at least: 4.6
 Tested up to: 4.7.3
-Stable tag: 1.1.5
+Stable tag: 1.1.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -12,7 +12,7 @@ Disable WooCommerce scripts and CSS on non WooCommerce Pages, Disable RSS, Disab
  many more features to help speed and SEO gains.
 
 == Description ==
-Planned features if there is enough support/usage for the plugin: Offload Google and Fontawesome fonts to our MaxCDN account or re-write rules to
+Planned features if there is enough support/usage for the plugin: Offload Google and FontAwesome fonts to our MaxCDN account or re-write rules to
 load from yours.
 
 Disabling Emojis does not disable emoticons, it disables the support for Emojis added since WP 4.2 and removes 1 HTTP request.<br>
@@ -59,6 +59,12 @@ Yes, MaxCDN or KeyCDN are our recommended choices.
 
 
 == Changelog ==
+= 1.1.6 =
+Remove Query string activation crash fixed
+
+= 1.1.5 =
+Fixed bug on saving tabs from 1.1.4
+
 = 1.1.4 =
 Added a tabbed navigation for easier usability.
 

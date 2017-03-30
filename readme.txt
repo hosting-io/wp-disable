@@ -1,13 +1,13 @@
 === Disable Emojis & Disable Embeds for WordPress Performance & SpeedUp ===
 Contributors: pigeonhut, Jody Nesbitt, optimisation.io
-Tags: Disable Emoji, Disable Embeds, Disable Gravatars, Remove Querystrings, HTTP Requests, WooCommerce disable, Close comments, force pagination
+Tags: Disable Emoji, Disable Embeds, Disable Gravatars, Remove Querystrings, Reduce HTTP Requests, WooCommerce disable, Close comments, force pagination
 Requires at least: 4.6
 Tested up to: 4.7.3
-Stable tag: 1.1.4
+Stable tag: 1.1.5
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Disable Emojis, Disable Gravatars, Disable Embeds and Remove Querystrings. Added support to disable pingbacks, disable trackbacks, close comments after 28 days, Added the ability to force pagingation after 20 posts,
+Reduce HTTP requests - Disable Emojis, Disable Gravatars, Disable Embeds and Remove Querystrings. Added support to disable pingbacks, disable trackbacks, close comments after 28 days, Added the ability to force pagingation after 20 posts,
 Disable WooCommerce scripts and CSS on non WooCommerce Pages, Disable RSS, Disable XML-RPC, Disable Autosave, Remove Windows Live Writer tag, Remove Shortlink Tag, Remove WP API from header and
  many more features to help speed and SEO gains.
 

@@ -58,10 +58,10 @@ ul.tabs li.current {
         <li class="tab-link" data-tab="tab-4">Admin</li>
         <li class="tab-link" data-tab="tab-5">Others</li>
     </ul>
-
+<form method="post" action="<?php echo admin_url('admin.php?page=updatewpperformance-settings'); ?>">
     <div id="tab-1" class="tab-content current">
 
-        <form method="post" action="<?php echo admin_url('admin.php?page=updatewpperformance-settings'); ?>">
+        
 <div class="form">
 <table class="disable_settings">
     <tr>
@@ -82,7 +82,6 @@ ul.tabs li.current {
         <td><label for="disable_embeds">Disable Embeds</label></td>
     </tr>
 
-
         <tr>
             <td><input name="remove_querystrings" <?php if ($settings['remove_querystrings'] == 1) {
         echo 'checked="checked"';
@@ -90,19 +89,13 @@ ul.tabs li.current {
     ?> type="checkbox" id="remove_querystrings" value="1"/></td>
             <td><label for="remove_querystrings">Remove Querystrings</label></td>
         </tr>
- <tr >
 
-        <td><?php
-submit_button('Update', 'button button-primary button-large', 'submit', false);
-?></td>
-    </tr>
 </table>
 
 </div>
-    </form>
     </div>
     <div id="tab-2" class="tab-content">
-<form method="post" action="<?php echo admin_url('admin.php?page=updatewpperformance-settings'); ?>">
+
 <div class="form">
 <table class="disable_settings">
 
@@ -122,23 +115,14 @@ submit_button('Update', 'button button-primary button-large', 'submit', false);
             <td><label for="disable_woocommerce_reviews">Disable WooCommerce Reviews</label></td>
         </tr>
 
-
-
-
-        <tr >
-
-        <td><?php
-submit_button('Update', 'button button-primary button-large', 'submit', false);
-?></td>
-    </tr>
 </table>
 
 </div>
-    </form>
+    
 
     </div>
     <div id="tab-3" class="tab-content">
-        <form method="post" action="<?php echo admin_url('admin.php?page=updatewpperformance-settings'); ?>">
+        
 <div class="form">
 <table class="disable_settings">
 
@@ -168,22 +152,12 @@ submit_button('Update', 'button button-primary button-large', 'submit', false);
         <td><label for="remove_wordpress_api_from_header">Remove Wordpress API from header</label></td>
     </tr>
 
-
-
-        <tr >
-
-        <td><?php
-submit_button('Update', 'button button-primary button-large', 'submit', false);
-?></td>
-    </tr>
 </table>
 
 </div>
-    </form>
-
     </div>
     <div id="tab-4" class="tab-content">
-         <form method="post" action="<?php echo admin_url('admin.php?page=updatewpperformance-settings'); ?>">
+ 
 <div class="form">
 <table class="disable_settings">
 
@@ -194,20 +168,15 @@ submit_button('Update', 'button button-primary button-large', 'submit', false);
     ?> type="checkbox" id="disable_revisions" value="1"/></td>
             <td><label for="disable_revisions">Disable Revisions</label></td>
         </tr>
- <tr >
-
-        <td><?php
-submit_button('Update', 'button button-primary button-large', 'submit', false);
-?></td>
-    </tr>
+ 
 
 </table>
 
 </div>
-    </form>
+    
     </div>
      <div id="tab-5" class="tab-content">
-       <form method="post" action="<?php echo admin_url('admin.php?page=updatewpperformance-settings'); ?>">
+    
 <div class="form">
 <table class="disable_settings">
 
@@ -300,20 +269,16 @@ submit_button('Update', 'button button-primary button-large', 'submit', false);
 
 
 
-
-
-        <tr >
-
-        <td><?php
-submit_button('Update', 'button button-primary button-large', 'submit', false);
-?></td>
-    </tr>
 </table>
 
 </div>
-    </form>
+
+    </div>
+    <div>
+        <?php echo submit_button('Update', 'button button-primary button-large', 'submit', false); ?>
     </div>
 
+    </form>
 
 <script type="text/javascript">
     function checkall()

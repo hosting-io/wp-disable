@@ -12,22 +12,19 @@ Disable WooCommerce scripts and CSS on non WooCommerce Pages, Disable RSS, Disab
  many more features to help speed and SEO gains.
 
 == Description ==
-Planned features if there is enough support/usage for the plugin: Offload Google and FontAwesome fonts to our MaxCDN account or re-write rules to
-load from yours.
+Planned features if there is enough support/usage for the plugin: Offload Google and FontAwesome fonts to our MaxCDN account or re-write rules to load from yours.
 
 Disabling Emojis does not disable emoticons, it disables the support for Emojis added since WP 4.2 and removes 1 HTTP request.<br>
 
 Disabling Embeds  - script that auto formats pasted content in the visual editor, eg videos, etc. Big issue with this script is it loads on every
 single page. You can still use the default embed code from YouTube, Twitter etc to included content.
 
-Remove Query Strings: If you look at the waterfall view of your page load, you will see your query strings end in something like ver=1.12.4. These are
-called query strings and help determine the version of the script. The problem with query strings like these is that it isn’t very efficient for caching
-purposes and sometimes prevents caching those assets altogether.  If you are using a CDN already, you can ignore this.
+Remove Query Strings: If you look at the waterfall view of your page load, you will see your query strings end in something like ver=1.12.4.
+These are called query strings and help determine the version of the script. The problem with query strings like these is that it isn’t very efficient for caching purposes and sometimes prevents caching those assets altogether.  If you are using a CDN already, you can ignore this.
 
 Disabling Gravatars is completely optional, advise, if you don't use them, disable as it gets rid of one more useless HTTP request.
 
-General Performance improvements: Added support for : disable ping/trackbacks, close comments after 28 days, force pagingation after 20 posts,
-Disable WooCommerce scripts and CSS on non WooCommerce Pages.
+General Performance improvements: Added support for : disable ping/trackbacks, close comments after 28 days, force pagingation after 20 posts, Disable WooCommerce scripts and CSS on non WooCommerce Pages.
 
 <b>Have an idea ?</b><br>
 <a href="https://github.com/hosting-io/wp-disable">Public repo on GitHub</a> if you would like to contribute or have any ideas to add.

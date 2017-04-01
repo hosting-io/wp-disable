@@ -1,5 +1,5 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<script src="https://use.fontawesome.com/28f4eb459d.js"></script>
+
 <style type="text/css">
 .cg-panel {
    margin-bottom: 10px;
@@ -155,7 +155,12 @@ ul.tabs li.current {
 .cg-panel.cg-featured-panel.cg-stye-1 {
    background: hsl(220, 60%, 34%) none repeat scroll 0 0;
 }
-
+.cg-stars {
+   float: right;
+   height:19px;
+   background: hsla(0, 0%, 0%, 0) url("/wp-content/plugins/wp-disable/images/stars.jpg") repeat scroll 0 0;
+   width: 100px;
+}
 @media(max-width:768px){
 
 .cg-tab-wrap {
@@ -182,18 +187,14 @@ ul.tabs li.current {
    <div id="icon-options-general" class="icon32"><br /></div>
    <header>
    <div class="cg-col-left">
-       <h2>WordPress Disable - WordPress Performance </h2>
-       Improve performance and reduce HTTP requests improved ?
+       <h2>WordPress Disable - Improve Performances</h2>
+       Improve performance and reduce HTTP requests.
 </div>
 
 <div class="cg-col-right"><strong>Help us build a better product</strong>
 <p><a target="blank" href="https://wordpress.org/plugins/wp-disable/">Rate us on WordPress.org</a></p>
 <div class="cg-stars">
-<i class="fa fa-star" aria-hidden="true"></i>
-<i class="fa fa-star" aria-hidden="true"></i>
-<i class="fa fa-star" aria-hidden="true"></i>
-<i class="fa fa-star" aria-hidden="true"></i>
-<i class="fa fa-star" aria-hidden="true"></i>
+
 </div>
 </div>
 <div style="clear:both"></div>
@@ -437,7 +438,7 @@ ul.tabs li.current {
        </div>
          <div class="cg-panel cg-featured-panel">
        <div class="cg-pane-head">
-           <a target="blank" href="https://wordpress.org/plugins/wp-cache/"><h2>WordPress Cache<br>Coming Soon</h2></a>
+           <a target="blank" href="#"><h2>WordPress Cache<br>Coming Soon</h2></a>
        </div>
        </div>
          <div class="cg-panel">

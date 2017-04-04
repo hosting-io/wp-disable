@@ -183,7 +183,7 @@ ul.tabs li.current {
 
 
 <div class="wrap">
-
+<h2><!-- Wordpress messages will display here automatically --></h2>
    <div id="icon-options-general" class="icon32"><br /></div>
    <header>
    <div class="cg-col-left">

@@ -5,7 +5,7 @@ Plugin URI: https://optimisation.io
 Description: Improve WordPress performance by disabling unused items.
 Author: pigeonhut, Jody Nesbitt, optimisation.io
 Author URI:https://optimisation.io
-Version: 1.1.7
+Version: 1.1.8
 
 /** Load all of the necessary class files for the plugin */
 spl_autoload_register('WpPerformance::autoload');

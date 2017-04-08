@@ -7,6 +7,7 @@ class WpPerformance_Admin
         add_action('init', array($this, 'wp_performance_disable_emojis'));
         add_action('init', array($this, 'wp_performance_speed_stop_loading_wp_embed'));
         add_filter('script_loader_src', array($this, 'wp_performance_remove_script_version'), 15, 1);
+        add_filter('style_loader_src', array($this, 'wp_performance_remove_script_version'), 15, 1);
         add_filter('init', array($this, 'wp_performace_disable_woo_stuffs'));
         add_filter('init', array($this, 'wp_performance_optimize_cleanups'));
 

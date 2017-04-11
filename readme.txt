@@ -3,7 +3,7 @@ Contributors: pigeonhut, Jody Nesbitt, optimisation.io
 Tags: Disable Emoji, Disable Embeds, Disable Gravatars, Remove Querystrings, Reduce HTTP Requests, WooCommerce disable, Close comments, force pagination
 Requires at least: 4.6
 Tested up to: 4.7.3
-Stable tag: 1.1.9
+Stable tag: 1.2.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -61,8 +61,16 @@ Yes, WarpCache is our recommended choice for the ultimate in flexibility and per
 
 
 == Changelog ==
+= 1.2.0 =
+Major update:
+Added the ability to Cache Google Analytics scripts
+Added the ability to remove Google Maps calls if your theme has it embedded but you don't want or use it.
+Small bug fixes and general tidy up
+Added links to our Caching Plugin and Image Compression
+
 = 1.1.9 =
 Fixed bug in querystrings not disabling fully
+
 = 1.1.8 =
 Small bug fix where we were showing other plugin notifications inside ours
 

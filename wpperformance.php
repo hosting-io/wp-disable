@@ -1,11 +1,12 @@
 <?php
+error_reporting(1);
 /*
 Plugin Name: WP Disable
 Plugin URI: https://optimisation.io
 Description: Improve WordPress performance by disabling unused items.
 Author: pigeonhut, Jody Nesbitt, optimisation.io
 Author URI:https://optimisation.io
-Version: 1.1.9
+Version: 1.2.0
 
 /** Load all of the necessary class files for the plugin */
 spl_autoload_register('WpPerformance::autoload');
@@ -174,3 +175,90 @@ class WpPerformance
 }
 
 add_action('plugins_loaded', array('WpPerformance', 'getInstance'));
+
+// Register hook to schedule script in wp_cron()
+register_activation_hook(__FILE__, 'activate_update_local_ga');
+
+function activate_update_local_ga() {
+    if  (!wp_next_scheduled('update_local_ga')) {
+        wp_schedule_event(time(), 'daily', 'update_local_ga');
+    }
+}
+
+// Load update script to schedule in wp_cron()
+add_action('update_local_ga', 'update_local_ga_script');
+
+function update_local_ga_script() {
+    include('includes/update_local_ga.php');
+}
+
+// Remove script from wp_cron upon plugin deactivation
+register_deactivation_hook(__FILE__, 'deactivate_update_local_ga');
+
+function deactivate_update_local_ga() {
+    if  (wp_next_scheduled('update_local_ga')) {
+        wp_clear_scheduled_hook('update_local_ga');
+    }
+}
+
+// Remove script from wp_cron if option is selected
+$settings = get_option(WpPerformance::OPTION_KEY . '_settings', array());
+$caos_remove_wp_cron = esc_attr($settings['caos_remove_wp_cron']);
+
+switch ($caos_remove_wp_cron) {
+    case "on":
+        if (wp_next_scheduled('update_local_ga')) {
+            wp_clear_scheduled_hook('update_local_ga');
+        }
+        break;
+    default:
+        if (!wp_next_scheduled('update_local_ga')) {
+            wp_schedule_event(time(), 'daily', 'update_local_ga');
+        }
+        break;
+}
+
+// Generate tracking code and add to header/footer (default is header)
+function add_ga_header_script() {
+    $ds_track_admin = esc_attr($settings['ds_track_admin']);
+    // If user is admin we don't want to render the tracking code, when option is disabled.
+    if (current_user_can('manage_options') && (!$ds_track_admin)) return;
+
+    $ds_tracking_id = esc_attr($settings['ds_tracking_id']);
+    $ds_adjusted_bounce_rate = esc_attr($settings['ds_adjusted_bounce_rate']);
+    $ds_anonymize_ip = esc_attr($settings['ds_anonymize_ip']);
+    $caos_disable_display_features = esc_attr($settings['caos_disable_display_features']);
+
+    echo "<!-- This site is running CAOS: Complete Analytics Optimization Suite for Wordpress -->";
+
+    echo "<script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','" . plugin_dir_url(__FILE__) . "cache/local-ga.js','ga');";
+
+    echo "ga('create', '" . $ds_tracking_id . "', 'auto');";
+
+    echo $caos_disable_display_features_code = ($caos_disable_display_features == "on") ? "ga('set', 'displayFeaturesTask', null);
+" : "";
+
+    echo $ds_anonymize_ip_code = ($ds_anonymize_ip == "on") ? "ga('set', 'anonymizeIp', true);" : "";
+
+    echo "ga('send', 'pageview');";
+
+    echo $ds_abr_code = ($ds_adjusted_bounce_rate) ? 'setTimeout("ga(' . "'send','event','adjusted bounce rate','" . $ds_adjusted_bounce_rate . " seconds')" . '"' . "," . $ds_adjusted_bounce_rate * 1000 . ");" : "";
+
+    echo "</script>";
+}
+
+$ds_script_position = esc_attr($settings['ds_script_position']);
+$ds_enqueue_order = (esc_attr($settings['ds_enqueue_order'])) ? esc_attr($settings['ds_enqueue_order']) : 0;
+
+switch ($ds_script_position) {
+    case "footer":
+        add_action('wp_footer', 'add_ga_header_script', $ds_enqueue_order);
+        break;
+    default:
+        add_action('wp_head', 'add_ga_header_script', $ds_enqueue_order);
+        break;
+}

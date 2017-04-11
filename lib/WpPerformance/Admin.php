@@ -10,6 +10,7 @@ class WpPerformance_Admin
         add_filter('style_loader_src', array($this, 'wp_performance_remove_script_version'), 15, 1);
         add_filter('init', array($this, 'wp_performace_disable_woo_stuffs'));
         add_filter('init', array($this, 'wp_performance_optimize_cleanups'));
+        add_action("wp_loaded", array($this, 'wp_performance_disable_google_maps'));
 
     }
 
@@ -48,6 +49,16 @@ class WpPerformance_Admin
             'disable_autosave'                 => ($_POST['disable_autosave']) ? 1 : 0,
             'disable_revisions'                => ($_POST['disable_revisions']) ? 1 : 0,
             'disable_woocommerce_reviews'      => ($_POST['disable_woocommerce_reviews']) ? 1 : 0,
+            'disable_google_maps'              => ($_POST['disable_google_maps']) ? 1 : 0,
+            'ds_tracking_id'                   => sanitize_text_field($_POST['ds_tracking_id']),
+            'ds_adjusted_bounce_rate'          => sanitize_text_field($_POST['ds_adjusted_bounce_rate']),
+            'ds_enqueue_order'                 => sanitize_text_field($_POST['ds_enqueue_order']),
+            'ds_anonymize_ip'                  => sanitize_text_field($_POST['ds_anonymize_ip']),
+            'ds_script_position'               => $_POST['ds_script_position'] ? 1 : 0,
+            'caos_disable_display_features'    => $_POST['caos_disable_display_features'] ? 1 : 0,
+            'ds_track_admin'                   => $_POST['ds_track_admin'] ? 1 : 0,
+            'caos_remove_wp_cron'              => $_POST['caos_remove_wp_cron'] ? 1 : 0,
+
         );
         if ($_POST['disable_gravatars'] == 1) {
             update_option('show_avatars', false);
@@ -265,4 +276,15 @@ class WpPerformance_Admin
 
     }
 
+    public function wp_performance_disable_google_maps()
+    {
+        ob_start('disable_google_maps_ob_end');
+    }
+
+}
+
+function disable_google_maps_ob_end($html)
+{
+    $html = preg_replace('/<script[^<>]*\/\/maps.(googleapis|google|gstatic).com\/[^<>]*><\/script>/i', '', $html);
+    return $html;
 }

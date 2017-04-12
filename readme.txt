@@ -46,11 +46,16 @@ This section describes how to install the plugin and get it working.
 
 = Do I still need caching ? =
 
-Yes, Cache Enabler is very light weight and will give you massive improvements
+Yes, We have just release a <a href="https://wordpress.org/plugins/cache-performance/">WordPress Caching plugin</a> which is really easy to setup and includes a built in CD-rewrite rule system.<br>
 
 = Do I still need a CDN ? =
 
-Yes, WarpCache is our recommended choice for the ultimate in flexibility and performance.
+Yes, WarpCache is our recommended choice for the ultimate in flexibility and performance. <br>
+We will soon be adding a free CDN for css/js for all users that is integrated with just an "on/off" switch in the plugin and no setup.
+
+= What about my Image Compression =
+
+You can try our <a href="https://wordpress.org/plugins/wp-image-compression/">Free Image Compression plugin</a> which has really good compression ratios with little to no loss of image quality.
 
 == Screenshots ==
 1. Full site, 16 HTTP requests, 0.5MB

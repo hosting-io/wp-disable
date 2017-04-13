@@ -1,19 +1,19 @@
 <?php
-error_reporting(1);
 /*
 Plugin Name: WP Disable
 Plugin URI: https://optimisation.io
 Description: Improve WordPress performance by disabling unused items.
 Author: pigeonhut, Jody Nesbitt, optimisation.io
 Author URI:https://optimisation.io
-Version: 1.2.0
+Version: 1.2.3
+
+Copyright (C) 2017 Optimisation.io
 
 /** Load all of the necessary class files for the plugin */
 spl_autoload_register('WpPerformance::autoload');
 /**
  * Init Singleton Class.
  */
-
 class WpPerformance
 {
     private static $instance = false;
@@ -43,6 +43,7 @@ class WpPerformance
      */
     private function __construct()
     {
+
         if (!$this->testHost()) {
             return;
         }
@@ -180,14 +181,15 @@ add_action('plugins_loaded', array('WpPerformance', 'getInstance'));
 register_activation_hook(__FILE__, 'activate_update_local_ga');
 
 function activate_update_local_ga() {
+    wp_clear_scheduled_hook( 'update_local_ga');
     if  (!wp_next_scheduled('update_local_ga')) {
         wp_schedule_event(time(), 'daily', 'update_local_ga');
     }
 }
 
+
 // Load update script to schedule in wp_cron()
 add_action('update_local_ga', 'update_local_ga_script');
-
 function update_local_ga_script() {
     include('includes/update_local_ga.php');
 }
@@ -202,7 +204,7 @@ function deactivate_update_local_ga() {
 }
 
 // Remove script from wp_cron if option is selected
-$settings = get_option(WpPerformance::OPTION_KEY . '_settings', array());
+$settings = get_option('wpperformance_rev3a_settings', array());
 $caos_remove_wp_cron = esc_attr($settings['caos_remove_wp_cron']);
 
 switch ($caos_remove_wp_cron) {
@@ -220,11 +222,13 @@ switch ($caos_remove_wp_cron) {
 
 // Generate tracking code and add to header/footer (default is header)
 function add_ga_header_script() {
+    $settings = get_option('wpperformance_rev3a_settings', array());
     $ds_track_admin = esc_attr($settings['ds_track_admin']);
     // If user is admin we don't want to render the tracking code, when option is disabled.
     if (current_user_can('manage_options') && (!$ds_track_admin)) return;
 
     $ds_tracking_id = esc_attr($settings['ds_tracking_id']);
+
     $ds_adjusted_bounce_rate = esc_attr($settings['ds_adjusted_bounce_rate']);
     $ds_anonymize_ip = esc_attr($settings['ds_anonymize_ip']);
     $caos_disable_display_features = esc_attr($settings['caos_disable_display_features']);

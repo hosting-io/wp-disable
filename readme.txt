@@ -3,7 +3,7 @@ Contributors: pigeonhut, Jody Nesbitt, optimisation.io
 Tags: Disable Emoji, Disable Embeds, Disable Gravatars, Remove Querystrings, Reduce HTTP Requests, WooCommerce disable, Close comments, force pagination
 Requires at least: 4.6
 Tested up to: 4.7.3
-Stable tag: 1.2.0
+Stable tag: 1.2.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -48,6 +48,10 @@ This section describes how to install the plugin and get it working.
 
 Yes, We have just release a <a href="https://wordpress.org/plugins/cache-performance/">WordPress Caching plugin</a> which is really easy to setup and includes a built in CD-rewrite rule system.<br>
 
+= What about Minification, do I still need it? =
+
+Yes, you absolutely do, and none come close to the awesome <a href="https://en-gb.wordpress.org/plugins/autoptimize/"> Autoptimize</a> by Frank Goossens.
+
 = Do I still need a CDN ? =
 
 Yes, WarpCache is our recommended choice for the ultimate in flexibility and performance. <br>
@@ -66,6 +70,19 @@ You can try our <a href="https://wordpress.org/plugins/wp-image-compression/">Fr
 
 
 == Changelog ==
+= 1.2.3 =
+
+
+= 1.2.2 =
+Fix for GA bug where it disables tracking completely
+IMPORTANT! please ensure you Disable any other GA tracking you have active
+Moved Navigation under Tools to free up the sidebar
+Minor edits on WooCommerce cleanup logic
+
+
+= 1.2.1 =
+Fix GA options not saving
+
 = 1.2.0 =
 Major update:
 Added the ability to Cache Google Analytics scripts

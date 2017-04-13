@@ -1,5 +1,4 @@
 <?php
-
 // Script to update local-ga.js-file
 // Credits go to: Matthew Horne | http://diywpblog.com/leverage-browser-cache-optimize-google-analytics/
 // I adjusted this script to work with wp-cron. It will still run in crontab, though.

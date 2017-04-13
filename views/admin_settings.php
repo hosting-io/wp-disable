@@ -304,7 +304,7 @@ table.cg-table-sidebar tbody tr td:first-child {
        echo 'checked="checked"';
    }
    ?> type="checkbox" id="disable_google_maps" value="1"/></td>
-           <td><label for="disable_google_maps">Disable google maps</label></td>
+           <td><label for="disable_google_maps">Disable Google Maps</label></td>
        </tr>
 
 
@@ -479,7 +479,7 @@ echo 'checked="checked"';
        <?php echo submit_button('Update', 'button button-primary button-large', 'submit', false); ?>
    </div>
 
-   </form>
+
     <div class="cg-panel">
        <div class="cg-pane-head">
           <a target="blank" href="https://optimisation.io"><img src="<?php echo plugins_url('images/optimisation-4.jpg', __FILE__.'/../../../') ?>" alt="" /></a>
@@ -495,7 +495,7 @@ echo 'checked="checked"';
            <td><input type="text" name="ds_tracking_id" value="<?php echo $settings['ds_tracking_id']; ?>" /></td>
        </tr>
        <tr >
-          <tr>  <th colspan="2">Save GA in</th></tr>
+          <tr>  <th colspan="2">Save GA in (please ensure you remove any other GA tracking)</th></tr>
           <td colspan="2" class="cg-col-2-inside">
                <?php
                $sgal_script_position = array('header', 'footer');
@@ -541,6 +541,7 @@ echo 'checked="checked"';
        </tr>
 
 </table>
+</form>
        <div class="cg-panel">
        <div class="cg-pane-head">
         <a target="blank" href="https://wordpress.org/plugins/wp-image-compression/">  <img src="<?php echo plugins_url('images/wp-image-compression.jpg', __FILE__.'/../../../') ?>" alt="" /> </a>

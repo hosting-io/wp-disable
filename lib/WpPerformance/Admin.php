@@ -8,15 +8,15 @@ class WpPerformance_Admin
         add_action('init', array($this, 'wp_performance_speed_stop_loading_wp_embed'));
         add_filter('script_loader_src', array($this, 'wp_performance_remove_script_version'), 15, 1);
         add_filter('style_loader_src', array($this, 'wp_performance_remove_script_version'), 15, 1);
-        add_filter('init', array($this, 'wp_performace_disable_woo_stuffs'));
-        add_filter('init', array($this, 'wp_performance_optimize_cleanups'));
+        add_action('init', array($this, 'wp_performace_disable_woo_stuffs'));
+        add_action('init', array($this, 'wp_performance_optimize_cleanups'));
         add_action("wp_loaded", array($this, 'wp_performance_disable_google_maps'));
 
     }
 
     public function menu()
     {
-        add_menu_page(__('WP Disable', 'wpper'), __('WP Disable', 'wpper'), 'manage_options', 'wpperformance', array($this, 'addsettings'));
+        add_management_page(__('WP Disable', 'wpper'), __('Optimisation.io - Disabler', 'wpper'), 'manage_options', 'wpperformance', array($this, 'addsettings'));
         add_submenu_page('', __('Update Settings', 'wpper'), __('Update Settings', 'wpper'), 'manage_options', 'updatewpperformance-settings', array($this, 'updatesettings'));
     }
 
@@ -54,10 +54,10 @@ class WpPerformance_Admin
             'ds_adjusted_bounce_rate'          => sanitize_text_field($_POST['ds_adjusted_bounce_rate']),
             'ds_enqueue_order'                 => sanitize_text_field($_POST['ds_enqueue_order']),
             'ds_anonymize_ip'                  => sanitize_text_field($_POST['ds_anonymize_ip']),
-            'ds_script_position'               => $_POST['ds_script_position'] ? 1 : 0,
-            'caos_disable_display_features'    => $_POST['caos_disable_display_features'] ? 1 : 0,
-            'ds_track_admin'                   => $_POST['ds_track_admin'] ? 1 : 0,
-            'caos_remove_wp_cron'              => $_POST['caos_remove_wp_cron'] ? 1 : 0,
+            'ds_script_position'               => sanitize_text_field($_POST['ds_script_position']),
+            'caos_disable_display_features'    => sanitize_text_field($_POST['caos_disable_display_features']),
+            'ds_track_admin'                   => sanitize_text_field($_POST['ds_track_admin']),
+            'caos_remove_wp_cron'              => sanitize_text_field($_POST['caos_remove_wp_cron']),
 
         );
         if ($_POST['disable_gravatars'] == 1) {

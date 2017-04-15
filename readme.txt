@@ -3,7 +3,7 @@ Contributors: pigeonhut, Jody Nesbitt, optimisation.io
 Tags: Disable Emoji, Disable Embeds, Disable Gravatars, Remove Querystrings, Reduce HTTP Requests, WooCommerce disable, Close comments, force pagination
 Requires at least: 4.6
 Tested up to: 4.7.3
-Stable tag: 1.2.3
+Stable tag: 1.2.22
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -70,8 +70,10 @@ You can try our <a href="https://wordpress.org/plugins/wp-image-compression/">Fr
 
 
 == Changelog ==
-= 1.2.3 =
+= 1.2.22 =
 
+= 1.2.21 =
+Fixed Google Maps bug where maps not showing
 
 = 1.2.2 =
 Fix for GA bug where it disables tracking completely

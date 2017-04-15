@@ -292,14 +292,6 @@ table.cg-table-sidebar tbody tr td:first-child {
    </tr>
 
        <tr>
-           <td><input name="remove_querystrings" <?php if ($settings['remove_querystrings'] == 1) {
-       echo 'checked="checked"';
-   }
-   ?> type="checkbox" id="remove_querystrings" value="1"/></td>
-           <td><label for="remove_querystrings">Remove Querystrings</label></td>
-       </tr>
-
-       <tr>
            <td><input name="disable_google_maps" <?php if ($settings['disable_google_maps'] == 1) {
        echo 'checked="checked"';
    }

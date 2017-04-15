@@ -278,7 +278,11 @@ class WpPerformance_Admin
 
     public function wp_performance_disable_google_maps()
     {
-        ob_start('disable_google_maps_ob_end');
+        $settings = get_option(WpPerformance::OPTION_KEY . '_settings', array());
+        if (isset($settings['disable_google_maps']) && $settings['disable_google_maps'] == 1) {
+           ob_start('disable_google_maps_ob_end'); 
+        }
+        
     }
 
 }

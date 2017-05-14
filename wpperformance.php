@@ -5,7 +5,7 @@ Plugin URI: https://optimisation.io
 Description: Improve WordPress performance by disabling unused items.
 Author: pigeonhut, Jody Nesbitt, optimisation.io
 Author URI:https://optimisation.io
-Version: 1.2.22
+Version: 1.2.27
 
 Copyright (C) 2017 Optimisation.io
 
@@ -205,7 +205,10 @@ function deactivate_update_local_ga() {
 
 // Remove script from wp_cron if option is selected
 $settings = get_option('wpperformance_rev3a_settings', array());
-$caos_remove_wp_cron = esc_attr($settings['caos_remove_wp_cron']);
+if(isset($settings['caos_remove_wp_cron']) && $settings['caos_remove_wp_cron']) {
+   $caos_remove_wp_cron = esc_attr($settings['caos_remove_wp_cron']);
+}
+
 
 switch ($caos_remove_wp_cron) {
     case "on":
@@ -223,17 +226,28 @@ switch ($caos_remove_wp_cron) {
 // Generate tracking code and add to header/footer (default is header)
 function add_ga_header_script() {
     $settings = get_option('wpperformance_rev3a_settings', array());
-    $ds_track_admin = esc_attr($settings['ds_track_admin']);
+    if (isset($settings['ds_track_admin']) && $settings['ds_track_admin']) {
+       $ds_track_admin = esc_attr($settings['ds_track_admin']);
+    }
+
     // If user is admin we don't want to render the tracking code, when option is disabled.
     if (current_user_can('manage_options') && (!$ds_track_admin)) return;
+    if(isset($settings['ds_tracking_id']) && $settings['ds_tracking_id']) {
+       $ds_tracking_id = esc_attr($settings['ds_tracking_id']);
+    }
+    if(isset($settings['ds_adjusted_bounce_rate']) && $settings['ds_adjusted_bounce_rate']) {
+        $ds_adjusted_bounce_rate = esc_attr($settings['ds_adjusted_bounce_rate']);
+    }
 
-    $ds_tracking_id = esc_attr($settings['ds_tracking_id']);
+    if(isset($settings['ds_anonymize_ip']) && $settings['ds_anonymize_ip']) {
+        $ds_anonymize_ip = esc_attr($settings['ds_anonymize_ip']);
+    }
 
-    $ds_adjusted_bounce_rate = esc_attr($settings['ds_adjusted_bounce_rate']);
-    $ds_anonymize_ip = esc_attr($settings['ds_anonymize_ip']);
-    $caos_disable_display_features = esc_attr($settings['caos_disable_display_features']);
+    if(isset($settings['caos_disable_display_features']) && $settings['caos_disable_display_features']) {
+        $caos_disable_display_features = esc_attr($settings['caos_disable_display_features']);
+    }
 
-    echo "<!-- This site is running CAOS: Complete Analytics Optimization Suite for Wordpress -->";
+    echo "<!-- Google Analytics Local by Optimisation.io -->";
 
     echo "<script>
             (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -255,14 +269,29 @@ function add_ga_header_script() {
     echo "</script>";
 }
 
-$ds_script_position = esc_attr($settings['ds_script_position']);
-$ds_enqueue_order = (esc_attr($settings['ds_enqueue_order'])) ? esc_attr($settings['ds_enqueue_order']) : 0;
+if(isset($settings['ds_tracking_id']) && $settings['ds_tracking_id']) {
+   $ds_tracking_id = esc_attr($settings['ds_tracking_id']);
+} else {
+    $ds_tracking_id = null;
+}
+if(isset($settings['ds_script_position']) && $settings['ds_script_position']) {
+    $ds_script_position = esc_attr($settings['ds_script_position']);
+} else {
+    $ds_script_position = null;
+}
+if(isset($settings['ds_enqueue_order']) && $settings['ds_enqueue_order']) {
+   $ds_enqueue_order = (esc_attr($settings['ds_enqueue_order'])) ? esc_attr($settings['ds_enqueue_order']) : 0;
+} else {
+    $ds_enqueue_order = 0;
+}
 
-switch ($ds_script_position) {
-    case "footer":
-        add_action('wp_footer', 'add_ga_header_script', $ds_enqueue_order);
-        break;
-    default:
-        add_action('wp_head', 'add_ga_header_script', $ds_enqueue_order);
-        break;
+if( $ds_tracking_id != '') {
+   switch ($ds_script_position) {
+       case "footer":
+           add_action('wp_footer', 'add_ga_header_script', $ds_enqueue_order);
+           break;
+       default:
+           add_action('wp_head', 'add_ga_header_script', $ds_enqueue_order);
+           break;
+   }
 }

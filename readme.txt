@@ -1,18 +1,22 @@
-=== Disable Emojis & Disable Embeds for WordPress Performance & SpeedUp ===
+=== Reduce HTTP Requests, Disable Emojis & Disable Embeds, Speedup WooCommerce ===
 Contributors: pigeonhut, Jody Nesbitt, optimisation.io
-Tags: Disable Emoji, Disable Embeds, Disable Gravatars, Remove Querystrings, Reduce HTTP Requests, WooCommerce disable, Close comments, force pagination
+Tags: Disable Emoji, Disable Embeds, Disable Gravatars, Remove Querystrings, Reduce HTTP Requests, speedup WooCommerce, Close comments
 Requires at least: 4.6
-Tested up to: 4.7.3
-Stable tag: 1.2.22
+Tested up to: 4.7.4
+Stable tag: 1.2.27
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Reduce HTTP requests - Disable Emojis, Disable Gravatars, Disable Embeds and Remove Querystrings. Added support to disable pingbacks, disable trackbacks, close comments after 28 days, Added the ability to force pagingation after 20 posts,
+Reduce HTTP requests - Disable Emojis, Disable Gravatars, Disable Embeds and Remove Querystrings. SpeedUp WooCommerce, Added support to disable pingbacks, disable trackbacks, close comments after 28 days, Added the ability to force pagingation after 20 posts,
 Disable WooCommerce scripts and CSS on non WooCommerce Pages, Disable RSS, Disable XML-RPC, Disable Autosave, Remove Windows Live Writer tag, Remove Shortlink Tag, Remove WP API from header and
  many more features to help speed and SEO gains.
 
 == Description ==
-Planned features if there is enough support/usage for the plugin: Offload Google and FontAwesome fonts to our MaxCDN account or re-write rules to load from yours.
+<strong>Reduce HTTP requests</strong> - Disable Emojis, Disable Gravatars, Disable Embeds and Remove Querystrings. SpeedUp WooCommerce, Added support to disable pingbacks, disable trackbacks, close comments after 28 days, Added the ability to force pagingation after 20 posts,
+Disable WooCommerce scripts and CSS on non WooCommerce Pages, Disable RSS, Disable XML-RPC, Disable Autosave, Remove Windows Live Writer tag, Remove Shortlink Tag, Remove WP API from header and
+ many more features to help speed and SEO gains.
+
+<strong>Coming soon - Disable Comments, Heartbeat Control, Selective Disable</strong>
 
 Disabling Emojis does not disable emoticons, it disables the support for Emojis added since WP 4.2 and removes 1 HTTP request.<br>
 
@@ -70,27 +74,40 @@ You can try our <a href="https://wordpress.org/plugins/wp-image-compression/">Fr
 
 
 == Changelog ==
+= 1.2.26 =
+* Improved visuals
+* Cleaner Code, fixed issue that breaks access on some installs
+
+= 1.2.25 =
+* Bug fix breaking css on woo checkout pages
+
+= 1.2.24 =
+* Added ability to remove Ajax calls for WooCommerce on home page
+= 1.2.23 =
+* Fixed bug in GA Local
+
 = 1.2.22 =
+* Minor text clean up
 
 = 1.2.21 =
-Fixed Google Maps bug where maps not showing
+* Fixed Google Maps bug where maps not showing
 
 = 1.2.2 =
-Fix for GA bug where it disables tracking completely
-IMPORTANT! please ensure you Disable any other GA tracking you have active
-Moved Navigation under Tools to free up the sidebar
-Minor edits on WooCommerce cleanup logic
+* Fix for GA bug where it disables tracking completely
+* IMPORTANT! please ensure you Disable any other GA tracking you have active
+* Moved Navigation under Tools to free up the sidebar
+* Minor edits on WooCommerce cleanup logic
 
 
 = 1.2.1 =
-Fix GA options not saving
+* Fix GA options not saving
 
 = 1.2.0 =
-Major update:
-Added the ability to Cache Google Analytics scripts
-Added the ability to remove Google Maps calls if your theme has it embedded but you don't want or use it.
-Small bug fixes and general tidy up
-Added links to our Caching Plugin and Image Compression
+* <strong>Major update:</strong>
+* Added the ability to Cache Google Analytics scripts
+* Added the ability to remove Google Maps calls if your theme has it embedded but you don't want or use it.
+* Small bug fixes and general tidy up
+* Added links to our Caching Plugin and Image Compression
 
 = 1.1.9 =
 Fixed bug in querystrings not disabling fully

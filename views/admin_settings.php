@@ -1,259 +1,24 @@
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-
-<style type="text/css">
-.cg-panel {
-    margin: 10px auto;
-}
-   .form label{width:100%;display: inline-block;}
-   .button-primary{margin-top:30px !important;}
-   .check_options{font-weight: bold;}
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script> -->
 
 
-   ul.tabs{
-           margin: 0px;
-           padding: 0px;
-           list-style: none;
-       }
-
-ul.tabs li {
-   background: hsl(220, 60%, 34%) none repeat scroll 0 0;
-   border-radius: 2px 2px 0 0;
-   color: hsl(0, 0%, 100%);
-   cursor: pointer;
-   display: inline-block;
-   float: left;
-   margin: 0 1px;
-   padding: 10px 21px;
-}
-
-
-.wp-core-ui .cg-container .button-primary {
-   background: hsl(13, 92%, 56%) none repeat scroll 0 0;
-   border-bottom: 5px solid hsl(13, 80%, 49%);
-   border-left: medium none !important;
-   border-right: medium none !important;
-   border-top: medium none !important;
-   box-shadow: none;
-   color: hsl(0, 0%, 100%);
-   height: auto;
-   padding: 5px 30px;
-   text-decoration: none;
-   text-shadow: unset;
-}
-
-.cg-pane-small h3 {
-    background: hsl(13, 92%, 56%) none repeat scroll 0 0;
-    border-radius: 2px 2px 0 0;
-    color: hsl(0, 0%, 100%);
-    margin: 0 auto;
-    padding: 10px;
-}
-table tbody tr td:first-child {
-   width: 15px !important;
-}
-table tbody tr td {
-   color: hsl(0, 0%, 0%);
-   font-size: 12px;
-   font-weight: 600;
-   padding:8px 0px;
-}
-ul.tabs li.current {
-   background: hsl(13, 92%, 56%) none repeat scroll 0 0;
-   color: hsl(0, 0%, 100%);
-}
-
-       .tab-content{
-           display: none;
-           background: #eee;
-           clear: both;
-           padding: 15px;
-       }
-
-       .tab-content.current{
-           display: inherit;
-       }
-       .wrap {
-   margin: 10px 20px 0 2px;
-   max-width: 900px;
-}
-       .wrap header {
-   background: hsl(220, 60%, 34%) none repeat scroll 0 0;
-   color: hsl(0, 0%, 100%);
-   padding: 15px;
-}
-.wrap header small {
-   background: hsl(13, 92%, 56%) none repeat scroll 0 0;
-   border-radius: 1px;
-   font-size: 13px;
-   padding: 2px 13px 3px;
-}
-.cg-pane-small .cg-pane-head h3 {
-  background: hsl(13, 92%, 56%) none repeat scroll 0 0;
-    color: hsl(0, 0%, 100%);
-    margin: 0 auto;
-    text-align: center;
-    width: 95%;
-}
-.wrap header h2 {
-     color: hsl(0, 0%, 92%);
-   font-size: 20px;
-   font-weight: 600;
-}
-.cg-pane-head h2 {
-   color: hsl(0, 0%, 100%);
-   line-height: 22px;
-   text-align: center;
-}
-.wp-core-ui .wrap .notice.is-dismissible {
-   color: hsl(0, 0%, 6%);
-
-}
-.cg-tab-wrap {
-   float: left;
-   padding: 0 15px;
-   width: 57%;
-
-}
-.cg-tab-wrap .cg-panel .cg-pane-head a {
-    display: block;
-}
-.cg-tab-wrap .cg-panel .cg-pane-head img {
-    clear: both;
-    width: auto;
-}
-.cg-pane-small {
-   float: left;
-   padding: 0 15px;
-   width: 36%;
-}
-.cg-tab-wrap .cg-panel .cg-pane-head  {
-    bottom: 32px;
-    position: absolute;
-    width: auto;
-}
-.cg-container {
-     background: hsl(0, 0%, 100%) none repeat scroll 0 0;
-   border: 1px solid hsl(0, 0%, 85%);
-   box-shadow: 0 0 2px 1px hsla(0, 0%, 0%, 0.1);
-   padding: 15px 0 30px;
-position: relative;
-}
-.cg-table-sidebar {
-    background: hsl(220, 60%, 34%) none repeat scroll 0 0;
-    color: hsl(0, 0%, 100%);
-    padding: 10px;
-}
-table.cg-table-sidebar tbody tr td {
-    color: hsl(0, 0%, 100%);
-}
-table.cg-table-sidebar tbody tr td a {
-   color: hsl(220, 60%, 74%);
-    text-decoration: none;
-}
-.cg-panel.cg-featured-panel {
-  background: hsl(13, 92%, 56%) none repeat scroll 0 0;
-      margin-bottom: 13px;
-   padding: 1px;
-}
-.cg-col-right {
-  float: right;
-   margin: 10px auto;
-   text-align: right;
-   width: 40%;
-}
-table.cg-table-sidebar tbody tr td.cg-col-2-inside input:last-child {
-    margin-left: 11px;
-}
-.cg-col-left {
-   float: left;
-   width: 60%;
-}
-.cg-col-right a {
-   background: hsl(13, 92%, 56%) none repeat scroll 0 0;
-   border-radius: 1px;
-   color: hsl(0, 0%, 100%);
-   font-size: 12px;
-   padding: 1px 10px 3px;
-   text-decoration: none;
-}
-.cg-col-right > p {
-   margin: 5px auto;
-}
-.cg-pane-head img {
-     border: 2px solid hsl(0, 0%, 98%);
-   width: 100%;
-}
-.cg-pane-head > a {
-   text-decoration: none;
-}
-
-.cg-panel h3 {
-   color: hsl(0, 0%, 100%);
-   font-size: 20px;
-   text-align: center;
-}
-
-.cg-panel.cg-featured-panel.cg-stye-1 {
-   background: hsl(220, 60%, 34%) none repeat scroll 0 0;
-}
-table.cg-table-sidebar tbody tr th {
-    font-size: 13px;
-    font-weight: 700;
-    text-align: left;
-}
-.cg-stars {
-   float: right;
-   height:19px;
-   background: hsla(0, 0%, 0%, 0) url("/wp-content/plugins/wp-disable/images/stars.jpg") repeat scroll 0 0;
-   width: 100px;
-}
-.cg-table-sidebar input[type="number"] {
-
-    width: 100%;
-}
-table.cg-table-sidebar tbody tr td:first-child {
-    width: 300px !important;
-}
-@media(max-width:768px){
-
-.cg-tab-wrap {
-
-   width: 96%;
-}
-
-.cg-col-left, .cg-col-right, .cg-pane-small  {
-
-   width: 100%;
-}
-.cg-col-right a {
-
-   display: block;
-
-}
-}
-</style>
-
-
-
-<div class="wrap">
+<div class="wrap wp-disable">
 <h2><!-- Wordpress messages will display here automatically --></h2>
    <div id="icon-options-general" class="icon32"><br /></div>
    <header>
-   <div class="cg-col-left">
+   <div class="col-left">
        <h2>WordPress Disable - Improve Performances</h2>
-       Improve performance and reduce HTTP requests.
+       <small>Improve performance and reduce HTTP requests.</small>
 </div>
 
-<div class="cg-col-right"><strong>Help us build a better product</strong>
+<div class="col-right"><strong>Help us build a better product</strong>
 <p><a target="blank" href="https://wordpress.org/plugins/wp-disable/">Rate us on WordPress.org</a></p>
-<div class="cg-stars">
+<!-- <div class="stars">
 
+</div> -->
 </div>
-</div>
-<div style="clear:both"></div>
-   </header>
-<div class="cg-container">
-<div class="cg-tab-wrap">
+</header>
+<div class="container">
+<div class="tab-wrap">
   <ul class="tabs">
        <li class="tab-link current" data-tab="tab-1">Requests</li>
        <li class="tab-link" data-tab="tab-2">WooCommerce </li>
@@ -261,298 +26,336 @@ table.cg-table-sidebar tbody tr td:first-child {
        <li class="tab-link" data-tab="tab-4">Admin</li>
        <li class="tab-link" data-tab="tab-5">Others</li>
    </ul>
-<form method="post" action="<?php echo admin_url('admin.php?page=updatewpperformance-settings'); ?>">
-   <div id="tab-1" class="tab-content current">
+<form method="post" action="<?php echo admin_url('tools.php?page=updatewpperformance-settings'); ?>">
+  <div id="tab-1" class="tab-content current">
+    <div class="form">
+      <div class="disable-form disable_settings">
+        <div class="form-group">
+          <span>Disable Emojis</span>
+          <label class="switch">
+            <input name="disable_emoji" type="checkbox" id="disable_emoji" <?php if (isset($settings['disable_emoji']) && $settings['disable_emoji'] == 1) {
+               echo 'checked="checked"';
+            }
+            ?> value="1"/>
+            <div class="slider round"></div>
+          </label>
+        </div>
 
-
-<div class="form">
-<table class="disable_settings">
-   <tr>
-
-       <td><input name="disable_emoji" type="checkbox" id="disable_emoji" <?php if ($settings['disable_emoji'] == 1) {
-   echo 'checked="checked"';
-}
-?> value="1"/></td>
-       <td><label for="disable_emoji">Disable Emojis</label></td>
-   </tr>
-   <tr>
-       <td><input name="remove_querystrings" <?php if ($settings['remove_querystrings'] == 1) {
-   echo 'checked="checked"';
-   }
-   ?> type="checkbox" id="remove_querystrings" value="1"/></td>
-       <td><label for="remove_querystrings">Remove Querystrings</label></td>
-   </tr>
-   <tr>
-
-       <td style="width:300px; text-align:left;"><input name="disable_embeds" type="checkbox" id="disable_embeds" <?php if ($settings['disable_embeds'] == 1) {
-   echo 'checked="checked"';
-}
-?> value="1"/></td>
-       <td><label for="disable_embeds">Disable Embeds</label></td>
-   </tr>
-
-       <tr>
-           <td><input name="disable_google_maps" <?php if ($settings['disable_google_maps'] == 1) {
-       echo 'checked="checked"';
-   }
-   ?> type="checkbox" id="disable_google_maps" value="1"/></td>
-           <td><label for="disable_google_maps">Disable Google Maps</label></td>
-       </tr>
-
-
-</table>
-
-</div>
-   </div>
-   <div id="tab-2" class="tab-content">
-
-<div class="form">
-<table class="disable_settings">
-
-           <tr>
-               <td><input name="disable_woocommerce_non_pages" <?php if ($settings['disable_woocommerce_non_pages'] == 1) {
-           echo 'checked="checked"';
-       }
-       ?> type="checkbox" id="disable_woocommerce_non_pages" value="1"/></td>
-               <td><label for="disable_woocommerce_non_pages">Disable WooCommerce scripts and CSS on non WooCommerce pages</label></td>
-           </tr>
-
-        <tr>
-           <td><input name="disable_woocommerce_reviews" <?php if ($settings['disable_woocommerce_reviews'] == 1) {
-       echo 'checked="checked"';
-   }
-   ?> type="checkbox" id="disable_woocommerce_reviews" value="1"/></td>
-           <td><label for="disable_woocommerce_reviews">Disable WooCommerce Reviews</label></td>
-       </tr>
-
-</table>
-
-</div>
-
-
-   </div>
-   <div id="tab-3" class="tab-content">
-
-<div class="form">
-<table class="disable_settings">
-
-
-   <tr>
-       <td><input name="remove_rsd" <?php if ($settings['remove_rsd'] == 1) {
-   echo 'checked="checked"';
-}
-?> type="checkbox" id="remove_rsd" value="1"/></td>
-       <td><label for="remove_rsd">Remove RSD (Really Simple Discovery) tag</label></td>
-   </tr>
-
-
-   <tr>
-       <td><input name="remove_shortlink_tag" <?php if ($settings['remove_shortlink_tag'] == 1) {
-   echo 'checked="checked"';
-}
-?> type="checkbox" id="remove_shortlink_tag" value="1"/></td>
-       <td><label for="remove_shortlink_tag">Remove Shortlink Tag</label></td>
-   </tr>
-
-   <tr>
-       <td><input name="remove_wordpress_api_from_header" <?php if ($settings['remove_wordpress_api_from_header'] == 1) {
-   echo 'checked="checked"';
-}
-?> type="checkbox" id="remove_wordpress_api_from_header" value="1"/></td>
-       <td><label for="remove_wordpress_api_from_header">Remove Wordpress API from header</label></td>
-   </tr>
-   <tr>
-   <td><input name="remove_windows_live_writer" <?php if ($settings['remove_windows_live_writer'] == 1) {
-echo 'checked="checked"';
-}
-?> type="checkbox" id="remove_windows_live_writer" value="1"/></td>
-   <td><label for="remove_windows_live_writer">Remove Windows Live Writer tag</label></td>
-</tr>
-
-<tr>
-   <td><input name="remove_wordpress_generator_tag" <?php if ($settings['remove_wordpress_generator_tag'] == 1) {
-echo 'checked="checked"';
-}
-?> type="checkbox" id="remove_wordpress_generator_tag" value="1"/></td>
-   <td><label for="remove_wordpress_generator_tag">Remove Wordpress Generator Tag</label></td>
-</tr>
-
-</table>
-
-</div>
-   </div>
-   <div id="tab-4" class="tab-content">
-
-<div class="form">
-<table class="disable_settings">
-
-       <tr>
-           <td><input name="disable_revisions" <?php if ($settings['disable_revisions'] == 1) {
-       echo 'checked="checked"';
-   }
-   ?> type="checkbox" id="disable_revisions" value="1"/></td>
-           <td><label for="disable_revisions">Disable Revisions</label></td>
-       </tr>
-       <tr>
-           <td><input name="disable_autosave" <?php if ($settings['disable_autosave'] == 1) {
-       echo 'checked="checked"';
-   }
-   ?> type="checkbox" id="disable_autosave" value="1"/></td>
-           <td><label for="disable_autosave">Disable Autosave</label></td>
-       </tr>
-
-   <tr>
-       <td><input name="close_comments" <?php if ($settings['close_comments'] == 1) {
-   echo 'checked="checked"';
-}
-?> type="checkbox" id="close_comments" value="1"/></td>
-       <td><label for="close_comments">Close comments after 28 days</label></td>
-   </tr>
-
-
-   <tr>
-       <td><input name="paginate_comments" <?php if ($settings['paginate_comments'] == 1) {
-   echo 'checked="checked"';
-}
-?> type="checkbox" id="paginate_comments" value="1"/></td>
-       <td><label for="paginate_comments">Paginate comments at 20</label></td>
-   </tr>
-
-
-</table>
-
-</div>
-
-   </div>
-    <div id="tab-5" class="tab-content">
-
-<div class="form">
-<table class="disable_settings">
-
-    <tr>
-       <td><input name="disable_gravatars" <?php if ($settings['disable_gravatars'] == 1) {
-   echo 'checked="checked"';
-}
-?> type="checkbox" id="disable_gravatars" value="1"/></td>
-       <td><label for="disable_gravatars">Disable Gravatars</label></td>
-   </tr>
-
-   <tr>
-       <td><input name="default_ping_status" <?php if ($settings['default_ping_status'] == 1) {
-   echo 'checked="checked"';
-}
-?> type="checkbox" id="default_ping_status" value="1"/></td>
-       <td><label for="default_ping_status">Disable pingbacks and trackbacks</label></td>
-   </tr>
-
-
-       <tr>
-           <td><input name="disable_rss" <?php if ($settings['disable_rss'] == 1) {
-       echo 'checked="checked"';
-   }
-   ?> type="checkbox" id="disable_rss" value="1"/></td>
-           <td><label for="disable_rss">Disable RSS</label></td>
-       </tr>
-
-       <tr>
-           <td><input name="disable_xmlrpc" <?php if ($settings['disable_xmlrpc'] == 1) {
-       echo 'checked="checked"';
-   }
-   ?> type="checkbox" id="disable_xmlrpc" value="1"/></td>
-           <td><label for="disable_xmlrpc">Disable XML-RPC</label></td>
-       </tr>
-
-     </table>
-
-</div>
-
-   </div>
-   <div>
-       <?php echo submit_button('Update', 'button button-primary button-large', 'submit', false); ?>
-   </div>
-
-
-    <div class="cg-panel">
-       <div class="cg-pane-head">
-          <a target="blank" href="https://optimisation.io"><img src="<?php echo plugins_url('images/optimisation-4.jpg', __FILE__.'/../../../') ?>" alt="" /></a>
-          <a target="blank" style="text-decoration: none;" href="https://optimisation.io">Still Need Help ? We also do manual optimisations.</a>
-       </div>
-       </div>
-   </div>
-   <div class="cg-pane-small">
-<table class="cg-table-sidebar">
-<h3>Offload Google Analytics to local</h3>
-    <tr >
-           <th text-align:left;"> GA Code</th>
-           <td><input type="text" name="ds_tracking_id" value="<?php echo $settings['ds_tracking_id']; ?>" /></td>
-       </tr>
-       <tr >
-          <tr>  <th colspan="2">Save GA in (please ensure you remove any other GA tracking)</th></tr>
-          <td colspan="2" class="cg-col-2-inside">
-               <?php
-               $sgal_script_position = array('header', 'footer');
-
-               foreach ($sgal_script_position as $option) {
-                   echo "<input type='radio' name='ds_script_position' value='" . $option . "' ";
-                   echo $sgal_checked = ($option == $settings['ds_script_position']) ? ' checked="checked"' : '';
-                   echo " />";
-                   echo ucfirst($option);
-                   echo $sgal_script_default = ($option == 'header') ? '' : '';
-
+        <div class="form-group">
+          <span>Remove Querystrings</span>
+          <label class="switch">
+            <input name="remove_querystrings" <?php if (isset($settings['remove_querystrings']) && $settings['remove_querystrings'] == 1) {
+               echo 'checked="checked"';
                }
-               ?>
-           </td>
+               ?> type="checkbox" id="remove_querystrings" value="1"/>
+            <div class="slider round"></div>
+          </label>
+        </div>
 
-       </tr>
+        <div class="form-group">
+          <span>Disable Embeds</span>
+          <label class="switch">
+            <td style="width:300px; text-align:left;"><input name="disable_embeds" type="checkbox" id="disable_embeds" <?php if (isset($settings['disable_embeds']) && $settings['disable_embeds'] == 1) {
+               echo 'checked="checked"';
+            }
+            ?> value="1"/>
+            <div class="slider round"></div>
+          </label>
+        </div>
 
-       <tr >
-           <th style="width:300px; text-align:left;">Use adjusted bounce rate?</th>
-           <td><input type="number" name="ds_adjusted_bounce_rate" min="0" max="60" value="<?php echo $settings['ds_adjusted_bounce_rate']; ?>" /></td>
-       </tr>
-       <tr >
-           <th scope="row" style="text-align: left;">Change enqueue order? (Default = 0)</th>
-           <td><input type="number" name="ds_enqueue_order" min="0" value="<?php echo $settings['ds_enqueue_order']; ?>" /></td>
-       </tr>
-       <tr >
+        <div class="form-group">
+          <span>Disable Google Maps</span>
+          <label class="switch">
+            <input name="disable_google_maps" <?php if (isset($settings['disable_google_maps']) && $settings['disable_google_maps'] == 1) {
+                   echo 'checked="checked"';
+               }
+               ?> type="checkbox" id="disable_google_maps" value="1"/>
+            <div class="slider round"></div>
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="tab-2" class="tab-content">
+    <div class="form">
+      <div class="disable-form disable_settings">
+        <div class="form-group">
+          <span>Disable WooCommerce scripts and CSS on non WooCommerce pages</span>
+          <label class="switch">
+            <input name="disable_woocommerce_non_pages" <?php if (isset($settings['disable_woocommerce_non_pages']) && $settings['disable_woocommerce_non_pages'] == 1) {
+                     echo 'checked="checked"';
+                 }
+                 ?> type="checkbox" id="disable_woocommerce_non_pages" value="1"/>
+            <div class="slider round"></div>
+          </label>
+        </div>
 
-           <td colspan="2"> <input type="checkbox" name="caos_disable_display_features" <?php if ($settings['caos_disable_display_features'] == "on") echo 'checked = "checked"'; ?> />  Disable all <a href="https://developers.google.com/analytics/devguides/collection/analyticsjs/display-features" target="_blank">display features functionality</a>?</td>
-       </tr>
-       <tr >
+        <div class="form-group">
+          <span>Disable WooCommerce Reviews</span>
+          <label class="switch">
+             <input name="disable_woocommerce_reviews" <?php if (isset($settings['disable_woocommerce_reviews']) && $settings['disable_woocommerce_reviews'] == 1) {
+                 echo 'checked="checked"';
+             }
+             ?> type="checkbox" id="disable_woocommerce_reviews" value="1"/>
+            <div class="slider round"></div>
+          </label>
+         
+        </div>
 
-            <td colspan="2"><input type="checkbox" name="ds_anonymize_ip" <?php if ($settings['ds_anonymize_ip'] == "on") echo 'checked = "checked"'; ?> />  Use <a href="https://support.google.com/analytics/answer/2763052?hl=en" target="_blank">Anomymize IP</a>? (Required by law for some countries)</td>
+        <div class="form-group">
+          <span>Defer Woocommerce Cart Fragments</span>
+          <label class="switch">
+             <input name="disable_woocommerce_cart_fragments" <?php if (isset($settings['disable_woocommerce_cart_fragments']) && $settings['disable_woocommerce_cart_fragments'] == 1) {
+                 echo 'checked="checked"';
+             }
+             ?>  type="checkbox" id="disable_woocommerce_cart_fragments" value="1"/>
+            <div class="slider round"></div>
+          </label>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="tab-3" class="tab-content">
+    <div class="form">
+      <div class="disable-form disable_settings">
+        
+        <div class="form-group">
+          <span>Remove RSD (Really Simple Discovery) tag</span>
+          <label class="switch">
+             ><input name="remove_rsd" <?php if (isset($settings['remove_rsd']) && $settings['remove_rsd'] == 1) {
+                echo 'checked="checked"';
+             }
+             ?> type="checkbox" id="remove_rsd" value="1"/>
+            <div class="slider round"></div>
+          </label>
+          
+        </div>
 
-       </tr>
-       <tr >
+        <div class="form-group">
+          <span>Remove Shortlink Tag</span>
+          <label class="switch">
+             <input name="remove_shortlink_tag" <?php if (isset($settings['remove_shortlink_tag']) && $settings['remove_shortlink_tag'] == 1) {
+                echo 'checked="checked"';
+             }
+             ?> type="checkbox" id="remove_shortlink_tag" value="1"/>
+            <div class="slider round"></div>
+          </label>
+          
+        </div>
 
-           <td colspan="2"><input type="checkbox" name="ds_track_admin" <?php if($settings['ds_track_admin'] == "on") echo 'checked = "checked"'; ?> />  Track logged in Administrators?</td>
+        <div class="form-group">
+          <span>Remove Wordpress API from header</span>
+          <label class="switch">
+             <input name="remove_wordpress_api_from_header" <?php if (isset($settings['remove_wordpress_api_from_header']) && $settings['remove_wordpress_api_from_header'] == 1) {
+                echo 'checked="checked"';
+             }
+             ?> type="checkbox" id="remove_wordpress_api_from_header" value="1"/>
+            <div class="slider round"></div>
+          </label>
+          
+        </div>
 
-       </tr>
-       <tr >
+        <div class="form-group">
+          <span>Remove Windows Live Writer tag</span>
+          <label class="switch">
+             <input name="remove_windows_live_writer" <?php if (isset($settings['remove_windows_live_writer']) && $settings['remove_windows_live_writer'] == 1) {
+             echo 'checked="checked"';
+             }
+             ?> type="checkbox" id="remove_windows_live_writer" value="1"/>
+            <div class="slider round"></div>
+          </label>
+          
+        </div>
 
-            <td colspan="2"><input type="checkbox" name="caos_remove_wp_cron" <?php if($settings['caos_remove_wp_cron'] == "on") echo 'checked = "checked"'; ?> />  Remove script from wp-cron?</td>
-       </tr>
+        <div class="form-group">
+          <span>Remove Wordpress Generator Tag</span>
+          <label class="switch">
+             <input name="remove_wordpress_generator_tag" <?php if (isset($settings['remove_wordpress_generator_tag']) && $settings['remove_wordpress_generator_tag'] == 1) {
+             echo 'checked="checked"';
+             }
+             ?> type="checkbox" id="remove_wordpress_generator_tag" value="1"/>
+            <div class="slider round"></div>
+          </label>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="tab-4" class="tab-content">
+    <div class="form">
+      <div class="disable-form disable_settings">
+        <div class="form-group">
+          <span>Disable Revisions</span>
+          <label class="switch">
+             <input name="disable_revisions" <?php if (isset($settings['disable_revisions']) && $settings['disable_revisions'] == 1) {
+                    echo 'checked="checked"';
+                }
+                ?> type="checkbox" id="disable_revisions" value="1"/>
+            <div class="slider round"></div>
+          </label>
+          
+        </div>
+        <div class="form-group">
+          <span>Disable Autosave</span>
+          <label class="switch">
+             <input name="disable_autosave" <?php if (isset($settings['disable_autosave']) && $settings['disable_autosave'] == 1) {
+                       echo 'checked="checked"';
+                   }
+                   ?> type="checkbox" id="disable_autosave" value="1"/>
+            <div class="slider round"></div>
+          </label>
+          
+        </div>
 
-</table>
+        <div class="form-group">
+          <span>Close comments after 28 days</span>
+          <label class="switch">
+             <input name="close_comments" <?php if (isset($settings['close_comments']) && $settings['close_comments'] == 1) {
+                   echo 'checked="checked"';
+                }
+                ?> type="checkbox" id="close_comments" value="1"/>
+            <div class="slider round"></div>
+          </label>
+          
+        </div>
+
+        <div class="form-group">
+          <span>Paginate comments at 20</span>
+          <label class="switch">
+             <input name="paginate_comments" <?php if (isset($settings['paginate_comments']) && $settings['paginate_comments'] == 1) {
+                   echo 'checked="checked"';
+                }
+                ?> type="checkbox" id="paginate_comments" value="1"/>
+            <div class="slider round"></div>
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="tab-5" class="tab-content">
+    <div class="form">
+      <div class="disable-form disable_settings">
+        <div class="form-group">
+          <span>Disable Gravatars</span>
+          <label class="switch">
+             <input name="disable_gravatars" <?php if (isset($settings['disable_gravatars']) && $settings['disable_gravatars'] == 1) {
+                echo 'checked="checked"';
+             }
+             ?> type="checkbox" id="disable_gravatars" value="1"/>
+            <div class="slider round"></div>
+          </label>
+        </div>
+
+        <div class="form-group">
+          <span>Disable pingbacks and trackbacks</span>
+          <label class="switch">
+             <input name="default_ping_status" <?php if (isset($settings['default_ping_status']) && $settings['default_ping_status'] == 1) {
+                echo 'checked="checked"';
+             }
+             ?> type="checkbox" id="default_ping_status" value="1"/>
+            <div class="slider round"></div>
+          </label>
+        </div>
+
+        <div class="form-group">
+          <span>Disable RSS</span>
+          <label class="switch">
+             <input name="disable_rss" <?php if (isset($settings['disable_rss']) && $settings['disable_rss'] == 1) {
+                    echo 'checked="checked"';
+                }
+                ?> type="checkbox" id="disable_rss" value="1"/>
+            <div class="slider round"></div>
+          </label>
+        </div>
+
+        <div class="form-group">
+          <span>Disable XML-RPC</span>
+          <label class="switch">
+             <input name="disable_xmlrpc" <?php if (isset($settings['disable_xmlrpc']) && $settings['disable_xmlrpc'] == 1) {
+                    echo 'checked="checked"';
+                }
+                ?> type="checkbox" id="disable_xmlrpc" value="1"/>
+            <div class="slider round"></div>
+          </label>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <div>
+       <?php echo submit_button('Update', 'btn-submit', 'submit', false); ?>
+</div>
+
+
+    <div class="panel">
+       <div class="pane-head">
+          <a target="blank" href="https://optimisation.io"><img src="<?php echo plugins_url('images/optimisation-4.jpg', __FILE__.'/../../../') ?>" alt="" /></a>
+          <a target="blank" href="https://optimisation.io" class="just-link">Still Need Help ? We also do manual optimisations.</a>
+       </div>
+       </div>
+   </div>
+   <div class="side-bar">
+    <h3>Offload Google Analytics to local</h3>
+    <div class="offload-form">
+      <div class="form-group">
+        <label>GA Code</label>
+        <input type="text" name="ds_tracking_id" value="<?php echo (isset($settings['ds_tracking_id']))?$settings['ds_tracking_id']:''; ?>" />
+      </div>
+
+      <div class="form-group">
+        <label>Save GA in (please ensure you remove any other GA tracking)</label>
+        <?php
+          $sgal_script_position = array('<span>Header</span>', '<span>Footer</span>');
+
+          foreach ($sgal_script_position as $option) {
+              echo "<input type='radio' name='ds_script_position' value='" . $option . "' ";
+              echo $sgal_checked = ($option == $settings['ds_script_position']) ? ' checked="checked"' : '';
+              echo " />";
+              echo ucfirst($option);
+              echo $sgal_script_default = ($option == 'header') ? '' : '';
+
+          }
+        ?>
+      </div>
+
+      <div class="form-group">
+        <label>Use adjusted bounce rate?</label>
+        <input type="number" name="ds_adjusted_bounce_rate" min="0" max="60" value="<?php echo isset($settings['ds_adjusted_bounce_rate'])?$settings['ds_adjusted_bounce_rate']:0; ?>" />
+      </div>
+
+      <div class="form-group">
+        <label>Change enqueue order? (Default = 0)</label>
+        <input type="number" name="ds_enqueue_order" min="0" value="<?php echo isset($settings['ds_enqueue_order'])?$settings['ds_enqueue_order']:0; ?>" />
+      </div>
+
+      <div class="form-group">
+        <input type="checkbox" name="caos_disable_display_features" <?php if (isset($settings['caos_disable_display_features']) && $settings['caos_disable_display_features'] == "on") echo 'checked = "checked"'; ?> />  Disable all <a href="https://developers.google.com/analytics/devguides/collection/analyticsjs/display-features" target="_blank">display features functionality</a>?
+      </div>
+
+      <div class="form-group">
+        <input type="checkbox" name="ds_anonymize_ip" <?php if (isset($settings['ds_anonymize_ip']) && $settings['ds_anonymize_ip'] == "on") echo 'checked = "checked"'; ?> />  Use <a href="https://support.google.com/analytics/answer/2763052?hl=en" target="_blank">Anomymize IP</a>? (Required by law for some countries)
+      </div>
+
+      <div class="form-group">
+        <input type="checkbox" name="ds_track_admin" <?php if(isset($settings['ds_track_admin']) && $settings['ds_track_admin'] == "on") echo 'checked = "checked"'; ?> />  Track logged in Administrators?
+      </div>
+
+      <div class="form-group">
+        <input type="checkbox" name="caos_remove_wp_cron" <?php if(isset($settings['caos_remove_wp_cron']) && $settings['caos_remove_wp_cron'] == "on") echo 'checked = "checked"'; ?> />  Remove script from wp-cron?
+      </div>
+
+
+
+    </div>
 </form>
-       <div class="cg-panel">
-       <div class="cg-pane-head">
-        <a target="blank" href="https://wordpress.org/plugins/wp-image-compression/">  <img src="<?php echo plugins_url('images/wp-image-compression.jpg', __FILE__.'/../../../') ?>" alt="" /> </a>
-       </div>
-       </div>
-          <div class="cg-pane-head">
-          <h3>Simple Fast Caching</h3>
-          <a target="blank" href="https://wordpress.org/plugins/cache-performance/ "><img src="<?php echo plugins_url('images/optimisation-1.jpg', __FILE__.'/../../../') ?>" alt="" />
-
-          </a>
-
-
-       </div>
-
-
-
-   </div>
-   <div style="clear:both"></div>
-   </div>
+      <div class="panel">
+        <div class="pane-head">
+          <a target="blank" href="https://wordpress.org/plugins/wp-image-compression/">  <img src="<?php echo plugins_url('images/wp-image-compression.jpg', __FILE__.'/../../../') ?>" alt="" /> </a>
+        </div>
+      </div>
+    </div>
+  </div>
 
 <script type="text/javascript">
    function checkall()
@@ -567,7 +370,7 @@ echo 'checked="checked"';
 
 
 
-$(document).ready(function(){
+jQuery(document).ready(function($){
 
    $('ul.tabs li').click(function(){
        var tab_id = $(this).attr('data-tab');

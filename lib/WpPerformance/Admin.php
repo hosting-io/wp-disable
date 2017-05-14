@@ -11,8 +11,18 @@ class WpPerformance_Admin
         add_action('init', array($this, 'wp_performace_disable_woo_stuffs'));
         add_action('init', array($this, 'wp_performance_optimize_cleanups'));
         add_action("wp_loaded", array($this, 'wp_performance_disable_google_maps'));
+        add_action("wp_enqueue_scripts", array($this, 'wp_performance_dequeue_woocommerce_cart_fragments'), 11);
+
+        add_action("admin_enqueue_scripts", array($this, 'wp_performance_admin_script'));
 
     }
+
+    public function wp_performance_admin_script()
+    {
+        wp_enqueue_style('wp-disable-style', plugins_url('css/style.css', __FILE__.'../../../../../'));
+        // wp_enqueue_script('jquery');
+    }
+
 
     public function menu()
     {
@@ -22,7 +32,35 @@ class WpPerformance_Admin
 
     public function addsettings()
     {
-        $settings = get_option(WpPerformance::OPTION_KEY . '_settings', array());
+        $defaultArray = array('disable_gravatars' => 0,
+                               'disable_emoji'=>0, 
+                               'disable_embeds'=>0, 
+                               'remove_querystrings'=>0, 
+                               'lazyload'=>0, 
+                               'default_ping_status'=>0, 
+                               'close_comments'=>0, 
+                               'paginate_comments'=>0, 
+                               'disable_woocommerce_non_pages'=>0, 
+                               'disable_woocommerce_cart_fragments'=>0, 
+                               'remove_rsd'=>0, 
+                               'remove_windows_live_writer'=>0, 
+                               'remove_wordpress_generator_tag'=>0, 
+                               'remove_shortlink_tag'=>0, 
+                               'remove_wordpress_api_from_header'=>0, 
+                               'disable_rss'=>0, 
+                               'disable_xmlrpc'=>0, 
+                               'disable_autosave'=>0, 
+                               'disable_revisions'=>0, 
+                               'disable_woocommerce_reviews'=>0, 
+                               'disable_google_maps'=>0, 
+                               'ds_tracking_id'=>null, 
+                               'ds_anonymize_ip'=>'off', 
+                               'ds_script_position'=>null, 
+                               'caos_disable_display_features'=>'off', 
+                               'ds_track_admin'=>'off', 
+                               'caos_remove_wp_cron'=>'off', 
+            );
+        $settings = get_option(WpPerformance::OPTION_KEY . '_settings', $defaultArray);
         $data     = array('settings' => $settings);
         echo WpPerformance_View::render('admin_settings', $data);
     }
@@ -30,49 +68,50 @@ class WpPerformance_Admin
     public function updatesettings()
     {
         $array = array(
-            'disable_gravatars'                => ($_POST['disable_gravatars']) ? 1 : 0,
-            'disable_emoji'                    => ($_POST['disable_emoji']) ? 1 : 0,
-            'disable_embeds'                   => ($_POST['disable_embeds']) ? 1 : 0,
-            'remove_querystrings'              => ($_POST['remove_querystrings']) ? 1 : 0,
-            'lazyload'                         => ($_POST['lazyload']) ? 1 : 0,
-            'default_ping_status'              => ($_POST['default_ping_status']) ? 1 : 0,
-            'close_comments'                   => ($_POST['close_comments']) ? 1 : 0,
-            'paginate_comments'                => ($_POST['paginate_comments']) ? 1 : 0,
-            'disable_woocommerce_non_pages'    => ($_POST['disable_woocommerce_non_pages']) ? 1 : 0,
-            'remove_rsd'                       => ($_POST['remove_rsd']) ? 1 : 0,
-            'remove_windows_live_writer'       => ($_POST['remove_windows_live_writer']) ? 1 : 0,
-            'remove_wordpress_generator_tag'   => ($_POST['remove_wordpress_generator_tag']) ? 1 : 0,
-            'remove_shortlink_tag'             => ($_POST['remove_shortlink_tag']) ? 1 : 0,
-            'remove_wordpress_api_from_header' => ($_POST['remove_wordpress_api_from_header']) ? 1 : 0,
-            'disable_rss'                      => ($_POST['disable_rss']) ? 1 : 0,
-            'disable_xmlrpc'                   => ($_POST['disable_xmlrpc']) ? 1 : 0,
-            'disable_autosave'                 => ($_POST['disable_autosave']) ? 1 : 0,
-            'disable_revisions'                => ($_POST['disable_revisions']) ? 1 : 0,
-            'disable_woocommerce_reviews'      => ($_POST['disable_woocommerce_reviews']) ? 1 : 0,
-            'disable_google_maps'              => ($_POST['disable_google_maps']) ? 1 : 0,
-            'ds_tracking_id'                   => sanitize_text_field($_POST['ds_tracking_id']),
-            'ds_adjusted_bounce_rate'          => sanitize_text_field($_POST['ds_adjusted_bounce_rate']),
-            'ds_enqueue_order'                 => sanitize_text_field($_POST['ds_enqueue_order']),
-            'ds_anonymize_ip'                  => sanitize_text_field($_POST['ds_anonymize_ip']),
-            'ds_script_position'               => sanitize_text_field($_POST['ds_script_position']),
-            'caos_disable_display_features'    => sanitize_text_field($_POST['caos_disable_display_features']),
-            'ds_track_admin'                   => sanitize_text_field($_POST['ds_track_admin']),
-            'caos_remove_wp_cron'              => sanitize_text_field($_POST['caos_remove_wp_cron']),
+            'disable_gravatars'                  => isset($_POST['disable_gravatars']) ? 1 : 0,
+            'disable_emoji'                      => isset($_POST['disable_emoji']) ? 1 : 0,
+            'disable_embeds'                     => isset($_POST['disable_embeds']) ? 1 : 0,
+            'remove_querystrings'                => isset($_POST['remove_querystrings']) ? 1 : 0,
+            'lazyload'                           => isset($_POST['lazyload']) ? 1 : 0,
+            'default_ping_status'                => isset($_POST['default_ping_status']) ? 1 : 0,
+            'close_comments'                     => isset($_POST['close_comments']) ? 1 : 0,
+            'paginate_comments'                  => isset($_POST['paginate_comments']) ? 1 : 0,
+            'disable_woocommerce_non_pages'      => isset($_POST['disable_woocommerce_non_pages']) ? 1 : 0,
+            'disable_woocommerce_cart_fragments' => isset($_POST['disable_woocommerce_cart_fragments']) ? 1 : 0,
+            'remove_rsd'                         => isset($_POST['remove_rsd']) ? 1 : 0,
+            'remove_windows_live_writer'         => isset($_POST['remove_windows_live_writer']) ? 1 : 0,
+            'remove_wordpress_generator_tag'     => isset($_POST['remove_wordpress_generator_tag']) ? 1 : 0,
+            'remove_shortlink_tag'               => isset($_POST['remove_shortlink_tag']) ? 1 : 0,
+            'remove_wordpress_api_from_header'   => isset($_POST['remove_wordpress_api_from_header']) ? 1 : 0,
+            'disable_rss'                        => isset($_POST['disable_rss']) ? 1 : 0,
+            'disable_xmlrpc'                     => isset($_POST['disable_xmlrpc']) ? 1 : 0,
+            'disable_autosave'                   => isset($_POST['disable_autosave']) ? 1 : 0,
+            'disable_revisions'                  => isset($_POST['disable_revisions']) ? 1 : 0,
+            'disable_woocommerce_reviews'        => isset($_POST['disable_woocommerce_reviews']) ? 1 : 0,
+            'disable_google_maps'                => isset($_POST['disable_google_maps']) ? 1 : 0,
+            'ds_tracking_id'                     => sanitize_text_field(  (isset($_POST['ds_tracking_id']) && $_POST['ds_tracking_id']) ?$_POST['ds_tracking_id']:null ),
+            'ds_adjusted_bounce_rate'            => sanitize_text_field( (isset($_POST['ds_adjusted_bounce_rate']) && $_POST['ds_adjusted_bounce_rate'])?$_POST['ds_adjusted_bounce_rate']:0),
+            'ds_enqueue_order'                   => sanitize_text_field((isset($_POST['ds_enqueue_order']) && $_POST['ds_enqueue_order'])?$_POST['ds_enqueue_order']:0),
+            'ds_anonymize_ip'                    => sanitize_text_field((isset($_POST['ds_anonymize_ip']) && $_POST['ds_anonymize_ip'])?$_POST['ds_anonymize_ip']:null),
+            'ds_script_position'                 => sanitize_text_field((isset($_POST['ds_script_position']) && $_POST['ds_script_position'])?$_POST['ds_script_position']:null),
+            'caos_disable_display_features'      => sanitize_text_field((isset($_POST['caos_disable_display_features'])&& $_POST['caos_disable_display_features'])?$_POST['caos_disable_display_features']:null),
+            'ds_track_admin'                     => sanitize_text_field((isset($_POST['ds_track_admin']) && $_POST['ds_track_admin'])?$_POST['ds_track_admin']:null),
+            'caos_remove_wp_cron'                => sanitize_text_field((isset($_POST['caos_remove_wp_cron']) && $_POST['caos_remove_wp_cron'])?$_POST['caos_remove_wp_cron']:null),
 
         );
-        if ($_POST['disable_gravatars'] == 1) {
+        if (isset($_POST['disable_gravatars']) && $_POST['disable_gravatars'] == 1) {
             update_option('show_avatars', false);
         } else {
             update_option('show_avatars', true);
         }
 
-        if ($_POST['default_ping_status'] == 1) {
+        if (isset($_POST['default_ping_status']) && $_POST['default_ping_status'] == 1) {
             update_option('default_ping_status', 'close');
         } else {
             update_option('default_ping_status', 'open');
         }
 
-        if ($_POST['close_comments'] == 1) {
+        if (isset($_POST['close_comments']) && $_POST['close_comments'] == 1) {
             update_option('close_comments_for_old_posts', true);
             update_option('close_comments_days_old', 28);
         } else {
@@ -80,7 +119,7 @@ class WpPerformance_Admin
             update_option('close_comments_days_old', 14);
         }
 
-        if ($_POST['paginate_comments'] == 1) {
+        if (isset($_POST['paginate_comments']) && $_POST['paginate_comments'] == 1) {
             update_option('page_comments', true);
             update_option('comments_per_page', 20);
         } else {
@@ -92,7 +131,7 @@ class WpPerformance_Admin
         $settings = update_option(WpPerformance::OPTION_KEY . '_settings', $options);
         $this->addMessage('Settings updated successfully');
 
-        $this->redirectUrl(admin_url('admin.php?page=wpperformance'));
+        $this->redirectUrl(admin_url('tools.php?page=wpperformance'));
     }
 
     private function sendemail($to, $subject, $message, $from)
@@ -195,7 +234,7 @@ class WpPerformance_Admin
     public function child_manage_woocommerce_css()
     {
         if (function_exists('is_woocommerce')) {
-            if (!is_woocommerce()) {
+            if (!is_woocommerce() && !is_cart() && !is_checkout() && !is_account_page()) {
                 // this adds the styles back on woocommerce pages. If you're using a custom script, you could remove these and enter in the path to your own CSS file (if different from your basic style.css file)
                 wp_dequeue_style('woocommerce-layout');
                 wp_dequeue_style('woocommerce-smallscreen');
@@ -280,9 +319,19 @@ class WpPerformance_Admin
     {
         $settings = get_option(WpPerformance::OPTION_KEY . '_settings', array());
         if (isset($settings['disable_google_maps']) && $settings['disable_google_maps'] == 1) {
-           ob_start('disable_google_maps_ob_end'); 
+            ob_start('disable_google_maps_ob_end');
         }
-        
+
+    }
+
+    public function wp_performance_dequeue_woocommerce_cart_fragments()
+    {   
+        $settings = get_option(WpPerformance::OPTION_KEY.'_settings',array());
+        if (isset($settings['disable_woocommerce_cart_fragments']) && $settings['disable_woocommerce_cart_fragments'] == 1) {
+           if (is_front_page()) {
+               wp_dequeue_script('wc-cart-fragments');
+           }     
+        }
     }
 
 }

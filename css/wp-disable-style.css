@@ -1,0 +1,386 @@
+/* line 1, ../sass/wp-disable-style.scss */
+.wp-disable {
+  /* The switch - the box around the slider */
+  /* Hide default HTML checkbox */
+  /* The slider */
+  /* Rounded sliders */
+}
+/* line 2, ../sass/wp-disable-style.scss */
+.wp-disable header {
+  background: #c5ccce;
+  color: #66666b;
+  padding: 35px;
+  border-radius: 10px 10px 0 0;
+}
+/* line 8, ../sass/wp-disable-style.scss */
+.wp-disable header .col-left {
+  display: inline-block;
+  width: 59%;
+}
+/* line 12, ../sass/wp-disable-style.scss */
+.wp-disable header .col-left h2 {
+  color: #66666b;
+  font-size: 22px;
+  font-weight: 400;
+  margin: 0;
+  margin-bottom: 10px;
+}
+/* line 20, ../sass/wp-disable-style.scss */
+.wp-disable header .col-left small {
+  font-size: 14px;
+  font-weight: 100;
+  color: #66666b;
+}
+/* line 27, ../sass/wp-disable-style.scss */
+.wp-disable header .col-right {
+  display: inline-block;
+  text-align: right;
+  width: 40%;
+}
+/* line 31, ../sass/wp-disable-style.scss */
+.wp-disable header .col-right a {
+  background: #fff885 none repeat scroll 0 0;
+  color: #928a07;
+  font-size: 12px;
+  text-decoration: none;
+  padding: 5px 15px;
+  border-radius: 20px;
+}
+/* line 39, ../sass/wp-disable-style.scss */
+.wp-disable header .col-right > p {
+  margin: 5px auto;
+}
+/* line 43, ../sass/wp-disable-style.scss */
+.wp-disable header .col-right small {
+  background: #f65428 none repeat scroll 0 0;
+  border-radius: 1px;
+  font-size: 13px;
+  padding: 2px 13px 3px;
+}
+/* line 52, ../sass/wp-disable-style.scss */
+.wp-disable .container {
+  background: #fff;
+  padding: 35px 20px;
+  display: block;
+}
+/* line 59, ../sass/wp-disable-style.scss */
+.wp-disable .container .tab-wrap {
+  float: left;
+  padding: 0 15px 0 0;
+  width: 57%;
+}
+/* line 64, ../sass/wp-disable-style.scss */
+.wp-disable .container .tab-wrap ul.tabs {
+  margin: 0px;
+  padding: 0px;
+  list-style: none;
+}
+/* line 68, ../sass/wp-disable-style.scss */
+.wp-disable .container .tab-wrap ul.tabs li {
+  background: #c5ccce;
+  border-radius: 5px 5px 0 0;
+  color: #797979;
+  cursor: pointer;
+  display: inline-block;
+  float: left;
+  margin: 0 3px 0 0;
+  padding: 15px 25px;
+  font-size: 16px;
+}
+/* line 79, ../sass/wp-disable-style.scss */
+.wp-disable .container .tab-wrap ul.tabs li.current {
+  background: #efefef;
+  color: #797979;
+}
+/* line 87, ../sass/wp-disable-style.scss */
+.wp-disable .container .tab-wrap .tab-content {
+  display: none;
+  background: #efefef;
+  clear: both;
+  padding: 15px;
+  border-radius: 0 5px 5px 5px;
+}
+/* line 94, ../sass/wp-disable-style.scss */
+.wp-disable .container .tab-wrap .tab-content.current {
+  display: inherit;
+}
+/* line 99, ../sass/wp-disable-style.scss */
+.wp-disable .container .tab-wrap .panel {
+  margin: 20px auto;
+  padding: 20px;
+  background: #f7b66d;
+  border-radius: 5px;
+}
+/* line 105, ../sass/wp-disable-style.scss */
+.wp-disable .container .tab-wrap .panel h3 {
+  color: white;
+  font-size: 20px;
+  text-align: center;
+}
+/* line 111, ../sass/wp-disable-style.scss */
+.wp-disable .container .tab-wrap .panel.featured-panel.stye-1 {
+  background: #23458b none repeat scroll 0 0;
+}
+/* line 115, ../sass/wp-disable-style.scss */
+.wp-disable .container .tab-wrap .panel .pane-head {
+  display: block;
+  width: 100%;
+}
+/* line 118, ../sass/wp-disable-style.scss */
+.wp-disable .container .tab-wrap .panel .pane-head a {
+  display: block;
+}
+/* line 121, ../sass/wp-disable-style.scss */
+.wp-disable .container .tab-wrap .panel .pane-head a.just-link {
+  text-decoration: none;
+  background: #d4d4d4;
+  padding: 10px 15px;
+  font-size: 16px;
+  color: #585858;
+  border-radius: 0 0 5px 5px;
+}
+/* line 129, ../sass/wp-disable-style.scss */
+.wp-disable .container .tab-wrap .panel .pane-head a.just-link:hover {
+  background: #c7c6c6;
+}
+/* line 134, ../sass/wp-disable-style.scss */
+.wp-disable .container .tab-wrap .panel .pane-head img {
+  display: block;
+  width: 100%;
+}
+/* line 140, ../sass/wp-disable-style.scss */
+.wp-disable .container .tab-wrap .panel.featured-panel {
+  background: #f65428 none repeat scroll 0 0;
+  margin-bottom: 13px;
+  padding: 1px;
+}
+/* line 147, ../sass/wp-disable-style.scss */
+.wp-disable .container .btn-submit {
+  background: #00CDBF;
+  color: #05867d;
+  height: auto;
+  padding: 10px 30px;
+  text-decoration: none;
+  text-shadow: unset;
+  box-shadow: none;
+  border: none;
+  margin-top: 20px;
+  font-size: 18px;
+  text-transform: uppercase;
+  border-radius: 100px;
+}
+/* line 161, ../sass/wp-disable-style.scss */
+.wp-disable .container .btn-submit:hover {
+  background: #12c7bb;
+  color: #05867d;
+}
+/* line 167, ../sass/wp-disable-style.scss */
+.wp-disable .container .disable-form .form-group {
+  display: block;
+  padding: 15px 10px;
+  border-bottom: 1px solid #ccc;
+  min-height: 34px;
+  line-height: 34px;
+}
+/* line 174, ../sass/wp-disable-style.scss */
+.wp-disable .container .disable-form .form-group:last-child {
+  border: none;
+}
+/* line 178, ../sass/wp-disable-style.scss */
+.wp-disable .container .disable-form .form-group span {
+  font-size: 16px;
+  color: #797979;
+}
+/* line 188, ../sass/wp-disable-style.scss */
+.wp-disable .side-bar {
+  padding: 0 0 0 18px;
+  width: 39%;
+  display: inline-block;
+}
+/* line 193, ../sass/wp-disable-style.scss */
+.wp-disable .side-bar h3 {
+  background: #c5ccce;
+  border-radius: 5px 5px 0 0;
+  color: #797979;
+  margin: 0;
+  padding: 10px 25px;
+  line-height: 25px;
+  font-weight: 400;
+}
+/* line 203, ../sass/wp-disable-style.scss */
+.wp-disable .side-bar .offload-form {
+  background: #efefef;
+  padding: 25px;
+  color: #797984;
+  border-radius: 0 0 5px 5px;
+  margin-bottom: 20px;
+}
+/* line 210, ../sass/wp-disable-style.scss */
+.wp-disable .side-bar .offload-form .form-group {
+  margin-bottom: 25px;
+}
+/* line 213, ../sass/wp-disable-style.scss */
+.wp-disable .side-bar .offload-form .form-group label {
+  font-size: 14px;
+  clear: both;
+  margin-bottom: 8px;
+  display: block;
+  color: #797984;
+}
+/* line 222, ../sass/wp-disable-style.scss */
+.wp-disable .side-bar .offload-form .form-group input[type=text] {
+  min-width: 300px;
+  height: 36px;
+  border: 1px solid #dedede;
+  background: #fff;
+  padding: 0 10px;
+  border-radius: 3px;
+  color: #0a6f68;
+  font-weight: 100;
+  box-shadow: none;
+}
+/* line 234, ../sass/wp-disable-style.scss */
+.wp-disable .side-bar .offload-form .form-group input[type=number] {
+  height: 30px;
+  border-radius: 3px;
+  border: 1px solid #dedede;
+  width: 60px;
+  box-shadow: none;
+}
+/* line 242, ../sass/wp-disable-style.scss */
+.wp-disable .side-bar .offload-form .form-group input[type=checkbox] {
+  border: 1px solid #dedede;
+  border-radius: 3px;
+  box-shadow: none;
+}
+/* line 247, ../sass/wp-disable-style.scss */
+.wp-disable .side-bar .offload-form .form-group input[type=checkbox]:checked:before {
+  color: #797984;
+}
+/* line 252, ../sass/wp-disable-style.scss */
+.wp-disable .side-bar .offload-form .form-group input[type=radio] {
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+  margin-right: 5px;
+  line-height: 10px;
+  background: #fff;
+  border: 1px solid #dedede;
+  box-shadow: none;
+}
+/* line 261, ../sass/wp-disable-style.scss */
+.wp-disable .side-bar .offload-form .form-group input[type=radio]:checked:before {
+  width: 8px;
+  height: 8px;
+  margin: 3px;
+  line-height: 16px;
+  background-color: #797984;
+}
+/* line 270, ../sass/wp-disable-style.scss */
+.wp-disable .side-bar .offload-form .form-group span {
+  margin-right: 40px;
+  font-size: 14px;
+  color: #797984;
+}
+/* line 282, ../sass/wp-disable-style.scss */
+.wp-disable .side-bar .pane-head a img {
+  display: block;
+  width: 100%;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+/* line 290, ../sass/wp-disable-style.scss */
+.wp-disable .side-bar .pane-head h2 {
+  color: white;
+  line-height: 22px;
+  text-align: center;
+}
+/* line 296, ../sass/wp-disable-style.scss */
+.wp-disable .side-bar .pane-head h3 {
+  background: #bfbfbf;
+  color: #737373;
+  margin: 0 auto;
+  text-align: center;
+}
+/* line 307, ../sass/wp-disable-style.scss */
+.wp-disable .check_options {
+  font-weight: bold;
+}
+/* line 312, ../sass/wp-disable-style.scss */
+.wp-disable .stars {
+  float: right;
+  height: 19px;
+  background: transparent url("/wp-content/plugins/wp-disable/images/stars.jpg") repeat scroll 0 0;
+  width: 100px;
+}
+@media (max-width: 768px) {
+  /* line 320, ../sass/wp-disable-style.scss */
+  .wp-disable .tab-wrap {
+    width: 96%;
+  }
+  /* line 323, ../sass/wp-disable-style.scss */
+  .wp-disable .col-left, .wp-disable .col-right, .wp-disable .side-bar {
+    width: 100%;
+  }
+  /* line 326, ../sass/wp-disable-style.scss */
+  .wp-disable .col-right a {
+    display: block;
+  }
+}
+/* line 332, ../sass/wp-disable-style.scss */
+.wp-disable .switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+  float: right;
+}
+/* line 341, ../sass/wp-disable-style.scss */
+.wp-disable .switch input {
+  display: none;
+}
+/* line 344, ../sass/wp-disable-style.scss */
+.wp-disable .slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #F37E67;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+/* line 356, ../sass/wp-disable-style.scss */
+.wp-disable .slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+/* line 368, ../sass/wp-disable-style.scss */
+.wp-disable input:checked + .slider {
+  background-color: #00CDBF;
+}
+/* line 372, ../sass/wp-disable-style.scss */
+.wp-disable input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+/* line 376, ../sass/wp-disable-style.scss */
+.wp-disable input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+/* line 383, ../sass/wp-disable-style.scss */
+.wp-disable .slider.round {
+  border-radius: 34px;
+}
+/* line 387, ../sass/wp-disable-style.scss */
+.wp-disable .slider.round:before {
+  border-radius: 50%;
+}

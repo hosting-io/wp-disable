@@ -1,297 +1,184 @@
 <?php
-/*
-Plugin Name: WP Disable
-Plugin URI: https://optimisation.io
-Description: Improve WordPress performance by disabling unused items.
-Author: pigeonhut, Jody Nesbitt, optimisation.io
-Author URI:https://optimisation.io
-Version: 1.2.27
-
-Copyright (C) 2017 Optimisation.io
-
-/** Load all of the necessary class files for the plugin */
-spl_autoload_register('WpPerformance::autoload');
 /**
- * Init Singleton Class.
+ * Plugin Name: WP Disable
+ * Plugin URI: https://optimisation.io
+ * Description: Improve WordPress performance by disabling unused items.
+ * Author: pigeonhut, Jody Nesbitt, optimisation.io
+ * Author URI:https://optimisation.io
+ * Version: 1.4.4
+ *
+ * Copyright (C) 2017 Optimisation.io
  */
-class WpPerformance
-{
-    private static $instance = false;
 
-    const MIN_PHP_VERSION = '5.2.4';
-    const MIN_WP_VERSION  = '4.3';
-    const TEXT_DOMAIN     = 'wpperformance';
-    const OPTION_KEY      = 'wpperformance_rev3a';
-    const FILE            = __FILE__;
+// If this file is called directly, abort.
+if ( ! defined( 'WPINC' ) ) { die; }
 
-    /**
-     * Singleton class
-     */
-    public static function getInstance()
-    {
-        session_start();
-        if (!self::$instance) {
-            self::$instance = new self();
-        }
-        return self::$instance;
+define( 'OPTIMISATIONIO_WP_DISABLE_ADDON', true);
+
+require_once 'lib/class-wpperformance.php';
+require_once 'lib/class-wpperformance-view.php';
+require_once 'lib/class-wpperformance-admin.php';
+
+// Create a helper function for easy SDK access.
+function wd_fs() {
+    global $wd_fs;
+
+    if ( ! isset( $wd_fs ) ) {
+        // Include Freemius SDK.
+        require_once dirname(__FILE__) . '/freemius/start.php';
+
+        $wd_fs = fs_dynamic_init( array(
+            'id'                  => '1256',
+            'slug'                => 'wp-disable',
+            'type'                => 'plugin',
+            'public_key'          => 'pk_6dc38125f3abb91a3feaf276068a4',
+            'is_premium'          => false,
+            'has_addons'          => false,
+            'has_paid_plans'      => false,
+            'menu'                => array(
+                'slug'           => 'optimisationio-wp-disable',
+            ),
+        ) );
     }
 
-    /**
-     * Constructor.
-     * Initializes the plugin by setting localization, filters, and
-     * administration functions.
-     */
-    private function __construct()
-    {
-
-        if (!$this->testHost()) {
-            return;
-        }
-        add_action('init', array($this, 'textDomain'));
-        register_uninstall_hook(__FILE__, array(__CLASS__, 'uninstall'));
-        new WpPerformance_Admin;
-    }
-
-    /**
-     * PSR-0 compliant autoloader to load classes as needed.
-     *
-     * @since  2.1
-     *
-     * @param  string  $classname  The name of the class
-     * @return null    Return early if the class name does not start with the
-     *                 correct prefix
-     */
-    public static function autoload($className)
-    {
-        if (__CLASS__ !== mb_substr($className, 0, strlen(__CLASS__))) {
-            return;
-        }
-
-        $className = ltrim($className, '\\');
-        $fileName  = '';
-        $namespace = '';
-        if ($lastNsPos = strrpos($className, '\\')) {
-            $namespace = substr($className, 0, $lastNsPos);
-            $className = substr($className, $lastNsPos + 1);
-            $fileName  = str_replace('\\', DIRECTORY_SEPARATOR, $namespace);
-            $fileName .= DIRECTORY_SEPARATOR;
-        }
-        $fileName .= str_replace('_', DIRECTORY_SEPARATOR, 'lib_' . $className);
-
-        $fileName .= '.php';
-        require $fileName;
-    }
-
-    /**
-     * Loads the plugin text domain for translation
-     */
-    public function textDomain()
-    {
-        $domain = self::TEXT_DOMAIN;
-        $locale = apply_filters('plugin_locale', get_locale(), $domain);
-        load_textdomain(
-            $domain,
-            WP_LANG_DIR . '/' . $domain . '/' . $domain . '-' . $locale . '.mo'
-        );
-        load_plugin_textdomain(
-            $domain,
-            false,
-            dirname(plugin_basename(__FILE__)) . '/lang/'
-        );
-    }
-
-    /**
-     * Fired when the plugin is uninstalled.
-     */
-    public function uninstall()
-    {
-        delete_option(self::OPTION_KEY);
-    }
-
-    // -------------------------------------------------------------------------
-    // Environment Checks
-    // -------------------------------------------------------------------------
-
-    /**
-     * Checks PHP and WordPress versions.
-     */
-    private function testHost()
-    {
-        // Check if PHP is too old
-        if (version_compare(PHP_VERSION, self::MIN_PHP_VERSION, '<')) {
-            // Display notice
-            add_action('admin_notices', array(&$this, 'phpVersionError'));
-            return false;
-        }
-
-        // Check if WordPress is too old
-        global $wp_version;
-        if (version_compare($wp_version, self::MIN_WP_VERSION, '<')) {
-            add_action('admin_notices', array(&$this, 'wpVersionError'));
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * Displays a warning when installed on an old PHP version.
-     */
-    public function phpVersionError()
-    {
-        echo '<div class="error"><p><strong>';
-        printf(
-            'Error: %3$s requires PHP version %1$s or greater.<br/>' .
-            'Your installed PHP version: %2$s',
-            self::MIN_PHP_VERSION,
-            PHP_VERSION,
-            $this->getPluginName()
-        );
-        echo '</strong></p></div>';
-    }
-
-    /**
-     * Displays a warning when installed in an old Wordpress version.
-     */
-    public function wpVersionError()
-    {
-        echo '<div class="error"><p><strong>';
-        printf(
-            'Error: %2$s requires WordPress version %1$s or greater.',
-            self::MIN_WP_VERSION,
-            $this->getPluginName()
-        );
-        echo '</strong></p></div>';
-    }
-
-    /**
-     * Get the name of this plugin.
-     *
-     * @return string The plugin name.
-     */
-    private function getPluginName()
-    {
-        $data = get_plugin_data(self::FILE);
-        return $data['Name'];
-    }
+    return $wd_fs;
 }
 
-add_action('plugins_loaded', array('WpPerformance', 'getInstance'));
+// Init Freemius.
+wd_fs();
+// Signal that SDK was initiated.
+do_action( 'wd_fs_loaded' );
 
-// Register hook to schedule script in wp_cron()
-register_activation_hook(__FILE__, 'activate_update_local_ga');
+/**
+ * On plugin activation.
+ */
+function wpperformance_on_activate() {
 
-function activate_update_local_ga() {
-    wp_clear_scheduled_hook( 'update_local_ga');
-    if  (!wp_next_scheduled('update_local_ga')) {
-        wp_schedule_event(time(), 'daily', 'update_local_ga');
-    }
+	WpPerformance::check_spam_comments_delete();
+
+	wp_clear_scheduled_hook( 'update_local_ga' );
+
+	if ( ! wp_next_scheduled( 'update_local_ga' ) ) {
+		$settings = get_option( WpPerformance::OPTION_KEY . '_settings', array() );
+		if( isset( $settings['caos_remove_wp_cron'] ) && $settings['caos_remove_wp_cron'] &&
+			'on' !== esc_attr( $settings['caos_remove_wp_cron'] )
+		){
+			wp_schedule_event( time(), 'daily', 'update_local_ga' );
+		}
+	}
 }
 
+/**
+ * On plugin deactivation.
+ */
+function wpperformance_on_deactivate() {
 
-// Load update script to schedule in wp_cron()
-add_action('update_local_ga', 'update_local_ga_script');
-function update_local_ga_script() {
-    include('includes/update_local_ga.php');
+	WpPerformance::delete_transients();
+	WpPerformance::unschedule_spam_comments_delete();
+
+	if ( wp_next_scheduled( 'update_local_ga' ) ) {
+		wp_clear_scheduled_hook( 'update_local_ga' );
+	}
 }
 
-// Remove script from wp_cron upon plugin deactivation
-register_deactivation_hook(__FILE__, 'deactivate_update_local_ga');
+// Register hook to schedule script in wp_cron().
+register_activation_hook( __FILE__, 'wpperformance_on_activate' );
 
-function deactivate_update_local_ga() {
-    if  (wp_next_scheduled('update_local_ga')) {
-        wp_clear_scheduled_hook('update_local_ga');
-    }
+// Remove script from wp_cron upon plugin deactivation.
+register_deactivation_hook( __FILE__, 'wpperformance_on_deactivate' );
+
+/**
+ * Include file 'includes/update-local-ga.php'.
+ */
+function wpperformance_update_local_ga_script() {
+	include( 'includes/update-local-ga.php' );
 }
 
-// Remove script from wp_cron if option is selected
-$settings = get_option('wpperformance_rev3a_settings', array());
-if(isset($settings['caos_remove_wp_cron']) && $settings['caos_remove_wp_cron']) {
-   $caos_remove_wp_cron = esc_attr($settings['caos_remove_wp_cron']);
+// Load update script to schedule in wp_cron.
+add_action( 'update_local_ga', 'wpperformance_update_local_ga_script' );
+
+/**
+ * Initialize WP_Filesystem if hasn't inited yet.
+ */
+function wpperformance_init_wp_filesystem() {
+	global $wp_filesystem;
+	if ( null === $wp_filesystem ) {
+		if ( ! function_exists( 'WP_Filesystem' ) ) {
+			require_once( ABSPATH . 'wp-admin/includes/file.php' );
+		}
+		WP_Filesystem();
+	}
 }
 
-
-switch ($caos_remove_wp_cron) {
-    case "on":
-        if (wp_next_scheduled('update_local_ga')) {
-            wp_clear_scheduled_hook('update_local_ga');
-        }
-        break;
-    default:
-        if (!wp_next_scheduled('update_local_ga')) {
-            wp_schedule_event(time(), 'daily', 'update_local_ga');
-        }
-        break;
+/**
+ * Disable Google maps ob_end.
+ */
+function wpperformance_disable_google_maps_ob_end( $html ) {
+	$html = preg_replace( '/<script[^<>]*\/\/maps.(googleapis|google|gstatic).com\/[^<>]*><\/script>/i', '', $html );
+	return $html;
 }
 
-// Generate tracking code and add to header/footer (default is header)
-function add_ga_header_script() {
-    $settings = get_option('wpperformance_rev3a_settings', array());
-    if (isset($settings['ds_track_admin']) && $settings['ds_track_admin']) {
-       $ds_track_admin = esc_attr($settings['ds_track_admin']);
-    }
+/**
+ * Generate tracking code and add to header/footer (default is header).
+ */
+function wpperformance_add_ga_header_script() {
 
-    // If user is admin we don't want to render the tracking code, when option is disabled.
-    if (current_user_can('manage_options') && (!$ds_track_admin)) return;
-    if(isset($settings['ds_tracking_id']) && $settings['ds_tracking_id']) {
-       $ds_tracking_id = esc_attr($settings['ds_tracking_id']);
-    }
-    if(isset($settings['ds_adjusted_bounce_rate']) && $settings['ds_adjusted_bounce_rate']) {
-        $ds_adjusted_bounce_rate = esc_attr($settings['ds_adjusted_bounce_rate']);
-    }
+	$settings = get_option( WpPerformance::OPTION_KEY . '_settings', array() );
 
-    if(isset($settings['ds_anonymize_ip']) && $settings['ds_anonymize_ip']) {
-        $ds_anonymize_ip = esc_attr($settings['ds_anonymize_ip']);
-    }
+	$ds_track_admin = isset( $settings['ds_track_admin'] ) && $settings['ds_track_admin'] ? esc_attr( $settings['ds_track_admin'] ) : false;
 
-    if(isset($settings['caos_disable_display_features']) && $settings['caos_disable_display_features']) {
-        $caos_disable_display_features = esc_attr($settings['caos_disable_display_features']);
-    }
+	// If user is admin we don't want to render the tracking code, when option is disabled.
+	if ( current_user_can( 'manage_options' ) && ( ! $ds_track_admin) ) { return; }
 
-    echo "<!-- Google Analytics Local by Optimisation.io -->";
+	$ds_tracking_id = isset( $settings['ds_tracking_id'] ) && $settings['ds_tracking_id'] ? esc_attr( $settings['ds_tracking_id'] ) : '';
 
-    echo "<script>
+	$ds_adjusted_bounce_rate = isset( $settings['ds_adjusted_bounce_rate'] ) && $settings['ds_adjusted_bounce_rate'] ? esc_attr( $settings['ds_adjusted_bounce_rate'] ) : 0;
+
+	$ds_anonymize_ip = isset( $settings['ds_anonymize_ip'] ) && $settings['ds_anonymize_ip'] ? esc_attr( $settings['ds_anonymize_ip'] ) : null;
+
+	$caos_disable_display_features = isset( $settings['caos_disable_display_features'] ) && $settings['caos_disable_display_features'] ? esc_attr( $settings['caos_disable_display_features'] ) : 'off';
+
+	echo '<!-- Google Analytics Local by Optimisation.io -->';
+
+	echo "<script>
             (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
             m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-            })(window,document,'script','" . plugin_dir_url(__FILE__) . "cache/local-ga.js','ga');";
+            })(window,document,'script','" . plugin_dir_url( __FILE__ ) . "cache/local-ga.js','ga');";
 
-    echo "ga('create', '" . $ds_tracking_id . "', 'auto');";
+	echo "ga('create', '" . $ds_tracking_id . "', 'auto');";
 
-    echo $caos_disable_display_features_code = ($caos_disable_display_features == "on") ? "ga('set', 'displayFeaturesTask', null);
-" : "";
+	echo 'on' === $caos_disable_display_features ? "ga('set', 'displayFeaturesTask', null);" : '';
 
-    echo $ds_anonymize_ip_code = ($ds_anonymize_ip == "on") ? "ga('set', 'anonymizeIp', true);" : "";
+	echo 'on' === $ds_anonymize_ip ? "ga('set', 'anonymizeIp', true);" : '';
 
-    echo "ga('send', 'pageview');";
+	echo "ga('send', 'pageview');";
 
-    echo $ds_abr_code = ($ds_adjusted_bounce_rate) ? 'setTimeout("ga(' . "'send','event','adjusted bounce rate','" . $ds_adjusted_bounce_rate . " seconds')" . '"' . "," . $ds_adjusted_bounce_rate * 1000 . ");" : "";
+	echo $ds_adjusted_bounce_rate ? 'setTimeout("ga(' . "'send','event','adjusted bounce rate','" . $ds_adjusted_bounce_rate . " seconds')" . '"' . ',' . $ds_adjusted_bounce_rate * 1000 . ');' : '';
 
-    echo "</script>";
+	echo '</script>';
 }
 
-if(isset($settings['ds_tracking_id']) && $settings['ds_tracking_id']) {
-   $ds_tracking_id = esc_attr($settings['ds_tracking_id']);
-} else {
-    $ds_tracking_id = null;
-}
-if(isset($settings['ds_script_position']) && $settings['ds_script_position']) {
-    $ds_script_position = esc_attr($settings['ds_script_position']);
-} else {
-    $ds_script_position = null;
-}
-if(isset($settings['ds_enqueue_order']) && $settings['ds_enqueue_order']) {
-   $ds_enqueue_order = (esc_attr($settings['ds_enqueue_order'])) ? esc_attr($settings['ds_enqueue_order']) : 0;
-} else {
-    $ds_enqueue_order = 0;
+function wpperformance_cron_additions( $schedules ) {
+
+	$schedules['weekly'] = array(
+		'interval' => 86400 * 7,
+		'display' => __( 'Once Weekly' ),
+	);
+
+	$schedules['twicemonthly'] = array(
+		'interval' => 86400 * 14,
+		'display' => __( 'Twice Monthly' ),
+	);
+
+	$schedules['monthly'] = array(
+		'interval' => 86400 * 30,
+		'display' => __( 'Once Monthly' ),
+	);
+
+	return $schedules;
 }
 
-if( $ds_tracking_id != '') {
-   switch ($ds_script_position) {
-       case "footer":
-           add_action('wp_footer', 'add_ga_header_script', $ds_enqueue_order);
-           break;
-       default:
-           add_action('wp_head', 'add_ga_header_script', $ds_enqueue_order);
-           break;
-   }
-}
+add_filter( 'cron_schedules', 'wpperformance_cron_additions' );
+
+add_action( 'plugins_loaded', array( 'WpPerformance', 'get_instance' ) );

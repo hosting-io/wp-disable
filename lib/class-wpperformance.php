@@ -196,8 +196,7 @@ class WpPerformance {
 	public function enqueue_scripts() {
 		$async_links = $this->check_googlefonts_fontawesome_styles();
 		if ( ! empty( $async_links ) ) {
-			wp_enqueue_script( 'wp-disable-load-css', plugin_dir_url( dirname( __FILE__ ) ) . 'js/loadcss.js' );
-			wp_enqueue_script( 'wp-disable-css-lazy-load',  plugin_dir_url( dirname( __FILE__ ) ) . 'js/css-lazy-load.js' );
+			wp_enqueue_script( 'wp-disable-css-lazy-load',  plugin_dir_url( dirname( __FILE__ ) ) . 'js/css-lazy-load.min.js' );
 			wp_localize_script( 'wp-disable-css-lazy-load', 'WpDisableAsyncLinks', $async_links );
 		}
 	}

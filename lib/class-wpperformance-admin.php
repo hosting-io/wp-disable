@@ -217,7 +217,7 @@ class WpPerformance_Admin {
 		$settings = get_option( WpPerformance::OPTION_KEY . '_settings', array() );
 		
 		// disable remove query strings for users who are not able to edit pages/posts or admin panel
-		if ( !(current_user_can('edit_page') || current_user_can('edit_post') || is_admin()) &&  isset( $settings['remove_querystrings'] ) && 1 === (int) $settings['remove_querystrings'] ) {
+		if ( !current_user_can('editor') && !current_user_can('administrator') && !is_admin() &&  isset( $settings['remove_querystrings'] ) && 1 === (int) $settings['remove_querystrings'] ) {
 			$parts = explode( '?ver', $src );
 			return $parts[0];
 		} else {

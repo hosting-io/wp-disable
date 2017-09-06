@@ -25,7 +25,7 @@ class WpPerformance {
 
 		Optimisationio_Stats_And_Addons::init();
 
-		new WpPerformance_Admin;		
+		new WpPerformance_Admin;
 
 		add_action( 'init', array( $this, 'text_domain' ) );
 
@@ -60,7 +60,7 @@ class WpPerformance {
 		delete_transient( 'wpperformance_ds_tracking_id' );
 		delete_transient( self::OPTION_KEY . '_referalls_spam_blacklist' );
 	}
-	
+
 	/**
 	 * Delete plugin's options values.
 	 */
@@ -164,7 +164,7 @@ class WpPerformance {
 	// -------------------------------------------------------------------------
 	// Apply settings values
 	// -------------------------------------------------------------------------
-	
+
 	private function apply_settings() {
 
 		$this->caos_remove_wp_cron();
@@ -306,7 +306,7 @@ class WpPerformance {
 					}
 
 					$ret['wp-disable-font-awesome'] = esc_url( $selected_fa_link['link'] );
-					
+
 					$this->update_saved_font_awesome_requests( count( $font_awesome_links['internal'] ) + count( $font_awesome_links['external'] ) );
 				}
 				else{
@@ -314,7 +314,7 @@ class WpPerformance {
 				}
 
 				if ( $load_google_fonts && ! empty( $gfonts_links ) ) {
-					
+
 					$ret['wp-disable-google-fonts'] = esc_url( $this->combine_google_fonts_links( $gfonts_links ) );
 
 					$this->update_saved_google_fonts_request( count( $gfonts_links ) );
@@ -596,7 +596,7 @@ class WpPerformance {
 				add_action( 'template_redirect', array( $this, 'check_comments_template' ) );
 			}
 			else{
-				add_action('admin_menu', array( $this, 'comment_admin_menu_remove' ) );	
+				add_action('admin_menu', array( $this, 'comment_admin_menu_remove' ) );
 			}
 		}
 	}
@@ -852,15 +852,19 @@ class WpPerformance {
 
 	public function filter_referral_spam_requests($request){
 		global $wp_query;
-		
-		$referrer = wp_get_referer() !== false ? wp_get_referer() : $_SERVER['HTTP_REFERER'];	// Input var okay.		
+
+		if(wp_get_referer() !== false){
+			$referrer =  wp_get_referer();
+		} else {
+			$referrer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
+		}
 		
 		if ( empty( $referrer ) ) {
 			return $request;
 		}
 
 		$referrer = parse_url($referrer, PHP_URL_HOST);
-		
+
 		$referrers_blacklist = $this->referrals_blacklist();
 
 		if( empty( $referrers_blacklist ) ){
@@ -889,11 +893,11 @@ class WpPerformance {
 	private function referrals_blacklist(){
 
 		$ret = get_transient( self::OPTION_KEY . '_referalls_spam_blacklist' );
-		
+
 		if( false === $ret ){
-		
+
 			$response = wp_remote_get('http://wielo.co/referrer-spam.php');
-			
+
 			if ($response instanceof WP_Error) {
 	            error_log('Unable to get referrals spam blacklist: ' . $response->get_error_message());
 	            return;

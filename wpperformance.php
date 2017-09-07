@@ -5,7 +5,7 @@
  * Description: Improve WordPress performance by disabling unused items.
  * Author: pigeonhut, Jody Nesbitt, optimisation.io
  * Author URI:https://optimisation.io
- * Version: 1.4.4
+ * Version: 1.5.0
  *
  * Copyright (C) 2017 Optimisation.io
  */
@@ -18,36 +18,6 @@ define( 'OPTIMISATIONIO_WP_DISABLE_ADDON', true);
 require_once 'lib/class-wpperformance.php';
 require_once 'lib/class-wpperformance-view.php';
 require_once 'lib/class-wpperformance-admin.php';
-
-// Create a helper function for easy SDK access.
-function wd_fs() {
-    global $wd_fs;
-
-    if ( ! isset( $wd_fs ) ) {
-        // Include Freemius SDK.
-        require_once dirname(__FILE__) . '/freemius/start.php';
-
-        $wd_fs = fs_dynamic_init( array(
-            'id'                  => '1256',
-            'slug'                => 'wp-disable',
-            'type'                => 'plugin',
-            'public_key'          => 'pk_6dc38125f3abb91a3feaf276068a4',
-            'is_premium'          => false,
-            'has_addons'          => false,
-            'has_paid_plans'      => false,
-            'menu'                => array(
-                'slug'           => 'optimisationio-wp-disable',
-            ),
-        ) );
-    }
-
-    return $wd_fs;
-}
-
-// Init Freemius.
-wd_fs();
-// Signal that SDK was initiated.
-do_action( 'wd_fs_loaded' );
 
 /**
  * On plugin activation.
@@ -114,7 +84,15 @@ function wpperformance_init_wp_filesystem() {
  * Disable Google maps ob_end.
  */
 function wpperformance_disable_google_maps_ob_end( $html ) {
-	$html = preg_replace( '/<script[^<>]*\/\/maps.(googleapis|google|gstatic).com\/[^<>]*><\/script>/i', '', $html );
+	global $post;
+	$exclude_ids = [];
+	$settings = get_option( WpPerformance::OPTION_KEY . '_settings', array() );
+	if ( isset( $settings['exclude_from_disable_google_maps'] ) && '' !== $settings['exclude_from_disable_google_maps'] ) {
+		$exclude_ids = array_map( 'intval', explode(',', $settings['exclude_from_disable_google_maps']) );
+	}
+	if( $post && ! in_array( $post->ID, $exclude_ids, true ) ){
+		$html = preg_replace( '/<script[^<>]*\/\/maps.(googleapis|google|gstatic).com\/[^<>]*><\/script>/i', '', $html );
+	}
 	return $html;
 }
 

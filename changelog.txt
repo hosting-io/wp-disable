@@ -1,3 +1,32 @@
+= 1.3.22 =
+Added ability to Import and Export settings between sites
+Removed Visual Banner Ads from inside plugin
+Fix - Keep Active Tab State after saving
+Please note *** if you use either our cache or image compression plugin, they both need to be updated to take full advantage of these changes***
+
+= 1.3.21 =
+Further cleanup to Navigation
+Fixed Pagination
+Improvements based on Settings --> Discussion core features
+<strong>**NEW Features:**</strong>
+Better Stats on Dashboard
+Disable loading dashicons on front end if admin bar disabled
+Disable Author Pages
+One click addon for Cache, CDN paths and Image Optimisation
+
+= 1.3.20 =
+Added Dashboard to show stats (work in progress) - aim is to get rid of the sidebar ads
+Moving towards a Modular version to enable a cleaner panel for users.
+Improved function checks for is WooCommerce active
+Improved Settings layout
+Added better analysis to help us improve.
+
+= 1.3.12 =
+Fix to Some features not showing on existing installs
+Updated menu icon
+tidied up navigation
+Removed Admin bar navigation
+
 = 1.3.11 =
 Added support for Heartbeat (please remove any other heartbeat plugins)
 Fixed sidebar navigation

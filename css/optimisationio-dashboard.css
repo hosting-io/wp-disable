@@ -202,9 +202,6 @@
 	display:inline-block;
 }
 
-
-
-
 .stats-section{
 	position:relative;
 	display:table;
@@ -692,6 +689,7 @@
 }
 
 .addon-settings-content .field{
+	position:relative;
 	display:table;
 	width:100%;
 	padding:1rem;
@@ -718,11 +716,52 @@
 }
 
 .addon-settings-content .field .field-left{
+	padding:0.5rem 0;
 	font-size: 1.05em;
 }
 
 .addon-settings-content .field .field-right{
 	text-align: right;	
+}
+
+.addon-settings-content .field.sub-field{
+	padding:1rem 1rem 1rem 2rem;
+}
+
+.addon-settings-content .field.sub-sub-field{
+	padding:1rem 1rem 1rem 4rem;
+}
+
+/* .addon-settings-content .field.sub-field:after{
+	content:"";
+	position:absolute;
+	top:2rem;
+	margin-top:2px;
+	left:1rem;
+	height:1px;
+	width:0.5rem;
+	background-color:#e6e6e6;
+} */
+
+/* .addon-settings-content .field.sub-sub-field:after{
+	content:"";
+	position:absolute;
+	top:2rem;
+	margin-top:2px;
+	left:1rem;
+	height:1px;
+	width:2.5rem;
+	background-color:#e6e6e6;
+} */
+
+.addon-settings-content .field input[type="text"]{
+	width:100%;
+}
+
+.addon-settings-content .field select,
+.addon-settings-content .field input[type="text"]{
+	height:auto;
+	padding:0.5rem 0.5rem;
 }
 
 .optio-check-component{

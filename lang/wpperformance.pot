@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP Disable\n"
 "Report-Msgid-Bugs-To: http://flexiblemegamenu.com\n"
-"POT-Creation-Date: 2017-07-28 02:11+0200\n"
-"PO-Revision-Date: 2017-07-28 02:11+0200\n"
+"POT-Creation-Date: 2017-08-29 02:52+0200\n"
+"PO-Revision-Date: 2017-08-29 02:52+0200\n"
 "Last-Translator: _Language-Team:\n"
 "Language-Team: \n"
 "Language: en\n"
@@ -23,300 +23,383 @@ msgstr ""
 msgid "Unable to connect to the filesystem. Please confirm your credentials."
 msgstr ""
 
-#: lib/class-optimisationio-stats-and-addons.php:25
+#: lib/class-optimisationio-stats-and-addons.php:30
 msgid "Optimisation.io"
 msgstr ""
 
-#: lib/class-optimisationio-stats-and-addons.php:26
+#: lib/class-optimisationio-stats-and-addons.php:32
 msgid "Statistics"
 msgstr ""
 
-#: lib/class-optimisationio-stats-and-addons.php:199
+#: lib/class-optimisationio-stats-and-addons.php:36
+msgid "Import/Export"
+msgstr ""
+
+#: lib/class-optimisationio-stats-and-addons.php:218
+msgid "Invalid import arguments"
+msgstr ""
+
+#: lib/class-optimisationio-stats-and-addons.php:311
+msgid "Settings imported successfully"
+msgstr ""
+
+#: lib/class-optimisationio-stats-and-addons.php:315
+msgid "Imported invalid data"
+msgstr ""
+
+#: lib/class-optimisationio-stats-and-addons.php:333
+msgid "Invalid export arguments"
+msgstr ""
+
+#: lib/class-optimisationio-stats-and-addons.php:382
+msgid "Can't find saved data to export"
+msgstr ""
+
+#: lib/class-optimisationio-stats-and-addons.php:388
+msgid "Failed data verification"
+msgstr ""
+
+#: lib/class-optimisationio-stats-and-addons.php:416
 msgid "Improve WordPress performance by disabling unused items."
 msgstr ""
 
-#: lib/class-optimisationio-stats-and-addons.php:200
+#: lib/class-optimisationio-stats-and-addons.php:417
 msgid "Simple efficient WordPress caching."
 msgstr ""
 
-#: lib/class-optimisationio-stats-and-addons.php:201
+#: lib/class-optimisationio-stats-and-addons.php:418
 msgid "Image Compression and resizing - Setup under the Tools menu"
 msgstr ""
 
-#: lib/class-optimisationio-stats-and-addons.php:297
+#: lib/class-optimisationio-stats-and-addons.php:515
 #: views/optimisationio-statistics-addons.php:3
 msgid "n/a"
 msgstr ""
 
-#: lib/class-wpperformance-admin.php:25
+#: lib/class-wpperformance-admin.php:28 lib/class-wpperformance-admin.php:29
 msgid "WP Disable"
 msgstr ""
 
-#: lib/class-wpperformance-admin.php:26
+#: lib/class-wpperformance-admin.php:37 lib/class-wpperformance-admin.php:38
 msgid "Update Settings"
 msgstr ""
 
-#: views/admin-settings.php:26
+#: views/admin-settings.php:25
 msgid "Requests"
 msgstr ""
 
-#: views/admin-settings.php:27
+#: views/admin-settings.php:28
 msgid "WooCommerce"
 msgstr ""
 
-#: views/admin-settings.php:28
+#: views/admin-settings.php:31
 msgid "Tags"
 msgstr ""
 
-#: views/admin-settings.php:29
+#: views/admin-settings.php:32
 msgid "Admin"
 msgstr ""
 
-#: views/admin-settings.php:30
+#: views/admin-settings.php:33
 msgid "Others"
 msgstr ""
 
-#: views/admin-settings.php:37
+#: views/admin-settings.php:41
 msgid "Disable Emojis"
 msgstr ""
 
-#: views/admin-settings.php:44
+#: views/admin-settings.php:48
 msgid "Remove Querystrings"
 msgstr ""
 
-#: views/admin-settings.php:51
+#: views/admin-settings.php:55
 msgid "Disable Embeds"
 msgstr ""
 
-#: views/admin-settings.php:58
+#: views/admin-settings.php:63
 msgid "Disable Google Maps"
 msgstr ""
 
-#: views/admin-settings.php:66
+#: views/admin-settings.php:71
+msgid "Exclude pages from \"Disable Google Maps\""
+msgstr ""
+
+#: views/admin-settings.php:75
+msgid "Post or Pages IDs separated by a"
+msgstr ""
+
+#: views/admin-settings.php:79
+msgid "Disable Referral Spam"
+msgstr ""
+
+#: views/admin-settings.php:87
 #, php-format
 msgid "Minimize requests and load %1$sGoogle Fonts%2$s asynchronous"
 msgstr ""
 
-#: views/admin-settings.php:74
+#: views/admin-settings.php:95
 #, php-format
 msgid "Minimize requests and load %1$sFont Awesome%2$s asynchronous"
 msgstr ""
 
-#: views/admin-settings.php:83
+#: views/admin-settings.php:104
 msgid "Disable WordPress password strength meter js on non related pages"
 msgstr ""
 
-#: views/admin-settings.php:92
+#: views/admin-settings.php:113
 msgid "Disable Dashicons when user disables admin toolbar when viewing site"
 msgstr ""
 
-#: views/admin-settings.php:107
+#: views/admin-settings.php:130
 msgid "Disable WooCommerce scripts and CSS on non WooCommerce pages"
 msgstr ""
 
-#: views/admin-settings.php:114
+#: views/admin-settings.php:137
 msgid "Disable WooCommerce Reviews"
 msgstr ""
 
-#: views/admin-settings.php:121
+#: views/admin-settings.php:144
 msgid "Defer WooCommerce Cart Fragments"
 msgstr ""
 
-#: views/admin-settings.php:128
+#: views/admin-settings.php:151
 msgid "Disable WooCommerce password strength meter js on non related pages"
 msgstr ""
 
-#: views/admin-settings.php:142
+#: views/admin-settings.php:167
 msgid "Remove RSD (Really Simple Discovery) tag"
 msgstr ""
 
-#: views/admin-settings.php:149
+#: views/admin-settings.php:174
 msgid "Remove Shortlink Tag"
 msgstr ""
 
-#: views/admin-settings.php:156
+#: views/admin-settings.php:181
 msgid "Remove Wordpress API from header"
 msgstr ""
 
-#: views/admin-settings.php:163
+#: views/admin-settings.php:188
 msgid "Remove Windows Live Writer tag"
 msgstr ""
 
-#: views/admin-settings.php:170
+#: views/admin-settings.php:195
 msgid "Remove Wordpress Generator Tag"
 msgstr ""
 
-#: views/admin-settings.php:184
+#: views/admin-settings.php:209
 msgid "Posts revisions number"
 msgstr ""
 
-#: views/admin-settings.php:188 views/admin-settings.php:285
-#: views/admin-settings.php:321
+#: views/admin-settings.php:213 views/admin-settings.php:317
+#: views/admin-settings.php:353
 msgid "WordPress default"
 msgstr ""
 
-#: views/admin-settings.php:221
+#: views/admin-settings.php:246
 msgid "Disable Autosave"
 msgstr ""
 
-#: views/admin-settings.php:228
+#: views/admin-settings.php:253
+msgid "Disable admin notices"
+msgstr ""
+
+#: views/admin-settings.php:260
 msgid "Disable author pages"
 msgstr ""
 
-#: views/admin-settings.php:235
+#: views/admin-settings.php:267
 msgid "Disable all comments"
 msgstr ""
 
-#: views/admin-settings.php:242
+#: views/admin-settings.php:274
 msgid "Disable comments on certain post types"
 msgstr ""
 
-#: views/admin-settings.php:251
+#: views/admin-settings.php:283
 #, php-format
 msgid "Disable comments on post type \"%1$s%2$s%3$s\""
 msgstr ""
 
-#: views/admin-settings.php:259
+#: views/admin-settings.php:291
 msgid "Close comments after 28 days"
 msgstr ""
 
-#: views/admin-settings.php:266
+#: views/admin-settings.php:298
 msgid "Paginate comments at 20"
 msgstr ""
 
-#: views/admin-settings.php:273
+#: views/admin-settings.php:305
 msgid "Remove links from comments"
 msgstr ""
 
-#: views/admin-settings.php:280
+#: views/admin-settings.php:312
 msgid "Heartbeat frequency"
 msgstr ""
 
-#: views/admin-settings.php:283
+#: views/admin-settings.php:315
 msgid "seconds"
 msgstr ""
 
-#: views/admin-settings.php:317
+#: views/admin-settings.php:349
 msgid "Heartbeat locations"
 msgstr ""
 
-#: views/admin-settings.php:322
+#: views/admin-settings.php:354
 msgid "Disable everywhere"
 msgstr ""
 
-#: views/admin-settings.php:323
+#: views/admin-settings.php:355
 msgid "Disable on dashboard page"
 msgstr ""
 
-#: views/admin-settings.php:324
+#: views/admin-settings.php:356
 msgid "Allow only on post edit pages"
 msgstr ""
 
-#: views/admin-settings.php:350
+#: views/admin-settings.php:381
 msgid "Disable Gravatars"
 msgstr ""
 
-#: views/admin-settings.php:357
+#: views/admin-settings.php:388
 msgid "Disable pingbacks and trackbacks"
 msgstr ""
 
-#: views/admin-settings.php:364
+#: views/admin-settings.php:395
 msgid "Disable feeds"
 msgstr ""
 
-#: views/admin-settings.php:372
+#: views/admin-settings.php:403
 msgid "Redirect feed requests to corresponding HTML content"
 msgstr ""
 
-#: views/admin-settings.php:376
+#: views/admin-settings.php:407
 msgid "Issue a Page Not Found (404) error for feed requests"
 msgstr ""
 
-#: views/admin-settings.php:380
+#: views/admin-settings.php:411
 #, php-format
 msgid ""
 "Do not disable the %1$sglobal post feed%2$s and %3$sglobal comment feed%4$s"
 msgstr ""
 
-#: views/admin-settings.php:387
+#: views/admin-settings.php:418
 msgid "Disable XML-RPC"
 msgstr ""
 
-#: views/admin-settings.php:395
+#: views/admin-settings.php:426
 msgid "Enable spam comments cleaner"
 msgstr ""
 
-#: views/admin-settings.php:403
+#: views/admin-settings.php:434
 msgid "Delete spam comments"
 msgstr ""
 
-#: views/admin-settings.php:408
+#: views/admin-settings.php:439
 msgid "Once Hourly"
 msgstr ""
 
-#: views/admin-settings.php:409
+#: views/admin-settings.php:440
 msgid "Once Daily"
 msgstr ""
 
-#: views/admin-settings.php:410
+#: views/admin-settings.php:441
 msgid "Twice Daily"
 msgstr ""
 
-#: views/admin-settings.php:411 wpperformance.php:167
+#: views/admin-settings.php:442 wpperformance.php:174
 msgid "Once Weekly"
 msgstr ""
 
-#: views/admin-settings.php:412 wpperformance.php:172
+#: views/admin-settings.php:443 wpperformance.php:179
 msgid "Twice Monthly"
 msgstr ""
 
-#: views/admin-settings.php:413 wpperformance.php:177
+#: views/admin-settings.php:444 wpperformance.php:184
 msgid "Once Monthly"
 msgstr ""
 
-#: views/admin-settings.php:436
+#: views/admin-settings.php:467
 #, php-format
 msgid "Next spam delete: %s"
 msgstr ""
 
-#: views/admin-settings.php:442
+#: views/admin-settings.php:473
 msgid "Delete spam comments Now"
 msgstr ""
 
-#: views/admin-settings.php:451
+#: views/admin-settings.php:482
 msgid "Update"
 msgstr ""
 
-#: views/admin-settings.php:457
-msgid "Still Need Help ? We also do manual optimisations."
-msgstr ""
-
-#: views/admin-settings.php:463
+#: views/admin-settings.php:487
 msgid "Offload Google Analytics to local"
 msgstr ""
 
-#: views/admin-settings.php:466
+#: views/admin-settings.php:490
 msgid "GA Code"
 msgstr ""
 
-#: views/admin-settings.php:470
+#: views/admin-settings.php:494
 msgid "Save GA in (please ensure you remove any other GA tracking)"
 msgstr ""
 
-#: views/admin-settings.php:481
+#: views/admin-settings.php:505
 msgid "Use adjusted bounce rate?"
 msgstr ""
 
-#: views/admin-settings.php:485
+#: views/admin-settings.php:509
 msgid "Change enqueue order? (Default = 0)"
 msgstr ""
 
-#: views/admin-settings.php:495
+#: views/admin-settings.php:519
 msgid "Track logged in Administrators?"
 msgstr ""
 
-#: views/admin-settings.php:498
+#: views/admin-settings.php:522
 msgid "Remove script from wp-cron?"
+msgstr ""
+
+#: views/optimisationio-import-export.php:3
+#, php-format
+msgid "%1$s Optimisation.io - Import/Export add-ons settings %2$s"
+msgstr ""
+
+#: views/optimisationio-import-export.php:16
+msgid "Import"
+msgstr ""
+
+#: views/optimisationio-import-export.php:17
+msgid "Export"
+msgstr ""
+
+#: views/optimisationio-import-export.php:24
+msgid ""
+"Copy into textarea the encoded string of add-ons settings you have exported"
+msgstr ""
+
+#: views/optimisationio-import-export.php:30
+msgid ""
+"Select the add-οns whose settings you want to include in the exported data"
+msgstr ""
+
+#: views/optimisationio-import-export.php:42
+msgid "Import settings"
+msgstr ""
+
+#: views/optimisationio-import-export.php:43
+msgid "Export current settings"
+msgstr ""
+
+#: views/optimisationio-import-export.php:45
+msgid "Clear"
+msgstr ""
+
+#: views/optimisationio-import-export.php:46
+msgid "Copy to clipboard"
+msgstr ""
+
+#: views/optimisationio-import-export.php:216
+msgid "Exported settings copied to clipboard"
 msgstr ""
 
 #: views/optimisationio-statistics-addons.php:4
@@ -333,37 +416,65 @@ msgstr ""
 
 #: views/optimisationio-statistics-addons.php:7
 #, php-format
-msgid "%1$s Optimisation.io - Statistics %2$s"
+msgid "%1$s Optimisation.io %2$s"
 msgstr ""
 
 #: views/optimisationio-statistics-addons.php:8
 msgid "Changes you made may not be saved."
 msgstr ""
 
-#: views/optimisationio-statistics-addons.php:48
+#: views/optimisationio-statistics-addons.php:42
+msgid "Request manual optimisation"
+msgstr ""
+
+#: views/optimisationio-statistics-addons.php:45
+msgid "Support"
+msgstr ""
+
+#: views/optimisationio-statistics-addons.php:55
 msgid "External requests saved"
 msgstr ""
 
-#: views/optimisationio-statistics-addons.php:64
+#: views/optimisationio-statistics-addons.php:62
+msgid "Pages average load time"
+msgstr ""
+
+#: views/optimisationio-statistics-addons.php:66
 msgid "Cache size"
 msgstr ""
 
-#: views/optimisationio-statistics-addons.php:68
+#: views/optimisationio-statistics-addons.php:70
 msgid "Database size"
 msgstr ""
 
-#: views/optimisationio-statistics-addons.php:72
+#: views/optimisationio-statistics-addons.php:74
 msgid "Database before cleanups"
 msgstr ""
 
-#: views/optimisationio-statistics-addons.php:76
+#: views/optimisationio-statistics-addons.php:78
 msgid "Database size saved"
 msgstr ""
 
-#: views/optimisationio-statistics-addons.php:93
+#: views/optimisationio-statistics-addons.php:82
+msgid "Gravatars cache"
+msgstr ""
+
+#: views/optimisationio-statistics-addons.php:89
 msgid "Compressed images"
 msgstr ""
 
-#: views/optimisationio-statistics-addons.php:97
+#: views/optimisationio-statistics-addons.php:93
 msgid "Size saved"
+msgstr ""
+
+#: views/optimisationio-statistics-addons.php:101
+msgid "Disable"
+msgstr ""
+
+#: views/optimisationio-statistics-addons.php:102
+msgid "Images"
+msgstr ""
+
+#: views/optimisationio-statistics-addons.php:103
+msgid "Cache"
 msgstr ""

@@ -4,26 +4,23 @@ $active_tab = ! $active_tab || '' === $active_tab ? 'requests' : $active_tab;
 $public_post_types = get_post_types( array( 'public' => true ) );
 ?>
 <div class="wrap wp-disable">
-	<h2><!-- Wordpress messages will display here automatically --></h2>
-	<div id="icon-options-general" class="icon32"><br /></div>
-	<header>
-		<div class="col-left">
-			<h2>WordPress Disable - Improve Performances</h2>
-			<small>Improve performance and reduce HTTP requests.</small>
-		</div>
-		<div class="col-right"><strong>Help us build a better product</strong>
-			<p><a target="blank" href="https://wordpress.org/plugins/wp-disable/">Rate us on WordPress.org</a></p>
-			<?php /* ?><div class="stars"></div><?php */ ?>
-		</div>
-	</header>
-	<div class="container">
+	
+	<h2><?php echo sprintf( "WP Disable", '<strong>', '</strong>' ); ?></h2>
+
+	<br/>
+
+	<div class="container" style="padding:0;">
 		<form method="post" id="wp-disable-form" action="<?php echo admin_url( 'tools.php?page=updatewpperformance-settings' ); ?>" style="display:inline-block;width:100%;">
 
 			<div class="tab-wrap">
 
 				<ul class="tabs">
 					<li class="tab-link <?php echo 'requests' === $active_tab ? ' current' : '' ?>" data-tab="requests"><?php esc_html_e( 'Requests', 'wpperformance' ); ?></li>
+					
+					<?php if( WpPerformance::is_woocommerce_enabled() ) { ?>
 					<li class="tab-link <?php echo 'woocommerce' === $active_tab ? ' current' : '' ?>" data-tab="woocommerce"><?php esc_html_e( 'WooCommerce', 'wpperformance' ); ?></li>
+					<?php } ?>
+
 					<li class="tab-link <?php echo 'tags' === $active_tab ? ' current' : '' ?>" data-tab="tags"><?php esc_html_e( 'Tags', 'wpperformance' ); ?></li>
 					<li class="tab-link <?php echo 'admin' === $active_tab ? ' current' : '' ?>" data-tab="admin"><?php esc_html_e( 'Admin', 'wpperformance' ); ?></li>
 					<li class="tab-link <?php echo 'others' === $active_tab ? ' current' : '' ?>" data-tab="others"><?php esc_html_e( 'Others', 'wpperformance' ); ?></li>
@@ -54,12 +51,21 @@ $public_post_types = get_post_types( array( 'public' => true ) );
 									<div class="slider round"></div>
 								</label>
 							</div>
+							
 							<div class="form-group">
 								<span><?php esc_html_e( 'Disable Google Maps', 'wpperformance' ); ?></span>
 								<label class="switch">
 									<input name="disable_google_maps" <?php if ( isset( $settings['disable_google_maps'] ) && 1 === $settings['disable_google_maps'] ) { echo 'checked="checked"'; } ?> type="checkbox" id="disable_google_maps" value="1"/>
 									<div class="slider round"></div>
 								</label>
+							</div>
+
+							<div class="form-group disable-google-maps-group">
+								<span><?php esc_html_e( 'Exclude pages from "Disable Google Maps"', 'wpperformance' ); ?></span>
+								<br/>
+								<input type="text" name="exclude_from_disable_google_maps" value="<?php if ( isset( $settings['exclude_from_disable_google_maps'] ) ) { echo $settings['exclude_from_disable_google_maps']; } ?>" style="width:100%; padding:10px 10px 12px" />
+								<br/>
+								<p><span><small><?php esc_html_e('Post or Pages IDs separated by a', 'wpperformance' ); ?> <code>,</code></small></span></p>
 							</div>
 							
 							<div class="form-group">
@@ -107,6 +113,8 @@ $public_post_types = get_post_types( array( 'public' => true ) );
 						</div>
 					</div>
 				</div>
+				
+				<?php if( WpPerformance::is_woocommerce_enabled() ) { ?>
 
 				<div id="woocommerce" class="tab-content <?php echo 'woocommerce' === $active_tab ? ' current' : '' ?>">
 					<div class="form">
@@ -142,6 +150,8 @@ $public_post_types = get_post_types( array( 'public' => true ) );
 						</div>
 					</div>
 				</div>
+
+				<?php } ?>
 
 				<div id="tags" class="tab-content <?php echo 'tags' === $active_tab ? ' current' : '' ?>">
 					<div class="form">
@@ -466,47 +476,6 @@ $public_post_types = get_post_types( array( 'public' => true ) );
 
 			</div>
 
-			<div class="side-bar">
-				<h3><?php esc_html_e( 'Offload Google Analytics to local', 'wpperformance' ); ?></h3>
-				<div class="offload-form">
-					<div class="form-group">
-						<label><?php esc_html_e( 'GA Code', 'wpperformance' ); ?></label>
-						<input type="text" name="ds_tracking_id" value="<?php echo (isset( $settings['ds_tracking_id'] ))?$settings['ds_tracking_id']:''; ?>" />
-					</div>
-					<div class="form-group">
-						<label><?php esc_html_e( 'Save GA in (please ensure you remove any other GA tracking)', 'wpperformance' ); ?></label>
-						<?php
-						$sgal_script_position = array( 'header', 'footer' );
-						if ( ! isset( $settings['ds_script_position'] ) || ( 'header' !== $settings['ds_script_position'] && 'footer' !== $settings['ds_script_position'] ) ) {
-							$settings['ds_script_position'] = 'header';
-						}
-						foreach ( $sgal_script_position as $option ) {
-							echo "<input type='radio' name='ds_script_position' value='" . $option . "' " . ( $option === $settings['ds_script_position'] ? ' checked="checked"' : '' ) . ' /><span>' . esc_html( ucfirst( $option ) ) . '</span>';
-						} ?>
-					</div>
-					<div class="form-group">
-						<label><?php esc_html_e( 'Use adjusted bounce rate?', 'wpperformance' ); ?></label>
-						<input type="number" name="ds_adjusted_bounce_rate" min="0" max="60" value="<?php echo isset( $settings['ds_adjusted_bounce_rate'] )?$settings['ds_adjusted_bounce_rate']:0; ?>" />
-					</div>
-					<div class="form-group">
-						<label><?php esc_html_e( 'Change enqueue order? (Default = 0)', 'wpperformance' ); ?></label>
-						<input type="number" name="ds_enqueue_order" min="0" value="<?php echo isset( $settings['ds_enqueue_order'] )?$settings['ds_enqueue_order']:0; ?>" />
-					</div>
-					<div class="form-group">
-						<input type="checkbox" name="caos_disable_display_features" <?php if ( isset( $settings['caos_disable_display_features'] ) && 'on' === $settings['caos_disable_display_features'] ) { echo 'checked = "checked"';} ?> />  Disable all <a href="https://developers.google.com/analytics/devguides/collection/analyticsjs/display-features" target="_blank">display features functionality</a>?
-					</div>
-					<div class="form-group">
-						<input type="checkbox" name="ds_anonymize_ip" <?php if ( isset( $settings['ds_anonymize_ip'] ) && 'on' === $settings['ds_anonymize_ip'] ) { echo 'checked = "checked"';} ?> />  Use <a href="https://support.google.com/analytics/answer/2763052?hl=en" target="_blank">Anomymize IP</a>? (Required by law for some countries)
-					</div>
-					<div class="form-group">
-						<input type="checkbox" name="ds_track_admin" <?php if ( isset( $settings['ds_track_admin'] ) && 'on' === $settings['ds_track_admin'] ) { echo 'checked = "checked"';} ?> /> <?php esc_html_e( 'Track logged in Administrators?', 'wpperformance' ); ?>
-					</div>
-					<div class="form-group">
-						<input type="checkbox" name="caos_remove_wp_cron" <?php if ( isset( $settings['caos_remove_wp_cron'] ) && 'on' === $settings['caos_remove_wp_cron'] ) { echo 'checked="checked"'; } ?> /> <?php esc_html_e( 'Remove script from wp-cron?', 'wpperformance' ); ?>
-					</div>
-				</div>
-			</div>
-
 			<input type="hidden" id="active_tab" name="active_tab" value="<?php echo $active_tab; ?>" />
 
 			<?php wp_nonce_field( 'wpperformance-admin-nonce', 'wpperformance_admin_settings_nonce' ); ?>
@@ -522,7 +491,8 @@ $public_post_types = get_post_types( array( 'public' => true ) );
 		var $disableCommentsInput = $('input[name="disable_all_comments"]'),
 			$disableCertainPostsCommentsInput = $('input[name="disable_comments_on_certain_post_types"]'),
 			$disableFeedsInput = $('input[name="disable_rss"]'),
-			$spamCommentsCleaner = $('input[name="spam_comments_cleaner"]');
+			$spamCommentsCleaner = $('input[name="spam_comments_cleaner"]'),
+			$disableGoogleMapsInput = $('input[name="disable_google_maps"]');
 
 		function on_tab_click( $tab ){
 			var tab_id = $tab.attr('data-tab');
@@ -551,6 +521,10 @@ $public_post_types = get_post_types( array( 'public' => true ) );
 			$('.delete-spam-comments-group').css('display', isChecked ? '' : 'none');
 		}
 
+		function on_change_disable_google_maps(){
+			$('.disable-google-maps-group').css('display', $disableGoogleMapsInput.is(":checked") ? '' : 'none');
+		}
+
 		$(function () {
 
 			// Bind events.
@@ -559,12 +533,14 @@ $public_post_types = get_post_types( array( 'public' => true ) );
 			$disableCertainPostsCommentsInput.on('change', function(){ on_change_disable_certain_post_types_comments(); });
 			$disableFeedsInput.on('change', function(){ on_change_disable_feeds(); });
 			$spamCommentsCleaner.on('change', function(){ on_change_spam_comments_cleaner(); });
+			$disableGoogleMapsInput.on('change', function(){ on_change_disable_google_maps(); });
 
 			// Run initial checks.
 			on_change_disable_all_comments();
 			on_change_disable_certain_post_types_comments();
 			on_change_disable_feeds();
 			on_change_spam_comments_cleaner();
+			on_change_disable_google_maps();
 		});
 	}(jQuery));
 </script>

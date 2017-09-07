@@ -3,7 +3,7 @@ Contributors: pigeonhut, Jody Nesbitt, optimisation.io
 Tags: Disable Emoji, Disable Embeds, Disable Gravatars, Remove Querystrings, Reduce HTTP Requests, speedup WooCommerce, Close comments
 Requires at least: 4.5
 Tested up to: 4.8
-Stable tag: 1.4.4
+Stable tag: 1.5.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -77,6 +77,26 @@ You can try our <a href="https://wordpress.org/plugins/wp-image-compression/">Fr
 
 
 == Changelog ==
+= 1.5.0 =
+* Finished redesign of plugin
+* All stats now in one central dashboard
+* Google Local settings bug fix
+* Fix HTTP referrer error when not supplied - courtesy @3dingbat on github
+* Combined & Minified loadcss.js/css-lazy-load.js - courtesy @asalce on github
+* Removed old settings page
+* Removed sidebar navigation completely
+* Removed Freemius
+* Added check for WooCommerce, so Woo related stuff only shows if Woo is installed
+* Much tighter integration between the 3 optimisation plugins
+* Removed old/excess files
+
+
+= 1.4.5 =
+* More visual fixes/general tidy up
+* Added exception to Google Maps so can be enabled per page
+* Minor code fixes
+* Moved Google Analytics to sidebar/addons
+
 = 1.4.4 =
 * Added ability to stop (disable) admin notices from showing
 * removed the stats sub menu item, so everything is now at the top level
@@ -100,52 +120,3 @@ No new features, but this is a stepping stone.
 * Added the ability to block referrer spam (using Piwik Database)
 * Updated Import/Export settings to now include settings for Image Compression and Cache plugins (if active)
 * General code improvements
-
-= 1.3.22 =
-Added ability to Import and Export settings between sites
-Removed Visual Banner Ads from inside plugin
-Fix - Keep Active Tab State after saving
-Please note *** if you use either our cache or image compression plugin, they both need to be updated to take full advantage of these changes***
-
-= 1.3.21 =
-Further cleanup to Navigation
-Fixed Pagination
-Improvements based on Settings --> Discussion core features
-<strong>**NEW Features:**</strong>
-Better Stats on Dashboard
-Disable loading dashicons on front end if admin bar disabled
-Disable Author Pages
-One click addon for Cache, CDN paths and Image Optimisation
-
-= 1.3.20 =
-Added Dashboard to show stats (work in progress) - aim is to get rid of the sidebar ads
-Moving towards a Modular version to enable a cleaner panel for users.
-Improved function checks for is WooCommerce active
-Improved Settings layout
-Added better analysis to help us improve.
-
-= 1.3.12 =
-Fix to Some features not showing on existing installs
-Updated menu icon
-tidied up navigation
-Removed Admin bar navigation
-
-= 1.3.11 =
-Added support for Heartbeat (please remove any other heartbeat plugins)
-Fixed sidebar navigation
-Added a top navigation for easy access (to support upcoming features)
-Fixed Remove RSD error
-General code tidy up and removed unused functions
-
-= 1.3.1 =
-Cleaned up navigation (moved to Optimisation.io in WP menu)
-
-= 1.3.0 =
-Added default option to Google Analytics to make it more clear when its active
-Option to Remove password strength meter js on non woo pages
-Added option to completely disable comments
-Improved folder/file structure
-Added option to disable feed, replaced Disable RSS
-Added option to remove spam comments
-Option to combine and async Google Fonts and Font awesome fonts for better performance
-Removed old versions from WP Repo for better WP Compliance

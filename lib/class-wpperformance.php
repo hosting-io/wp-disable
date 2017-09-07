@@ -10,6 +10,8 @@ class WpPerformance {
 
 	private $plugin_settings = null;
 
+	private static $enabled_woocommerce = null;
+
 	/**
 	 * Constructor.
 	 * Initializes the plugin by setting localization, filters, and
@@ -19,11 +21,11 @@ class WpPerformance {
 
 		if ( ! $this->test_host() ) { return; }
 
-		if( ! class_exists('Optimisationio_Stats_And_Addons') ){
-			require_once 'class-optimisationio-stats-and-addons.php';
+		if( ! class_exists('Optimisationio_Dashboard') ){
+			require_once 'class-optimisationio-dashboard.php';
 		}
 
-		Optimisationio_Stats_And_Addons::init();
+		Optimisationio_Dashboard::init();
 
 		new WpPerformance_Admin;		
 
@@ -196,7 +198,7 @@ class WpPerformance {
 	public function enqueue_scripts() {
 		$async_links = $this->check_googlefonts_fontawesome_styles();
 		if ( ! empty( $async_links ) ) {
-			wp_enqueue_script( 'wp-disable-css-lazy-load',  plugin_dir_url( dirname( __FILE__ ) ) . 'js/css-lazy-load.min.js' );
+			wp_enqueue_script( 'wp-disable-css-lazy-load',  plugin_dir_url( dirname( __FILE__ ) ) . 'js/css-lazy-load.js' );
 			wp_localize_script( 'wp-disable-css-lazy-load', 'WpDisableAsyncLinks', $async_links );
 		}
 	}
@@ -214,11 +216,9 @@ class WpPerformance {
 
 		$settings = $this->get_settings_values();
 
-		$enabled_woocommerce = in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) );
-
 		$invalid_disable = is_page('lost_password');
 
-		$wc_invalid_disable = !$enabled_woocommerce || $invalid_disable || is_account_page() || is_checkout();
+		$wc_invalid_disable = ! WpPerformance::is_woocommerce_enabled() || $invalid_disable || is_account_page() || is_checkout();
 
 		if ( ! $wc_invalid_disable && isset( $settings['disable_woocommerce_password_meter'] ) && $settings['disable_woocommerce_password_meter'] ) {
 
@@ -803,11 +803,11 @@ class WpPerformance {
 
 	private function add_ga_header_script() {
 
+		$settings = $this->get_settings_values();
+
 		$ds_tracking_id = get_transient( 'wpperformance_ds_tracking_id' );
 
 		if ( false === $ds_tracking_id ) {
-
-			$settings = $this->get_settings_values();
 
 			$ds_tracking_id = isset( $settings['ds_tracking_id'] ) && $settings['ds_tracking_id'] ? esc_attr( $settings['ds_tracking_id'] ) : '';
 			set_transient( 'wpperformance_ds_tracking_id', $ds_tracking_id, 60 * 60 * 24 );	// Keep transient for one day.
@@ -853,7 +853,7 @@ class WpPerformance {
 	public function filter_referral_spam_requests($request){
 		global $wp_query;
 		
-		$referrer = wp_get_referer() !== false ? wp_get_referer() : $_SERVER['HTTP_REFERER'];	// Input var okay.		
+		$referrer = wp_get_referer() !== false ? wp_get_referer() : ( isset( $_SERVER['HTTP_REFERER'] ) ? $_SERVER['HTTP_REFERER'] : '' );	// Input var okay.
 		
 		if ( empty( $referrer ) ) {
 			return $request;
@@ -917,5 +917,12 @@ class WpPerformance {
 	    }
 
         return $ret;
+	}
+
+	public static function is_woocommerce_enabled(){
+		if( null === WpPerformance::$enabled_woocommerce ){
+			WpPerformance::$enabled_woocommerce = in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) );
+		}
+		return WpPerformance::$enabled_woocommerce;
 	}
 }

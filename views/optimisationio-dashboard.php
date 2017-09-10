@@ -42,22 +42,22 @@ $addons = Optimisationio_Dashboard::$addons;
 					</div>
 					
 					<div data-tab="images" class="statistics-tab-content"> <?php
-						// if( ! $addons['wp-image-compression']['activated'] ){
+						if( ! $addons['wp-image-compression']['activated'] ){
 							Optimisationio_Dashboard::display_addons__activation_section('wp-image-compression');
-						// }
-						// else{
-
-						// }
+						}
+						else{
+							Optimisationio_Dashboard::display_addons__settings('wp-image-compression');
+						}
 						?>
 					</div>
 
 					<div data-tab="cache" class="statistics-tab-content"> <?php
-						// if( ! $addons['cache-performance']['activated'] ){
+						if( ! $addons['cache-performance']['activated'] ){
 							Optimisationio_Dashboard::display_addons__activation_section('cache-performance');
-						// }
-						// else{
-
-						// }
+						}
+						else{
+							Optimisationio_Dashboard::display_addons__settings('cache-performance');
+						}
 						?>
 					</div>
 
@@ -73,11 +73,18 @@ $addons = Optimisationio_Dashboard::$addons;
 
 				<div class="cdn-comming-soon">
 					<div><strong>CDN</strong><?php esc_html_e("Coming Soon"); ?></div>
-				</div> 
+				</div>
+
+				<div class="sidebar-cloudinary-api-wrap"> <?php
+					if( $addons['wp-image-compression']['activated'] ){
+						Optimisationio_Dashboard::display_cloudinary_api__settings();
+					} ?>
+				</div>
 
 				<div class="sidebar-tabs-section">
 					<?php Optimisationio_Dashboard::sidebar_tabs_section_content(); ?>
 				</div>
+
 			</div>
 
 		</div><!-- // .sidebar-section -->

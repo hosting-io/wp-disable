@@ -5,7 +5,7 @@
  * Description: Improve WordPress performance by disabling unused items.
  * Author: pigeonhut, Jody Nesbitt, optimisation.io
  * Author URI:https://optimisation.io
- * Version: 1.5.0
+ * Version: 1.5.1
  *
  * Copyright (C) 2017 Optimisation.io
  */

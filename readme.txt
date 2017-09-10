@@ -3,7 +3,7 @@ Contributors: pigeonhut, Jody Nesbitt, optimisation.io
 Tags: Disable Emoji, Disable Embeds, Disable Gravatars, Remove Querystrings, Reduce HTTP Requests, speedup WooCommerce, Close comments
 Requires at least: 4.5
 Tested up to: 4.8
-Stable tag: 1.5.0
+Stable tag: 1.5.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -77,15 +77,17 @@ You can try our <a href="https://wordpress.org/plugins/wp-image-compression/">Fr
 
 
 == Changelog ==
+= 1.5.1 =
+* More visual cleanups
+* Removed all webfonts
+* Minor bug fix on reporting on dashboard
+* Plugin is now under 240kb
+
 = 1.5.0 =
 * Finished redesign of plugin
 * All stats now in one central dashboard
-* Google Local settings bug fix
-* Fix HTTP referrer error when not supplied - courtesy @3dingbat on github
-* Combined & Minified loadcss.js/css-lazy-load.js - courtesy @asalce on github
-* Removed old settings page
 * Removed sidebar navigation completely
-* Removed Freemius
+* Remobed Freemius
 * Added check for WooCommerce, so Woo related stuff only shows if Woo is installed
 * Much tighter integration between the 3 optimisation plugins
 * Removed old/excess files

@@ -1,3 +1,5 @@
+var Optimisationio_PluginSettingsTabs;
+
 var OptimisationioAddons = (function($){
 
 	"use strict";
@@ -91,8 +93,7 @@ var OptimisationioAddons = (function($){
 			$el.import.textarea.val('');
 		}
 
-		$(function () {
-
+		function init(){
 			$el = {
 				import: {
 					textarea: $('#import_settings_tarea'),
@@ -120,7 +121,15 @@ var OptimisationioAddons = (function($){
 			$el.import.clear_btn.on('click', function(e){ e.preventDefault(); on_clear_import_btn_click(); });
 
 			export_clipboard.on('success', function(e){ alert("Exported settings copied to clipboard"); });
+		}
+
+		$(function () {
+			init();
 		});
+
+		return {
+			init: init
+		};
 	};
 
 	var install_activate_deactivate = function(){
@@ -235,23 +244,49 @@ var OptimisationioAddons = (function($){
 	                		setTimeout(function(){
 	                			SidebarTabs.default_active_tab();
             					SidebarTabs.bind_events();
+            					SettingsImportExport.init();
             				}, 100);
 	                	}
 
-	                	if( 'undefined' !== typeof data.plugin_settings_content ){
-	                		// @note: Used on "WP Disable" activation.
-	                		switch(slug){
-	                			case 'wp-disable':
-	                				$el = $( '.statistics-tab-content[data-tab="disable"]' );
-	                				if( $el.length ){
-		                				$el.html( data.plugin_settings_content );
-		                				setTimeout(function(){
-		                					PluginSettingsTabs.bind_events($el.find('.addon-settings'), slug);
-		                				}, 100);
-		                			}
-	                				break;
-	                		}
-	                	}
+	                	switch(slug){
+                			case 'wp-disable':
+                				$el = $( '.statistics-tab-content[data-tab="disable"]' );
+                				if( $el.length ){
+	                				$el.html( data.plugin_settings_content );
+	                				setTimeout(function(){
+	                					Optimisationio_PluginSettingsTabs.bind_events($el.find('.addon-settings'), slug);
+	                					if( 'undefined' !== typeof Optimisationio_Dashbord_WP_Disable ){
+		                					Optimisationio_Dashbord_WP_Disable.init();
+		                				}
+	                				}, 100);
+	                			}
+                				break;
+                			case 'cache-performance':
+                				$el = $( '.statistics-tab-content[data-tab="cache"]' );
+                				if( $el.length ){
+	                				$el.html( data.plugin_settings_content );
+	                				setTimeout(function(){
+	                					Optimisationio_PluginSettingsTabs.bind_events($el.find('.addon-settings'), slug);
+	                					if( 'undefined' !== typeof Optimisationio_Dashboard_Cache_Performance ){
+		                					Optimisationio_Dashboard_Cache_Performance.init();
+		                				}
+	                				}, 100);
+	                			}
+	                			break;
+	                		case 'wp-image-compression':
+                				$el = $( '.statistics-tab-content[data-tab="images"]' );
+                				if( $el.length ){
+	                				$('.sidebar-cloudinary-api-wrap').html(data.cloudinary_api_settings_content);
+	                				$el.html( data.plugin_settings_content );
+	                				setTimeout(function(){
+	                					Optimisationio_PluginSettingsTabs.bind_events($el.find('.addon-settings'), slug);
+	                					if( 'undefined' !== typeof Optimisationio_Dashboard_Image_Compression ){
+		                					Optimisationio_Dashboard_Image_Compression.init();
+		                				}
+	                				}, 100);
+	                			}
+                				break;
+                		}
 	            	}
 	            },
 	            error: function (data, textStatus, XMLHttpRequest) {
@@ -353,6 +388,28 @@ var OptimisationioAddons = (function($){
 
 	var plugin_settings_tabs = function(){
 
+		function set_initial_active_tab($wrap){
+			var plugin_slug = $wrap.data('sett-group'), active_plugin_tab;
+			if( plugin_slug ){
+				active_plugin_tab = localStorage.getItem( 'optimisationio_addon_active_tab[' + plugin_slug + ']' );
+				if( ! active_plugin_tab ){
+					active_plugin_tab = $( $wrap.find('.addon-settings-tabs ul li')[0] ).data('tab-setting');
+				}
+				update_active_tab($wrap, active_plugin_tab);
+			}
+		}
+
+		function init(){
+			var $addon_settings = $('.addon-settings');
+			if( $addon_settings.length ){
+				$addon_settings.each(function(i, el){
+					var $el = $(el), plugin_slug = $el.data('sett-group');
+					bind_events($el, plugin_slug);
+					set_initial_active_tab( $el );
+				});
+			}
+		}
+
 		function update_active_tab($wrap, tab_id){
 			$wrap.find('.addon-settings-tabs ul li.active, .addon-settings-content.active').removeClass('active');
 			$wrap.find('.addon-settings-tabs ul li[data-tab-setting="'+tab_id+'"], .addon-settings-content[data-tab-setting="'+tab_id+'"]').addClass('active');
@@ -370,20 +427,7 @@ var OptimisationioAddons = (function($){
 		}
 
 		$(function () {
-			var $addon_settings = $('.addon-settings');
-			if( $addon_settings.length ){
-				$addon_settings.each(function(i, el){
-					var $el = $(el), plugin_slug = $el.data('sett-group'), active_plugin_tab;
-					if( plugin_slug ){
-						active_plugin_tab = localStorage.getItem( 'optimisationio_addon_active_tab[' + plugin_slug + ']' );
-						if( ! active_plugin_tab ){
-							active_plugin_tab = $( $el.find('.addon-settings-tabs ul li')[0] ).data('tab-setting');
-						}
-						update_active_tab($el, active_plugin_tab);
-					}
-					bind_events($el, plugin_slug);
-				});
-			}
+			init();
 		});
 
 		return {
@@ -392,10 +436,274 @@ var OptimisationioAddons = (function($){
 	};
 
 	main_tabs();
-	settings_import_export();
 	install_activate_deactivate();
 
 	var SidebarTabs = sidebar_tabs();
-	var PluginSettingsTabs = plugin_settings_tabs();
+	var SettingsImportExport = settings_import_export();
+	
+	Optimisationio_PluginSettingsTabs = plugin_settings_tabs();
 
+}(jQuery));
+
+var Optimisationio_Dashbord_WP_Disable = (function($){
+
+	var $toogle_el = {
+		feeds: null,
+		comments: null,
+		googleMaps: null,
+		spamCommentsCleaner: null,
+		certainPostsComments: null,
+	};
+
+	function on_change_feeds(ev){
+		$('.feeds-group').css('display', $toogle_el.feeds.is(":checked") ? '' : 'none');
+	}
+	
+	function on_change_comments(ev){
+		var isChecked = $toogle_el.comments.is(":checked");
+		$('.comments-group').css('display', isChecked ? 'none' : '');
+		on_change_certainPostsComments();
+	}
+	
+	function on_change_googleMaps(ev){
+		$('.disable-google-maps-group').css('display', $toogle_el.googleMaps.is(":checked") ? '' : 'none');
+	}
+	
+	function on_change_spamCommentsCleaner(ev){
+		var isChecked = ! $toogle_el.comments.is(":checked") && $toogle_el.spamCommentsCleaner.is(":checked");
+		$('.delete-spam-comments-group').css('display', isChecked ? '' : 'none');
+	}
+
+	function on_change_certainPostsComments(ev){
+		$('.certain-posts-comments-group').css('display', ! $toogle_el.certainPostsComments.is(":checked") ? 'none' : ( $toogle_el.comments.is(":checked") ? 'none' : '' ) );
+	}
+
+	function init(){
+		$toogle_el = {
+			feeds: $('input[name="disable_rss"]'),
+			comments: $('input[name="disable_all_comments"]'),
+			googleMaps: $('input[name="disable_google_maps"]'),
+			spamCommentsCleaner: $('input[name="spam_comments_cleaner"]'),
+			certainPostsComments: $('input[name="disable_comments_on_certain_post_types"]'),
+		};
+		
+		if( $toogle_el.feeds.length ){
+			$toogle_el.feeds.on('change', on_change_feeds);
+			on_change_feeds();
+		}
+
+		if( $toogle_el.comments.length ){
+			$toogle_el.comments.on('change', on_change_comments);
+			on_change_comments();
+		}
+
+		if( $toogle_el.googleMaps ){
+			$toogle_el.googleMaps.on('change', on_change_googleMaps);
+			on_change_googleMaps();
+		}
+
+		if( $toogle_el.spamCommentsCleaner ){
+			$toogle_el.spamCommentsCleaner.on('change', on_change_spamCommentsCleaner);
+			on_change_spamCommentsCleaner();
+		}
+
+		if( $toogle_el.certainPostsComments.length ){
+			$toogle_el.certainPostsComments.on('change', on_change_certainPostsComments);
+			on_change_certainPostsComments();
+		}
+	}
+
+	return {
+		init: init,
+	}
+}(jQuery));
+
+var Optimisationio_Dashboard_Cache_Performance = (function($){
+
+	var $toogle_el = {};
+	var $btn_el = {};
+
+	function on_change_auto_optimise(){
+		$('.auto-optimise-group').css('display', $toogle_el.auto_optimise.is(":checked") ? '' : 'none');
+	}
+
+	function on_change_gravatars_cache(){
+		$('.gravatars-cache-group').css('display', $toogle_el.gravatars_cache.is(":checked") ? '' : 'none');
+	}
+
+	function on_click_optimise_db(ev){
+		
+		ev.preventDefault();
+		ev.stopPropagation();
+
+		var btn = this,
+			data = {
+		        action: 'optimise_db_ajx',
+		        clean_draft_posts: $('input[name="clean_draft_posts"]').is(':checked') ? 1 : 0,
+		        clean_auto_draft_posts: $('input[name="clean_auto_draft_posts"]').is(':checked') ? 1 : 0,
+		        clean_trash_posts: $('input[name="clean_trash_posts"]').is(':checked') ? 1 : 0,
+		        clean_post_revisions: $('input[name="clean_post_revisions"]').is(':checked') ? 1 : 0,
+		        clean_transient_options: $('input[name="clean_transient_options"]').is(':checked') ? 1 : 0,
+		        clean_trash_comments: $('input[name="clean_trash_comments"]').is(':checked') ? 1 : 0,
+		        clean_spam_comments: $('input[name="clean_spam_comments"]').is(':checked') ? 1 : 0,
+		        clean_post_meta: $('input[name="clean_post_meta"]').is(':checked') ? 1 : 0,
+		        auto_optimise: $('input[name="auto_optimise"]').is(':checked') ? 1 : 0,
+		        optimise_schedule_type: $('select[name="optimise_schedule_type"]').val(),
+		        optimisationio_cache_preformance_settings: $('input[name="optimisationio_cache_preformance_settings"]').val(),
+		    };
+
+		$('.optimising-db-overlay').fadeIn(300);
+
+		btn.setAttribute('disabled', 'disabled');
+
+	    jQuery.post(ajaxurl, data, function(data){
+	    	if ('success' === data.status) {
+	    		if( 'undefined' !== typeof data.optimise_db_fields_content ){
+		    		$('div[data-tab-setting="optimise-db"]').html( data.optimise_db_fields_content );
+		    		setTimeout(function(){
+		    			init_optimise_db_content();
+		    		}, 100);
+		    	}
+	      	}
+	      	else{
+	      		console.error(data);
+	      	}
+
+	      	$(btn).removeAttr('disabled');
+
+	    },'json');
+	}
+
+	function on_click_gravatars_clear(ev){
+		
+		ev.preventDefault();
+		ev.stopPropagation();
+
+		var btn = this;
+		
+		$('.clearing-gravatars-cache-overlay').fadeIn(300);
+
+		btn.setAttribute('disabled', 'disabled');
+
+		$.ajax({
+            type: 'post',
+            url: ajaxurl,
+            data:{
+            	action: 'optimisationio_clear_gravatar_cache',
+            	nonce: $('input[name="optimisationio_cache_preformance_settings"]').val(),
+            },
+            dataType: 'json',
+            success: function (data, textStatus, XMLHttpRequest) {
+            	if( data.error ){
+            		console.error( data );
+            	}
+            	else{
+            		$('.cashed-gravatars-num').html('0');
+            	}
+            	$(btn).removeAttr('disabled');
+            	$('.clearing-gravatars-cache-overlay').fadeOut(300);
+            },
+            error: function (data, textStatus, XMLHttpRequest) {
+            	console.error("ERROR: ", data);
+            	$(btn).removeAttr('disabled');
+            	$('.clearing-gravatars-cache-overlay').fadeOut(300);
+            }
+        });
+	}
+
+	function init_optimise_db_content(){
+
+		$btn_el.optimise_db = $('.optimise-db-now');
+		$toogle_el.auto_optimise = $('input[name="auto_optimise"]');
+
+		if( $btn_el.optimise_db ){
+			$btn_el.optimise_db.on('click', on_click_optimise_db);
+		}
+
+		if( $toogle_el.auto_optimise.length ){
+			$toogle_el.auto_optimise.on('change', on_change_auto_optimise);
+			on_change_auto_optimise();
+		}
+	}
+
+	function init_gravatars_cache_content(){
+		
+		$btn_el.clear_gravatars = $('.clear-now-gravatars-cache');
+		$toogle_el.gravatars_cache = $('input[name="enable_cache_gravatars"]');
+
+		if( $btn_el.clear_gravatars.length ) {
+			$btn_el.clear_gravatars.on('click', on_click_gravatars_clear);
+		}
+
+		if( $toogle_el.gravatars_cache.length ){
+			$toogle_el.gravatars_cache.on('change', on_change_gravatars_cache);
+			on_change_gravatars_cache();
+		}
+	}
+
+	function init(){
+		init_optimise_db_content();
+		init_gravatars_cache_content();
+	}
+
+	return {
+		init: init,
+	}
+}(jQuery));
+
+var Optimisationio_Dashboard_Image_Compression = (function($){
+
+	var $toogle_el = {
+		quality_auto: null,
+		custom_cloudinary_account: null,
+	};
+
+	function on_quality_auto_change(){
+		$('.manual-quality-group').css('display', 'manual' === $toogle_el.quality_auto.val() ? '' : 'none');
+	}
+
+	function on_custom_cloudinary_account_change(){
+		var isChecked = $toogle_el.custom_cloudinary_account.is(":checked");
+		$('.custom-cloudinary-group').css('display', isChecked ? '' : 'none');
+		$('.auto-cloudinary-group').css('display', isChecked ? 'none' : '');
+	}
+
+	function init(){
+		$toogle_el = {
+			quality_auto: $('select[name="wpimages_quality_auto"]'),
+			custom_cloudinary_account: $('input[name="custom_cloudinary[enabled]"]')
+		};
+
+		if( $toogle_el.quality_auto.length ){
+			$toogle_el.quality_auto.on('change', on_quality_auto_change);
+			on_quality_auto_change();
+		}
+
+		if( $toogle_el.custom_cloudinary_account.length ){
+			$toogle_el.custom_cloudinary_account.on('change', on_custom_cloudinary_account_change);
+			on_custom_cloudinary_account_change();
+		}
+
+		$('.close-cloudinary-api-msg').on('click', function(){
+			$(this).parent().parent().fadeOut(300, function(){
+				$(this).remove();
+			});
+		});
+	}
+
+	return {
+		init: init,
+	}
+}(jQuery));
+
+(function ($) {
+
+	"use strict";
+
+	$(function () {
+		Optimisationio_Dashbord_WP_Disable.init();
+		Optimisationio_Dashboard_Cache_Performance.init();
+		Optimisationio_Dashboard_Image_Compression.init();
+	});
+	
 }(jQuery));

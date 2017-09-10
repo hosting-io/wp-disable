@@ -1,49 +1,25 @@
-@import url("https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i");
+.dis-ib{
+	display:inline-block;
+}
 
-/* ------------------------------------------------*/
-/*   			AFFOGATO FONT FILES   	   		   */
-/*        	BASIC @FONT-FACE STUFF HERE     	   */
-/* ------------------------------------------------*/
-@font-face {
-  font-family: 'Affogato-Black';
-  src: url("../webfont/Affogato-Black.eot");
-  src: url("../webfont/Affogato-Black.eot?#iefix") format("embedded-opentype"), url("../webfont/Affogato-Black.woff") format("woff"), url("../webfont/Affogato-Black.woff2") format("woff2"), url("../webfont/Affogato-Black.ttf") format("truetype"), url("../webfont/Affogato-Black.svg") format("svg");
-  font-weight: normal;
-  font-style: normal;
+.ma-0{
+	margin:0;
 }
-@font-face {
-  font-family: 'Affogato-Bold';
-  src: url("../webfont/Affogato-Bold.eot");
-  src: url("../webfont/Affogato-Bold.eot?#iefix") format("embedded-opentype"), url("../webfont/Affogato-Bold.woff") format("woff"), url("../webfont/Affogato-Bold.woff2") format("woff2"), url("../webfont/Affogato-Bold.ttf") format("truetype"), url("../webfont/Affogato-Bold.svg") format("svg");
-  font-weight: normal;
-  font-style: normal;
+
+.va-mid{
+	vertical-align:middle;
 }
-@font-face {
-  font-family: 'Affogato-Medium';
-  src: url("../webfont/Affogato-Medium.eot");
-  src: url("../webfont/Affogato-Medium.eot?#iefix") format("embedded-opentype"), url("../webfont/Affogato-Medium.woff") format("woff"), url("../webfont/Affogato-Medium.woff2") format("woff2"), url("../webfont/Affogato-Medium.ttf") format("truetype"), url("../webfont/Affogato-Medium.svg") format("svg");
-  font-weight: normal;
-  font-style: normal;
+
+.va-top{
+	vertical-align:top;
 }
-@font-face {
-  font-family: 'Affogato-Regular';
-  src: url("../webfont/Affogato-Regular.eot");
-  src: url("../webfont/Affogato-Regular.eot?#iefix") format("embedded-opentype"), url("../webfont/Affogato-Regular.woff") format("woff"), url("../webfont/Affogato-Regular.woff2") format("woff2"), url("../webfont/Affogato-Regular.ttf") format("truetype"), url("../webfont/Affogato-Regular.svg") format("svg");
-}
-@font-face {
-  font-family: 'Affogato-Light';
-  src: url("../webfont/Affogato-Light.eot");
-  src: url("../webfont/Affogato-Light.eot?#iefix") format("embedded-opentype"), url("../webfont/Affogato-Light.woff") format("woff"), url("../webfont/Affogato-Light.woff2") format("woff2"), url("../webfont/Affogato-Light.ttf") format("truetype"), url("../webfont/Affogato-Light.svg") format("svg");
-  font-weight: normal;
-  font-style: normal;
+
+.va-bottom{
+	vertical-align:bottom;
 }
 
 #wpadminbar{
 	padding:0;
-}
-
-.wrap{
-	font-family: "Affogato-Regular", "Open Sans", Helvetica, Arial;
 }
 
 .wrap-main{
@@ -117,7 +93,7 @@
 
 .statistics-top-cell.manual-optimisation a,
 .addon-activation button{
-	padding: 12px 15px;
+	padding: 16px 15px 11px;
 	color: #000000;
 	background: #ffcc26;
 }
@@ -129,7 +105,7 @@
 
 .statistics-top-cell.manual-optimisation a img{
 	margin-right:10px;
-	margin-top:-4px;
+	margin-top:-6px;
 }
 
 .statistics-top-cell.support{
@@ -139,10 +115,10 @@
 
 .statistics-top-cell.support a{
 	color: #ffcc26;
-	padding: 8px 20px 8px 15px;
+	padding: 11px 20px 6px 15px;
 }
 
-.statistics-top-cell.support a:hover{
+.statistics-top-cell.support a:hover {
 	background: #fff6d9;
   	color: #bf9200;
 }
@@ -206,8 +182,7 @@
 	position:relative;
 	display:table;
 	width:100%;
-	font-size:0.75rem;
-	font-weight:300;
+	font-size:0.8rem;
 	text-align: center;
 	border-bottom:1px solid rgba(255,255,255,0.03);
 }
@@ -229,7 +204,7 @@
 .stats-part .addon-stats .compress-image-saved span,
 .stats-part .total-image-compress span,
 .stats-part ul.cache-and-database-list li span{
-	font-size:1.7em;
+	font-size:1.5em;
 	font-weight:600;
 }
 
@@ -357,8 +332,8 @@
 }
 
 .statistics-tab-content .addon-activation{
-	padding-top:2rem;
-	padding-bottom:2rem;
+	padding-top:3rem;
+	padding-bottom:3rem;
 }
 
 .statistics-tab-content .addon-activation a{
@@ -417,7 +392,7 @@
 .cdn-comming-soon > div{
 	display:table-cell;
 	vertical-align:middle;
-	font-weight:700;
+	font-weight:500;
 	text-align:center;
 	text-transform: uppercase;
 	padding:75px 10px 80px;
@@ -430,6 +405,7 @@
 	width:100%;
 }
 
+.sidebar-cloudinary-api,
 .sidebar-tabs-section{
 	position:relative;
 	display:inline-block;
@@ -439,6 +415,9 @@
 	border:1px solid #e6e6e6;
 }
 
+.free-api-stats,
+.sidebar-title-wrap,
+.sidebar-content-wrap,
 .sidebar-tabs-nav,
 .sidebar-tabs-content{
 	position:relative;
@@ -447,19 +426,58 @@
 	float:left;
 }
 
+.free-api-stats{
+	display:table;
+	table-layout:fixed;
+	text-transform:uppercase;
+	font-size:12px;
+	font-weight:500;
+	border-bottom:1px solid #e6e6e6;
+	background-color:#f5f5f5;
+}
+
+.free-api-stats div{
+	display:table-cell;
+	vertical-align:middle;
+	padding:15px;
+}
+
+.free-api-stats div span{
+	font-weight:500;
+	font-size:1.4em;
+}
+
+.close-cloudinary-api-msg{
+	position:absolute;
+	display:inline-block;
+	top:10px;
+	right:10px;
+	padding:2px 5px;
+	line-height:1;
+	font-size:10px;
+	font-weight:100;
+	text-transform: uppercase;
+	border-radius:2px;
+	background: rgba(255,255,255,0.1);
+	cursor:pointer;
+}
+
+.sidebar-title-wrap,
+.sidebar-tabs-nav ul{
+	font-size: 13px;
+	font-weight: 500;
+	line-height:1;
+	text-transform:uppercase;
+	color:#1b334d;
+	background-color:#f5f5f5;
+}
+
 .sidebar-tabs-nav ul{
 	position:relative;
 	display:table;
 	width:100%;
 	padding:0;
 	margin:0;
-	font-size: 14px;
-	font-weight: 700;
-	line-height:1;
-	text-transform:uppercase;
-	color:#14263a;
-	color:#1b334d;
-	background-color:#f5f5f5;
 }
 
 .sidebar-tabs-nav ul li{
@@ -512,7 +530,7 @@
 	position:relative;
 	display:inline-block;
 	width:100%;
-	font-weight: 700;
+	font-weight: 500;
 	margin-bottom:15px;
 }
 
@@ -635,7 +653,6 @@
 
 .addon-settings{
 	padding:1.5rem;
-	font-size: 1.1em;
 }
 
 .addon-settings-tabs{
@@ -655,7 +672,7 @@
 	min-width:15%;
 	padding:15px 1rem;
 	margin:0;
-	font-size: 15px;
+	font-size:13px;
 	font-weight:500;
 	text-align:center;
 	text-transform:uppercase;
@@ -691,14 +708,23 @@
 .addon-settings-content .field{
 	position:relative;
 	display:table;
+	table-layout:fixed;
 	width:100%;
 	padding:1rem;
-	border-bottom:1px solid #e6e6e6;
+	border-top:1px solid #e6e6e6;
 	transition: 0.3s;
 }
 
-.addon-settings-content .field:last-child{
-	border:0;
+.addon-settings-content.auto-table-layout .field{
+	table-layout: auto;
+}
+
+.addon-settings-content > .field:first-child{
+	border-top-width:0;
+}
+
+.addon-settings-content > .field:first-child.brd-top{
+	border-top-width:1px;
 }
 
 .addon-settings-content .field:nth-child(2n){
@@ -759,15 +785,46 @@
 }
 
 .addon-settings-content .field select,
-.addon-settings-content .field input[type="text"]{
+.addon-settings-content .field input[type="text"],
+.addon-settings-content .field input[type="number"]{
 	height:auto;
 	padding:0.5rem 0.5rem;
+}
+
+.addon-settings-content .field input[type="number"]{
+	/*width:100%;*/
+	max-width: 100px;
+}
+
+.sidebar-title-wrap{
+	padding:15px;
+	border-bottom:1px solid #e6e6e6;
+}
+
+.sidebar-content-wrap{
+	/*padding:15px 20px;*/
+}
+
+.sidebar-content-wrap .addon-settings-content{
+	display:inline-block;
+	padding:0;
+}
+
+.sidebar-content-wrap .addon-settings-content .field{
+	
 }
 
 .optio-check-component{
 	position:relative;
 	display:inline-block;
 	padding-top:4px;
+}
+
+.checkbox-text{
+	display:inline-block;
+	margin:0;
+	padding:0.5rem 1rem 0;
+	vertical-align:top;
 }
 
 .optio-check {
@@ -841,4 +898,43 @@
 	padding:1rem;
 	border-top:1px solid #e6e6e6;
 	background-color:#f6f6f6;
+}
+
+.optimising-db-overlay,
+.clearing-gravatars-cache-overlay{
+	position:absolute;
+	top:0;
+	left:0;
+	right:0;
+	bottom:0;
+	width:100%;
+	height:100%;
+	display:none;
+	background:rgba(255,255,255, 0.75);
+	z-index:+1;
+}
+
+.optimising-db-overlay > div,
+.clearing-gravatars-cache-overlay > div{
+	position:absolute;
+	display:table;
+	top:100%;
+	right:0;
+	width:auto;
+	padding:1.4rem 1rem 0 0;
+	font-size:0.85rem;
+	font-weight:500;
+	overflow:visible;
+}
+
+.optimising-db-overlay > div > div,
+.clearing-gravatars-cache-overlay > div > div{
+	display:table-cell;
+	vertical-align:middle;
+}
+
+.optimising-db-overlay > div img,
+.clearing-gravatars-cache-overlay > div img{
+	margin:0 0 2px 1rem;
+	vertical-align:inherit;
 }

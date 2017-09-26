@@ -388,6 +388,8 @@ class WpPerformance_Admin {
 					$options = array(
 						'disable_gravatars'                  => isset( $post_req['disable_gravatars'] ) ? 1 : 0,
 						'disable_referral_spam' 			 => isset( $post_req['disable_referral_spam'] ) ? 1 : 0,
+						'dns_prefetch'						 => isset( $post_req['dns_prefetch'] ) ? 1 : 0,
+						'dns_prefetch_host_list'			 => isset( $post_req['dns_prefetch_host_list'] ) ? $post_req['dns_prefetch_host_list'] : '',
 						'disable_emoji'                      => isset( $post_req['disable_emoji'] ) ? 1 : 0,
 						'disable_embeds'                     => isset( $post_req['disable_embeds'] ) ? 1 : 0,
 						'remove_querystrings'                => isset( $post_req['remove_querystrings'] ) ? 1 : 0,
@@ -507,6 +509,8 @@ class WpPerformance_Admin {
 		$default_values = array(
 			'disable_gravatars' 					=> 0,
 			'disable_referral_spam'					=> 0,
+			'dns_prefetch'						 	=> 0,
+			'dns_prefetch_host_list'			 	=> '',
 			'disable_emoji'                         => 0,
 			'disable_embeds'                        => 0,
 			'remove_querystrings'                   => 0,
@@ -563,6 +567,9 @@ class WpPerformance_Admin {
 				<div class="addon-settings-tabs">
 					<ul>
 						<li data-tab-setting="requests" class="active"><?php esc_html_e('Requests', 'optimisationio'); ?></li>
+						<?php if( WpPerformance::is_woocommerce_enabled() ) { ?>
+						<li data-tab-setting="woocommerce"><?php esc_html_e('WooCommerce', 'optimisationio'); ?></li>
+						<?php } ?>
 						<li data-tab-setting="tags"><?php esc_html_e('Tags', 'optimisationio'); ?></li>
 						<li data-tab-setting="admin"><?php esc_html_e('Admin', 'optimisationio'); ?></li>
 						<li data-tab-setting="others"><?php esc_html_e('Others', 'optimisationio'); ?></li>
@@ -600,6 +607,19 @@ class WpPerformance_Admin {
 							<div class="field-right"><?php Optimisationio_Dashboard::checkbox_component('disable_referral_spam', isset( $sett['disable_referral_spam'] ) && 1 === (int) $sett['disable_referral_spam']); ?></div>
 						</div>
 						<div class="field">
+							<div class="field-left"><?php esc_attr_e('DNS prefetch', 'optimisationio'); ?></div>
+							<div class="field-right"><?php Optimisationio_Dashboard::checkbox_component('dns_prefetch', isset( $sett['dns_prefetch'] ) && 1 === (int) $sett['dns_prefetch']); ?></div>
+						</div>
+
+						<div class="field sub-field dns-prefetch-group">
+							<div class="field-left" style="vertical-align:top;"><?php esc_attr_e('Prefetch host list', 'optimisationio'); ?></div>
+							<div class="field-right">
+								<textarea name="dns_prefetch_host_list"><?php echo isset( $sett['dns_prefetch_host_list'] ) ? $sett['dns_prefetch_host_list'] : ''; ?></textarea><br/>
+								<small class="dis-ib" style="padding-top:5px;"><?php esc_html_e('One domain by line', 'optimisationio' ); ?></small>
+							</div>
+						</div>
+
+						<div class="field">
 							<div class="field-left"><?php printf( __( 'Minimize requests and load %1$sGoogle Fonts%2$s asynchronous', 'optimisationio' ), '<strong>', '</strong>' ); ?></div>
 							<div class="field-right"><?php Optimisationio_Dashboard::checkbox_component('lazy_load_google_fonts', isset( $sett['lazy_load_google_fonts'] ) && 1 === (int) $sett['lazy_load_google_fonts']); ?></div>
 						</div>
@@ -616,6 +636,30 @@ class WpPerformance_Admin {
 							<div class="field-right"><?php Optimisationio_Dashboard::checkbox_component('disable_front_dashicons_when_disabled_toolbar', isset( $sett['disable_front_dashicons_when_disabled_toolbar'] ) && 1 === (int) $sett['disable_front_dashicons_when_disabled_toolbar']); ?></div>
 						</div>
 					</div>
+
+					<?php if( WpPerformance::is_woocommerce_enabled() ) { ?>
+					<div data-tab-setting="woocommerce" class="addon-settings-content auto-table-layout active">
+						<div class="field">
+							<div class="field-left"><?php esc_attr_e('Disable WooCommerce scripts and CSS on non WooCommerce pages', 'optimisationio'); ?></div>
+							<div class="field-right"><?php Optimisationio_Dashboard::checkbox_component('disable_woocommerce_non_pages', isset( $sett['disable_woocommerce_non_pages'] ) && 1 === (int) $sett['disable_woocommerce_non_pages']); ?></div>
+						</div>
+
+						<div class="field">
+							<div class="field-left"><?php esc_attr_e('Disable WooCommerce Reviews', 'optimisationio'); ?></div>
+							<div class="field-right"><?php Optimisationio_Dashboard::checkbox_component('disable_woocommerce_reviews', isset( $sett['disable_woocommerce_reviews'] ) && 1 === (int) $sett['disable_woocommerce_reviews']); ?></div>
+						</div>
+
+						<div class="field">
+							<div class="field-left"><?php esc_attr_e('Defer WooCommerce Cart Fragments', 'optimisationio'); ?></div>
+							<div class="field-right"><?php Optimisationio_Dashboard::checkbox_component('disable_woocommerce_cart_fragments', isset( $sett['disable_woocommerce_cart_fragments'] ) && 1 === (int) $sett['disable_woocommerce_cart_fragments']); ?></div>
+						</div>
+
+						<div class="field">
+							<div class="field-left"><?php esc_attr_e('Disable WooCommerce password strength meter js on non related pages', 'optimisationio'); ?></div>
+							<div class="field-right"><?php Optimisationio_Dashboard::checkbox_component('disable_woocommerce_password_meter', isset( $sett['disable_woocommerce_password_meter'] ) && 1 === (int) $sett['disable_woocommerce_password_meter']); ?></div>
+						</div>
+					</div>
+					<?php } ?>
 
 					<div data-tab-setting="tags" class="addon-settings-content auto-table-layout">
 						<div class="field">

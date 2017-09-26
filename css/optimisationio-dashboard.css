@@ -796,6 +796,11 @@
 	max-width: 100px;
 }
 
+.addon-settings-content .field textarea{
+	width:100%;
+	min-height:100px;
+}
+
 .sidebar-title-wrap{
 	padding:15px;
 	border-bottom:1px solid #e6e6e6;

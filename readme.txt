@@ -2,8 +2,8 @@
 Contributors: pigeonhut, Jody Nesbitt, optimisation.io
 Tags: Disable Emoji, Disable Embeds, Disable Gravatars, Remove Querystrings, Reduce HTTP Requests, speedup WooCommerce, Close comments
 Requires at least: 4.5
-Tested up to: 4.8
-Stable tag: 1.5.1
+Tested up to: 4.8.1
+Stable tag: 1.5.13
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -27,7 +27,7 @@ Disabling Embeds  - script that auto formats pasted content in the visual editor
 single page. You can still use the default embed code from YouTube, Twitter etc to included content.
 
 Remove Query Strings: If you look at the waterfall view of your page load, you will see your query strings end in something like ver=1.12.4.
-These are called query strings and help determine the version of the script. The problem with query strings like these is that it isnâ€™t very efficient for caching purposes and sometimes prevents caching those assets altogether.  If you are using a CDN already, you can ignore this.
+These are called query strings and help determine the version of the script. The problem with query strings like these is that it isn't very efficient for caching purposes and sometimes prevents caching those assets altogether.  If you are using a CDN already, you can ignore this.
 
 Disabling Gravatars is completely optional, advise, if you don't use them, disable as it gets rid of one more useless HTTP request.
 
@@ -77,6 +77,14 @@ You can try our <a href="https://wordpress.org/plugins/wp-image-compression/">Fr
 
 
 == Changelog ==
+= 1.5.12 =
+* WooCommerce bugs fixed
+* Syntax error fixed
+* General improvements to GA Offload (Some cases GA code may still not work, does not appear to be a fix for this, if this happens on yours, please ignore the feature)
+
+= 1.5.11 =
+* WooCommerce tab not displaying fixed
+
 = 1.5.1 =
 * More visual cleanups
 * Removed all webfonts
@@ -102,7 +110,7 @@ You can try our <a href="https://wordpress.org/plugins/wp-image-compression/">Fr
 = 1.4.4 =
 * Added ability to stop (disable) admin notices from showing
 * removed the stats sub menu item, so everything is now at the top level
-* "local-ga.js" file was created on activation, changed the way this works so it will work now independant of when adding the GA code
+* "local-ga.js" file was created on activation, changed the way this works so it will work now independent of when adding the GA code
 
 = 1.4.3 =
 More dashboard visual tweaks.

@@ -176,6 +176,7 @@ class WpPerformance {
 		if ( ! is_admin() ) {
 			$this->add_ga_header_script();
 			$this->check_pages_disable();
+			$this->check_dns_prefetch();
 		}
 		else{
 			$this->check_admin_notices_display();
@@ -584,6 +585,34 @@ class WpPerformance {
 
 	public function comment_admin_menu_remove(){
 		remove_menu_page('edit-comments.php');
+	}
+
+	private function check_dns_prefetch(){
+		
+		$settings = $this->get_settings_values();
+		
+		if( ! $settings['dns_prefetch'] ) {
+			return;
+		}
+
+		$list = array();
+		$host_list = $settings['dns_prefetch_host_list'];
+		$host_list = '' !== $host_list ? explode("\n", $host_list) : array();
+
+		if( ! empty( $host_list ) ){
+			foreach ($host_list as $key => $val) {
+				$val = str_replace( 'http:', '', str_replace( 'https:', '', esc_url( $val ) ) );
+				if( $val && ! in_array($val, $list, true) ){
+					$list[] = $val;
+				}
+			}
+		}
+
+		if( ! empty( $list ) ){
+			foreach ($list as $key => $val) {
+				echo "<link rel=\"dns-prefetch\" href=\"" . $val . "\" />\n";
+			}
+		}
 	}
 
 	private function check_comments_disable() {

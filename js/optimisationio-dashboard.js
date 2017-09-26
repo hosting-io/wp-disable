@@ -392,7 +392,7 @@ var OptimisationioAddons = (function($){
 			var plugin_slug = $wrap.data('sett-group'), active_plugin_tab;
 			if( plugin_slug ){
 				active_plugin_tab = localStorage.getItem( 'optimisationio_addon_active_tab[' + plugin_slug + ']' );
-				if( ! active_plugin_tab ){
+				if( ! active_plugin_tab || ! $wrap.find('.addon-settings-tabs ul li[data-tab-setting="' + active_plugin_tab + '"]').length ){
 					active_plugin_tab = $( $wrap.find('.addon-settings-tabs ul li')[0] ).data('tab-setting');
 				}
 				update_active_tab($wrap, active_plugin_tab);
@@ -478,6 +478,10 @@ var Optimisationio_Dashbord_WP_Disable = (function($){
 		$('.certain-posts-comments-group').css('display', ! $toogle_el.certainPostsComments.is(":checked") ? 'none' : ( $toogle_el.comments.is(":checked") ? 'none' : '' ) );
 	}
 
+	function on_change_dnsPrefetch(ev){
+		$('.dns-prefetch-group').css('display', $toogle_el.dnsPrefetch.is(":checked") ? '' : 'none');
+	}
+
 	function init(){
 		$toogle_el = {
 			feeds: $('input[name="disable_rss"]'),
@@ -485,6 +489,7 @@ var Optimisationio_Dashbord_WP_Disable = (function($){
 			googleMaps: $('input[name="disable_google_maps"]'),
 			spamCommentsCleaner: $('input[name="spam_comments_cleaner"]'),
 			certainPostsComments: $('input[name="disable_comments_on_certain_post_types"]'),
+			dnsPrefetch: $('input[name="dns_prefetch"]'),
 		};
 		
 		if( $toogle_el.feeds.length ){
@@ -510,6 +515,11 @@ var Optimisationio_Dashbord_WP_Disable = (function($){
 		if( $toogle_el.certainPostsComments.length ){
 			$toogle_el.certainPostsComments.on('change', on_change_certainPostsComments);
 			on_change_certainPostsComments();
+		}
+
+		if( $toogle_el.dnsPrefetch.length ){
+			$toogle_el.dnsPrefetch.on('change', on_change_dnsPrefetch);
+			on_change_dnsPrefetch();
 		}
 	}
 

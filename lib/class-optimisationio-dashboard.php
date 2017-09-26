@@ -578,7 +578,7 @@ class Optimisationio_Dashboard {
 	public static function echo_stats_size( $valid, $size ){
 		$e = '<i class="n_a">' . __( 'n/a', 'optimisationio' ) . '</i>';
 		if( $valid ){
-			$size = size_format( $size );
+			$size = size_format( $size, 2 );
 			$e = $size ? $size : '0 B';
 		}
 		echo $e;

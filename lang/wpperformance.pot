@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP Disable\n"
 "Report-Msgid-Bugs-To: http://flexiblemegamenu.com\n"
-"POT-Creation-Date: 2017-08-29 02:52+0200\n"
-"PO-Revision-Date: 2017-08-29 02:52+0200\n"
+"POT-Creation-Date: 2017-10-11 04:58+0200\n"
+"PO-Revision-Date: 2017-10-11 04:58+0200\n"
 "Last-Translator: _Language-Team:\n"
 "Language-Team: \n"
 "Language: en\n"
@@ -19,462 +19,424 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: cache/local-ga.js\n"
 
-#: freemius/includes/class-fs-plugin-updater.php:565
-msgid "Unable to connect to the filesystem. Please confirm your credentials."
-msgstr ""
-
-#: lib/class-optimisationio-stats-and-addons.php:30
-msgid "Optimisation.io"
-msgstr ""
-
-#: lib/class-optimisationio-stats-and-addons.php:32
-msgid "Statistics"
-msgstr ""
-
-#: lib/class-optimisationio-stats-and-addons.php:36
-msgid "Import/Export"
-msgstr ""
-
-#: lib/class-optimisationio-stats-and-addons.php:218
-msgid "Invalid import arguments"
-msgstr ""
-
-#: lib/class-optimisationio-stats-and-addons.php:311
-msgid "Settings imported successfully"
-msgstr ""
-
-#: lib/class-optimisationio-stats-and-addons.php:315
-msgid "Imported invalid data"
-msgstr ""
-
-#: lib/class-optimisationio-stats-and-addons.php:333
-msgid "Invalid export arguments"
-msgstr ""
-
-#: lib/class-optimisationio-stats-and-addons.php:382
-msgid "Can't find saved data to export"
-msgstr ""
-
-#: lib/class-optimisationio-stats-and-addons.php:388
-msgid "Failed data verification"
-msgstr ""
-
-#: lib/class-optimisationio-stats-and-addons.php:416
-msgid "Improve WordPress performance by disabling unused items."
-msgstr ""
-
-#: lib/class-optimisationio-stats-and-addons.php:417
-msgid "Simple efficient WordPress caching."
-msgstr ""
-
-#: lib/class-optimisationio-stats-and-addons.php:418
-msgid "Image Compression and resizing - Setup under the Tools menu"
-msgstr ""
-
-#: lib/class-optimisationio-stats-and-addons.php:515
-#: views/optimisationio-statistics-addons.php:3
+#: lib/class-optimisationio-dashboard.php:15
+#: lib/class-optimisationio-dashboard.php:579
 msgid "n/a"
 msgstr ""
 
-#: lib/class-wpperformance-admin.php:28 lib/class-wpperformance-admin.php:29
-msgid "WP Disable"
+#: lib/class-optimisationio-dashboard.php:16
+msgid "Install"
 msgstr ""
 
-#: lib/class-wpperformance-admin.php:37 lib/class-wpperformance-admin.php:38
-msgid "Update Settings"
+#: lib/class-optimisationio-dashboard.php:17
+msgid "Activate"
 msgstr ""
 
-#: views/admin-settings.php:25
-msgid "Requests"
+#: lib/class-optimisationio-dashboard.php:18
+msgid "Deactivate"
 msgstr ""
 
-#: views/admin-settings.php:28
-msgid "WooCommerce"
+#: lib/class-optimisationio-dashboard.php:19
+msgid "Changes you made may not be saved."
 msgstr ""
 
-#: views/admin-settings.php:31
-msgid "Tags"
+#: lib/class-optimisationio-dashboard.php:39
+msgid "Optimisation.io"
 msgstr ""
 
-#: views/admin-settings.php:32
-msgid "Admin"
+#: lib/class-optimisationio-dashboard.php:282
+msgid "Invalid import arguments"
 msgstr ""
 
-#: views/admin-settings.php:33
-msgid "Others"
+#: lib/class-optimisationio-dashboard.php:375
+msgid "Settings imported successfully"
 msgstr ""
 
-#: views/admin-settings.php:41
-msgid "Disable Emojis"
+#: lib/class-optimisationio-dashboard.php:379
+msgid "Imported invalid data"
 msgstr ""
 
-#: views/admin-settings.php:48
-msgid "Remove Querystrings"
+#: lib/class-optimisationio-dashboard.php:397
+msgid "Invalid export arguments"
 msgstr ""
 
-#: views/admin-settings.php:55
-msgid "Disable Embeds"
+#: lib/class-optimisationio-dashboard.php:446
+msgid "Can't find saved data to export"
 msgstr ""
 
-#: views/admin-settings.php:63
-msgid "Disable Google Maps"
+#: lib/class-optimisationio-dashboard.php:452
+msgid "Failed data verification"
 msgstr ""
 
-#: views/admin-settings.php:71
-msgid "Exclude pages from \"Disable Google Maps\""
+#: lib/class-optimisationio-dashboard.php:480
+msgid "Improve WordPress performance by disabling unused items."
 msgstr ""
 
-#: views/admin-settings.php:75
-msgid "Post or Pages IDs separated by a"
+#: lib/class-optimisationio-dashboard.php:481
+msgid "Simple efficient WordPress caching."
 msgstr ""
 
-#: views/admin-settings.php:79
-msgid "Disable Referral Spam"
+#: lib/class-optimisationio-dashboard.php:482
+msgid "Image Compression and resizing - Setup under the Tools menu"
 msgstr ""
 
-#: views/admin-settings.php:87
-#, php-format
-msgid "Minimize requests and load %1$sGoogle Fonts%2$s asynchronous"
+#: lib/class-optimisationio-dashboard.php:610
+msgid "Saved"
 msgstr ""
 
-#: views/admin-settings.php:95
-#, php-format
-msgid "Minimize requests and load %1$sFont Awesome%2$s asynchronous"
+#: lib/class-optimisationio-dashboard.php:629
+msgid "Original DB"
 msgstr ""
 
-#: views/admin-settings.php:104
-msgid "Disable WordPress password strength meter js on non related pages"
+#: lib/class-optimisationio-dashboard.php:630
+msgid "New DB"
 msgstr ""
 
-#: views/admin-settings.php:113
-msgid "Disable Dashicons when user disables admin toolbar when viewing site"
+#: lib/class-optimisationio-dashboard.php:631
+msgid "Savings"
 msgstr ""
 
-#: views/admin-settings.php:130
-msgid "Disable WooCommerce scripts and CSS on non WooCommerce pages"
+#: lib/class-optimisationio-dashboard.php:634
+msgid "Pages average load time"
 msgstr ""
 
-#: views/admin-settings.php:137
-msgid "Disable WooCommerce Reviews"
+#: lib/class-optimisationio-dashboard.php:637
+msgid "Cache"
 msgstr ""
 
-#: views/admin-settings.php:144
-msgid "Defer WooCommerce Cart Fragments"
+#: lib/class-optimisationio-dashboard.php:638
+msgid "Gravatars Cache"
 msgstr ""
 
-#: views/admin-settings.php:151
-msgid "Disable WooCommerce password strength meter js on non related pages"
+#: lib/class-optimisationio-dashboard.php:731
+msgid "Offload Google Analytics"
 msgstr ""
 
-#: views/admin-settings.php:167
-msgid "Remove RSD (Really Simple Discovery) tag"
-msgstr ""
-
-#: views/admin-settings.php:174
-msgid "Remove Shortlink Tag"
-msgstr ""
-
-#: views/admin-settings.php:181
-msgid "Remove Wordpress API from header"
-msgstr ""
-
-#: views/admin-settings.php:188
-msgid "Remove Windows Live Writer tag"
-msgstr ""
-
-#: views/admin-settings.php:195
-msgid "Remove Wordpress Generator Tag"
-msgstr ""
-
-#: views/admin-settings.php:209
-msgid "Posts revisions number"
-msgstr ""
-
-#: views/admin-settings.php:213 views/admin-settings.php:317
-#: views/admin-settings.php:353
-msgid "WordPress default"
-msgstr ""
-
-#: views/admin-settings.php:246
-msgid "Disable Autosave"
-msgstr ""
-
-#: views/admin-settings.php:253
-msgid "Disable admin notices"
-msgstr ""
-
-#: views/admin-settings.php:260
-msgid "Disable author pages"
-msgstr ""
-
-#: views/admin-settings.php:267
-msgid "Disable all comments"
-msgstr ""
-
-#: views/admin-settings.php:274
-msgid "Disable comments on certain post types"
-msgstr ""
-
-#: views/admin-settings.php:283
-#, php-format
-msgid "Disable comments on post type \"%1$s%2$s%3$s\""
-msgstr ""
-
-#: views/admin-settings.php:291
-msgid "Close comments after 28 days"
-msgstr ""
-
-#: views/admin-settings.php:298
-msgid "Paginate comments at 20"
-msgstr ""
-
-#: views/admin-settings.php:305
-msgid "Remove links from comments"
-msgstr ""
-
-#: views/admin-settings.php:312
-msgid "Heartbeat frequency"
-msgstr ""
-
-#: views/admin-settings.php:315
-msgid "seconds"
-msgstr ""
-
-#: views/admin-settings.php:349
-msgid "Heartbeat locations"
-msgstr ""
-
-#: views/admin-settings.php:354
-msgid "Disable everywhere"
-msgstr ""
-
-#: views/admin-settings.php:355
-msgid "Disable on dashboard page"
-msgstr ""
-
-#: views/admin-settings.php:356
-msgid "Allow only on post edit pages"
-msgstr ""
-
-#: views/admin-settings.php:381
-msgid "Disable Gravatars"
-msgstr ""
-
-#: views/admin-settings.php:388
-msgid "Disable pingbacks and trackbacks"
-msgstr ""
-
-#: views/admin-settings.php:395
-msgid "Disable feeds"
-msgstr ""
-
-#: views/admin-settings.php:403
-msgid "Redirect feed requests to corresponding HTML content"
-msgstr ""
-
-#: views/admin-settings.php:407
-msgid "Issue a Page Not Found (404) error for feed requests"
-msgstr ""
-
-#: views/admin-settings.php:411
-#, php-format
-msgid ""
-"Do not disable the %1$sglobal post feed%2$s and %3$sglobal comment feed%4$s"
-msgstr ""
-
-#: views/admin-settings.php:418
-msgid "Disable XML-RPC"
-msgstr ""
-
-#: views/admin-settings.php:426
-msgid "Enable spam comments cleaner"
-msgstr ""
-
-#: views/admin-settings.php:434
-msgid "Delete spam comments"
-msgstr ""
-
-#: views/admin-settings.php:439
-msgid "Once Hourly"
-msgstr ""
-
-#: views/admin-settings.php:440
-msgid "Once Daily"
-msgstr ""
-
-#: views/admin-settings.php:441
-msgid "Twice Daily"
-msgstr ""
-
-#: views/admin-settings.php:442 wpperformance.php:174
-msgid "Once Weekly"
-msgstr ""
-
-#: views/admin-settings.php:443 wpperformance.php:179
-msgid "Twice Monthly"
-msgstr ""
-
-#: views/admin-settings.php:444 wpperformance.php:184
-msgid "Once Monthly"
-msgstr ""
-
-#: views/admin-settings.php:467
-#, php-format
-msgid "Next spam delete: %s"
-msgstr ""
-
-#: views/admin-settings.php:473
-msgid "Delete spam comments Now"
-msgstr ""
-
-#: views/admin-settings.php:482
-msgid "Update"
-msgstr ""
-
-#: views/admin-settings.php:487
-msgid "Offload Google Analytics to local"
-msgstr ""
-
-#: views/admin-settings.php:490
-msgid "GA Code"
-msgstr ""
-
-#: views/admin-settings.php:494
-msgid "Save GA in (please ensure you remove any other GA tracking)"
-msgstr ""
-
-#: views/admin-settings.php:505
-msgid "Use adjusted bounce rate?"
-msgstr ""
-
-#: views/admin-settings.php:509
-msgid "Change enqueue order? (Default = 0)"
-msgstr ""
-
-#: views/admin-settings.php:519
-msgid "Track logged in Administrators?"
-msgstr ""
-
-#: views/admin-settings.php:522
-msgid "Remove script from wp-cron?"
-msgstr ""
-
-#: views/optimisationio-import-export.php:3
-#, php-format
-msgid "%1$s Optimisation.io - Import/Export add-ons settings %2$s"
-msgstr ""
-
-#: views/optimisationio-import-export.php:16
+#: lib/class-optimisationio-dashboard.php:733
 msgid "Import"
 msgstr ""
 
-#: views/optimisationio-import-export.php:17
+#: lib/class-optimisationio-dashboard.php:734
 msgid "Export"
 msgstr ""
 
-#: views/optimisationio-import-export.php:24
+#: lib/class-optimisationio-dashboard.php:746
 msgid ""
 "Copy into textarea the encoded string of add-ons settings you have exported"
 msgstr ""
 
-#: views/optimisationio-import-export.php:30
+#: lib/class-optimisationio-dashboard.php:751
+msgid "Import settings"
+msgstr ""
+
+#: lib/class-optimisationio-dashboard.php:753
+msgid "Clear"
+msgstr ""
+
+#: lib/class-optimisationio-dashboard.php:757
 msgid ""
 "Select the add-οns whose settings you want to include in the exported data"
 msgstr ""
 
-#: views/optimisationio-import-export.php:42
-msgid "Import settings"
-msgstr ""
-
-#: views/optimisationio-import-export.php:43
+#: lib/class-optimisationio-dashboard.php:771
 msgid "Export current settings"
 msgstr ""
 
-#: views/optimisationio-import-export.php:45
-msgid "Clear"
-msgstr ""
-
-#: views/optimisationio-import-export.php:46
+#: lib/class-optimisationio-dashboard.php:773
 msgid "Copy to clipboard"
 msgstr ""
 
-#: views/optimisationio-import-export.php:216
-msgid "Exported settings copied to clipboard"
+#: lib/class-wpperformance-admin.php:465
+msgid "GA Code"
 msgstr ""
 
-#: views/optimisationio-statistics-addons.php:4
-msgid "Install"
+#: lib/class-wpperformance-admin.php:469
+msgid "Save GA in (please ensure you remove any other GA tracking)"
 msgstr ""
 
-#: views/optimisationio-statistics-addons.php:5
-msgid "Activate"
+#: lib/class-wpperformance-admin.php:480
+msgid "Use adjusted bounce rate?"
 msgstr ""
 
-#: views/optimisationio-statistics-addons.php:6
-msgid "Deactivate"
+#: lib/class-wpperformance-admin.php:484
+msgid "Change enqueue order? (Default = 0)"
 msgstr ""
 
-#: views/optimisationio-statistics-addons.php:7
+#: lib/class-wpperformance-admin.php:494
+msgid "Track logged in Administrators?"
+msgstr ""
+
+#: lib/class-wpperformance-admin.php:497
+msgid "Remove script from wp-cron?"
+msgstr ""
+
+#: lib/class-wpperformance-admin.php:569
+msgid "Requests"
+msgstr ""
+
+#: lib/class-wpperformance-admin.php:571
+msgid "WooCommerce"
+msgstr ""
+
+#: lib/class-wpperformance-admin.php:573
+msgid "Tags"
+msgstr ""
+
+#: lib/class-wpperformance-admin.php:574
+msgid "Admin"
+msgstr ""
+
+#: lib/class-wpperformance-admin.php:575
+msgid "Others"
+msgstr ""
+
+#: lib/class-wpperformance-admin.php:583
+msgid "Disable Emojis"
+msgstr ""
+
+#: lib/class-wpperformance-admin.php:587
+msgid "Remove Querystrings"
+msgstr ""
+
+#: lib/class-wpperformance-admin.php:591
+msgid "Disable Embeds"
+msgstr ""
+
+#: lib/class-wpperformance-admin.php:595
+msgid "Disable Google Maps"
+msgstr ""
+
+#: lib/class-wpperformance-admin.php:599
 #, php-format
-msgid "%1$s Optimisation.io %2$s"
+msgid "Exclude pages from %1$s Disable Google Maps %2$s filter"
 msgstr ""
 
-#: views/optimisationio-statistics-addons.php:8
-msgid "Changes you made may not be saved."
+#: lib/class-wpperformance-admin.php:606
+msgid "Disable Referral Spam"
 msgstr ""
 
-#: views/optimisationio-statistics-addons.php:42
+#: lib/class-wpperformance-admin.php:610
+msgid "DNS prefetch"
+msgstr ""
+
+#: lib/class-wpperformance-admin.php:615
+msgid "Prefetch host list"
+msgstr ""
+
+#: lib/class-wpperformance-admin.php:618
+msgid "One domain by line"
+msgstr ""
+
+#: lib/class-wpperformance-admin.php:623
+#, php-format
+msgid "Minimize requests and load %1$sGoogle Fonts%2$s asynchronous"
+msgstr ""
+
+#: lib/class-wpperformance-admin.php:627
+#, php-format
+msgid "Minimize requests and load %1$sFont Awesome%2$s asynchronous"
+msgstr ""
+
+#: lib/class-wpperformance-admin.php:631
+msgid "Disable WordPress password strength meter js on non related pages"
+msgstr ""
+
+#: lib/class-wpperformance-admin.php:635
+msgid "Disable Dashicons when user disables admin toolbar when viewing site"
+msgstr ""
+
+#: lib/class-wpperformance-admin.php:643
+msgid "Disable WooCommerce scripts and CSS on non WooCommerce pages"
+msgstr ""
+
+#: lib/class-wpperformance-admin.php:648
+msgid "Disable WooCommerce Reviews"
+msgstr ""
+
+#: lib/class-wpperformance-admin.php:653
+msgid "Defer WooCommerce Cart Fragments"
+msgstr ""
+
+#: lib/class-wpperformance-admin.php:658
+msgid "Disable WooCommerce password strength meter js on non related pages"
+msgstr ""
+
+#: lib/class-wpperformance-admin.php:666
+msgid "Remove RSD (Really Simple Discovery) tag"
+msgstr ""
+
+#: lib/class-wpperformance-admin.php:670
+msgid "Remove Shortlink Tag"
+msgstr ""
+
+#: lib/class-wpperformance-admin.php:674
+msgid "Remove Wordpress API from header"
+msgstr ""
+
+#: lib/class-wpperformance-admin.php:678
+msgid "Remove Windows Live Writer tag"
+msgstr ""
+
+#: lib/class-wpperformance-admin.php:682
+msgid "Remove Wordpress Generator Tag"
+msgstr ""
+
+#: lib/class-wpperformance-admin.php:689
+msgid "Posts revisions number"
+msgstr ""
+
+#: lib/class-wpperformance-admin.php:694
+#: lib/class-wpperformance-admin.php:782
+#: lib/class-wpperformance-admin.php:818
+msgid "WordPress default"
+msgstr ""
+
+#: lib/class-wpperformance-admin.php:735
+msgid "Disable Autosave"
+msgstr ""
+
+#: lib/class-wpperformance-admin.php:739
+msgid "Disable admin notices"
+msgstr ""
+
+#: lib/class-wpperformance-admin.php:743
+msgid "Disable author pages"
+msgstr ""
+
+#: lib/class-wpperformance-admin.php:747
+msgid "Disable all comments"
+msgstr ""
+
+#: lib/class-wpperformance-admin.php:751
+msgid "Disable comments on certain post types"
+msgstr ""
+
+#: lib/class-wpperformance-admin.php:758
+#, php-format
+msgid "Disable comments on post type \"%1$s%2$s%3$s\""
+msgstr ""
+
+#: lib/class-wpperformance-admin.php:765
+msgid "Close comments after 28 days"
+msgstr ""
+
+#: lib/class-wpperformance-admin.php:769
+msgid "Paginate comments at 20"
+msgstr ""
+
+#: lib/class-wpperformance-admin.php:773
+msgid "Remove links from comments"
+msgstr ""
+
+#: lib/class-wpperformance-admin.php:777
+msgid "Heartbeat frequency"
+msgstr ""
+
+#: lib/class-wpperformance-admin.php:780
+msgid "seconds"
+msgstr ""
+
+#: lib/class-wpperformance-admin.php:814
+msgid "Heartbeat locations"
+msgstr ""
+
+#: lib/class-wpperformance-admin.php:819
+msgid "Disable everywhere"
+msgstr ""
+
+#: lib/class-wpperformance-admin.php:820
+msgid "Disable on dashboard page"
+msgstr ""
+
+#: lib/class-wpperformance-admin.php:821
+msgid "Allow only on post edit pages"
+msgstr ""
+
+#: lib/class-wpperformance-admin.php:842
+msgid "Disable pingbacks and trackbacks"
+msgstr ""
+
+#: lib/class-wpperformance-admin.php:846
+msgid "Disable feeds"
+msgstr ""
+
+#: lib/class-wpperformance-admin.php:852
+msgid "Redirect feed requests to corresponding HTML content"
+msgstr ""
+
+#: lib/class-wpperformance-admin.php:857
+msgid "Issue a \"Page Not Found (404)\" error for feed requests"
+msgstr ""
+
+#: lib/class-wpperformance-admin.php:863
+msgid "Disable XML-RPC"
+msgstr ""
+
+#: lib/class-wpperformance-admin.php:867
+msgid "Disable Gravatars"
+msgstr ""
+
+#: lib/class-wpperformance-admin.php:871
+msgid "Enable spam comments cleaner"
+msgstr ""
+
+#: lib/class-wpperformance-admin.php:875
+msgid "Delete spam comments"
+msgstr ""
+
+#: lib/class-wpperformance-admin.php:879
+msgid "Once Hourly"
+msgstr ""
+
+#: lib/class-wpperformance-admin.php:880
+msgid "Twice Daily"
+msgstr ""
+
+#: lib/class-wpperformance-admin.php:881
+msgid "Once Daily"
+msgstr ""
+
+#: lib/class-wpperformance-admin.php:882 wpperformance.php:144
+msgid "Once Weekly"
+msgstr ""
+
+#: lib/class-wpperformance-admin.php:883 wpperformance.php:149
+msgid "Twice Monthly"
+msgstr ""
+
+#: lib/class-wpperformance-admin.php:884 wpperformance.php:154
+msgid "Once Monthly"
+msgstr ""
+
+#: lib/class-wpperformance-admin.php:904
+#, php-format
+msgid "Next spam delete: %s"
+msgstr ""
+
+#: lib/class-wpperformance-admin.php:908
+msgid "Delete spam comments now"
+msgstr ""
+
+#: views/optimisationio-dashboard.php:17
 msgid "Request manual optimisation"
 msgstr ""
 
-#: views/optimisationio-statistics-addons.php:45
+#: views/optimisationio-dashboard.php:20
 msgid "Support"
 msgstr ""
 
-#: views/optimisationio-statistics-addons.php:55
-msgid "External requests saved"
+#: views/optimisationio-dashboard.php:27
+msgid "Remove Excess Bloat"
 msgstr ""
 
-#: views/optimisationio-statistics-addons.php:62
-msgid "Pages average load time"
+#: views/optimisationio-dashboard.php:28
+msgid "Compress Images"
 msgstr ""
 
-#: views/optimisationio-statistics-addons.php:66
-msgid "Cache size"
+#: views/optimisationio-dashboard.php:29
+msgid "Cache & Database"
 msgstr ""
 
-#: views/optimisationio-statistics-addons.php:70
-msgid "Database size"
-msgstr ""
-
-#: views/optimisationio-statistics-addons.php:74
-msgid "Database before cleanups"
-msgstr ""
-
-#: views/optimisationio-statistics-addons.php:78
-msgid "Database size saved"
-msgstr ""
-
-#: views/optimisationio-statistics-addons.php:82
-msgid "Gravatars cache"
-msgstr ""
-
-#: views/optimisationio-statistics-addons.php:89
-msgid "Compressed images"
-msgstr ""
-
-#: views/optimisationio-statistics-addons.php:93
-msgid "Size saved"
-msgstr ""
-
-#: views/optimisationio-statistics-addons.php:101
-msgid "Disable"
-msgstr ""
-
-#: views/optimisationio-statistics-addons.php:102
-msgid "Images"
-msgstr ""
-
-#: views/optimisationio-statistics-addons.php:103
-msgid "Cache"
+#: views/optimisationio-dashboard.php:75
+msgid "Coming Soon"
 msgstr ""

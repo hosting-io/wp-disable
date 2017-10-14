@@ -10,7 +10,7 @@ class Optimisationio_Dashboard {
 	public static $addons = null;
 
 	function __construct() {
-		
+
 		self::$str_i18n = array(
 			"n/a"	=> __( "n/a", "optimisationio" ),
 			"install" => __( "Install", "optimisationio" ),
@@ -46,7 +46,7 @@ class Optimisationio_Dashboard {
 		require_once( plugin_dir_path( dirname( __FILE__ ) ) . 'views/optimisationio-dashboard.php' );
 	}
 
-	public function addons_pages_styles($hook){		
+	public function addons_pages_styles($hook){
 		if ( 'toplevel_page_optimisationio-dashboard' === $hook ) {
 			wp_enqueue_style( 'optimisationio-dashboard', plugin_dir_url( dirname( __FILE__ ) ) . 'css/optimisationio-dashboard.css' );
 		}
@@ -137,7 +137,7 @@ class Optimisationio_Dashboard {
 				if ( ! is_wp_error( $result ) ) {
 					$ret['error'] = 0;
 					$ret['msg'] = "Successful activation";
-					
+
 					switch( $post_req['slug'] ){
 						case 'wp-disable':
 						case 'wp-image-compression':
@@ -150,7 +150,7 @@ class Optimisationio_Dashboard {
 					}
 
 					switch( $post_req['slug'] ){
-						case 'wp-disable':							
+						case 'wp-disable':
 							ob_start();
 							self::display_addons__settings('wp-disable');
 							$ret['plugin_settings_content'] = ob_get_contents();
@@ -271,7 +271,7 @@ class Optimisationio_Dashboard {
 	}
 
 	public function ajax_import_addons_settings(){
-		
+
 		$post_req = $_POST;	// Input var okay.
 
 		$ret = array( 'error' => 1 );
@@ -283,7 +283,7 @@ class Optimisationio_Dashboard {
 				$ret['type'] = 'invalid_arguments';
 			}
 			else{
-				
+
 				$decoded_data = json_decode( base64_decode( $post_req['data'] ), true );
 
 				if( $decoded_data ){
@@ -301,11 +301,11 @@ class Optimisationio_Dashboard {
 									if( isset( $decoded_data[$slug]['cdn_sett'] ) ){
 										update_option( 'Optimisationio_rev3a_cdnsettings', $decoded_data[$slug]['cdn_sett'] );
 									}
-							
+
 									if( isset( $decoded_data[$slug]['general_sett'] ) ){
 										update_option( 'Optimisationio_rev3a_settings', $decoded_data[$slug]['general_sett'] );
 									}
-							
+
 									if( isset( $decoded_data[$slug]['db_opt_sett'] ) ){
 										update_option( 'Optimisationio_rev3a_dboptimisesetting', $decoded_data[$slug]['db_opt_sett'] );
 									}
@@ -315,7 +315,7 @@ class Optimisationio_Dashboard {
 									}
 									break;
 								case self::$addons_slug[2]:	// 'wp-image-compression'.
-							
+
 									if( isset( $decoded_data[$slug]['general_sett'] ) ){
 										update_option( '_wpimage_options', $decoded_data[$slug]['general_sett'] );
 									}
@@ -323,7 +323,7 @@ class Optimisationio_Dashboard {
 									if( isset( $decoded_data[$slug]['cloudinary_sett'] ) ){
 										update_option( '_wpimage_options_cloudinary', $decoded_data[$slug]['cloudinary_sett'] );
 									}
-							
+
 									if( isset( $decoded_data[$slug]['lazy_load_sett'] ) ){
 										update_option( '_wpimage_lazyload_options', $decoded_data[$slug]['lazy_load_sett'] );
 									}
@@ -386,9 +386,9 @@ class Optimisationio_Dashboard {
 	}
 
 	public function ajax_export_addons_settings(){
-		
+
 		$post_req = $_POST;	// Input var okay.
-		
+
 		$ret = array( 'error' => null );
 
 		if( $this->wp_verify_nonce( $post_req['nonce'], 'optimisationio-import-export-nonce' ) ){
@@ -413,7 +413,7 @@ class Optimisationio_Dashboard {
 									'general_sett' => get_option( 'Optimisationio_rev3a_settings' ),
 									'db_opt_sett' => get_option( 'Optimisationio_rev3a_dboptimisesetting' ),
 									'gravatar_cache_sett' => get_option( 'Optimisationio_rev3a_gravatar_cache_settings' ),
-								);				
+								);
 								break;
 							case self::$addons_slug[2]:	// 'wp-image-compression'.
 								$export[$val] = array(
@@ -629,7 +629,7 @@ class Optimisationio_Dashboard {
 				<li><?php esc_html_e( 'Original DB', 'optimisationio' ); ?><span><?php Optimisationio_Dashboard::echo_stats_size( $active_addon, $active_addon ? $cache_info->size : 0 ); ?></span></li>
 				<li><?php esc_html_e( 'New DB', 'optimisationio' ); ?><span><?php Optimisationio_Dashboard::echo_stats_size( $active_addon, $active_addon ? $cache_info->optimised_size : 0 ); ?></span></li>
 				<li><?php esc_html_e( 'Savings', 'optimisationio' ); ?><span><?php Optimisationio_Dashboard::echo_stats_size( $active_addon, $active_addon ? $cache_info->saving : 0 ); ?></span></li>
-			</ul>			
+			</ul>
 			<ul class="cache-and-database-list">
 				<li><?php esc_html_e('Pages average load time', 'optimisationio'); ?><span><?php echo $active_addon ? Optimisationio::average_pages_load_time() : '<i class="n_a">' . self::$str_i18n['n/a'] . '</i>'; ?></span></li>
 			</ul>
@@ -660,10 +660,10 @@ class Optimisationio_Dashboard {
 	public static function display_stats__measurements(){ ?>
 		<div class="statistics-measurements">
 			<div class="stats-section">
-				<div class="stats-part"> 
+				<div class="stats-part">
 					<?php self::display_stats__compress_images(); ?>
 				</div>
-				<div class="stats-part"> 
+				<div class="stats-part">
 					<?php self::display_stats__cache_and_database_and_wp_disable(); ?>
 				</div>
 			</div>
@@ -710,7 +710,7 @@ class Optimisationio_Dashboard {
 		return $ret;
 	}
 
-	public static function checkbox_component($name='', $checked=false){ 
+	public static function checkbox_component($name='', $checked=false){
 		$id = '' !== $name ? 'id-' . $name : 'tmp-id-' . substr(uniqid(), -4);
 		?>
 		<div class="optio-check-component">
@@ -719,7 +719,7 @@ class Optimisationio_Dashboard {
 		</div> <?php
 	}
 
-	public static function sidebar_tabs_section_content(){ 
+	public static function sidebar_tabs_section_content(){
 		if( null === self::$addons ){
 			self::init_addons();
 		}
@@ -739,7 +739,7 @@ class Optimisationio_Dashboard {
 			<ul>
 				<?php if( self::addon_activated('wp-disable') ){ ?>
 					<li data-tab-id="ga">
-						<?php WpPerformance_Admin::offload_google_analytics_settings(); ?>		
+						<?php WpPerformance_Admin::offload_google_analytics_settings(); ?>
 					</li>
 				<?php } ?>
 				<li data-tab-id="imp">
@@ -747,33 +747,33 @@ class Optimisationio_Dashboard {
 					<div class="textarea-wrap">
 						<textarea id="import_settings_tarea"></textarea>
 					</div>
-					
+
 					<button class="import-btn button button-primary button-large" disabled><?php esc_html_e( "Import settings", "optimisationio" ); ?></button>
-					
+
 					<button class="clear-import-btn button button-large hidden"><?php esc_html_e( "Clear", "optimisationio" ); ?></button>
 				</li>
 				<li data-tab-id="exp">
-					
+
 					<p><?php esc_html_e("Select the add-οns whose settings you want to include in the exported data", "optimisationio"); ?></p>
 
 					<div class="export-addons-list-options">
-						<?php foreach ($addons as $key => $val) { 
+						<?php foreach ($addons as $key => $val) {
 							if( self::addon_activated($key) ){ ?>
 							<label><input type="checkbox" name="export_addons[]" value="<?php echo $val['slug']; ?>" checked /><?php echo $val['title']; ?></label>
 						<?php }
 						} ?>
 					</div>
-					
+
 					<div class="textarea-wrap">
 						<textarea id="export_settings_tarea" readonly></textarea>
 					</div>
-					
+
 					<button class="export-btn button button-primary button-large"><?php esc_html_e( "Export current settings", "optimisationio" ); ?></button>
 
 					<button class="copy-export-btn button button-large hidden"><?php esc_html_e( "Copy to clipboard", "optimisationio" ); ?></button>
 				</li>
 			</ul>
-		</div>	
+		</div>
 		<?php
 	}
 }

@@ -1,9 +1,9 @@
 === Reduce HTTP Requests, Disable Emojis & Disable Embeds, Speedup WooCommerce ===
 Contributors: pigeonhut, Jody Nesbitt, optimisation.io
-Tags: Disable Emoji, Disable Embeds, Disable Gravatars, Remove Querystrings, Reduce HTTP Requests, speedup WooCommerce, Close comments
+Tags: Disable Emoji, Disable Embeds, Disable Gravatars, Remove Querystrings, Reduce HTTP Requests, speedup WooCommerce, Close comments, Optimization
 Requires at least: 4.5
-Tested up to: 4.8.1
-Stable tag: 1.5.13
+Tested up to: 4.8.2
+Stable tag: 1.5.14
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -77,6 +77,14 @@ You can try our <a href="https://wordpress.org/plugins/wp-image-compression/">Fr
 
 
 == Changelog ==
+= 1.5.14 =
+
+= 1.5.13 =
+* Added Settings link on main Installed Plugin view
+* General code tidy up
+* PHP 7.1 compatabile
+* WP 4.8.2 tested
+
 = 1.5.12 =
 * WooCommerce bugs fixed
 * Syntax error fixed

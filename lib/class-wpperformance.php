@@ -591,7 +591,7 @@ class WpPerformance {
 		
 		$settings = $this->get_settings_values();
 		
-		if( ! $settings['dns_prefetch'] ) {
+		if( ! isset( $settings['dns_prefetch'] ) || ! $settings['dns_prefetch'] ) {
 			return;
 		}
 

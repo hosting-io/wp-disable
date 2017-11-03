@@ -2,6 +2,7 @@
 class WpPerformance_Admin {
 
 	public function __construct() {
+		add_action( 'init', array( $this, 'wp_performance_yoast_seo_settings' ) );
 		add_action( 'init', array( $this, 'wp_performance_disable_emojis' ) );
 		add_action( 'init', array( $this, 'wp_performance_speed_stop_loading_wp_embed' ) );
 		add_filter( 'script_loader_src', array( $this, 'wp_performance_remove_script_version' ), 15, 1 );
@@ -9,9 +10,43 @@ class WpPerformance_Admin {
 		add_action( 'init', array( $this, 'wp_performace_disable_woo_stuffs' ) );
 		add_action( 'init', array( $this, 'wp_performance_optimize_cleanups' ) );
 		add_action( 'wp_loaded', array( $this, 'wp_performance_disable_google_maps' ) );
+		add_action( 'wp_default_scripts', array( $this, 'remove_jquery_migrate' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'wp_performance_dequeue_woocommerce_cart_fragments' ), 11 );
 		add_action( 'wp_loaded', array( $this, 'wp_performance_save_dashboard_settings' ) );
 		$this->heartbeat_handler();
+	}
+
+	public function wp_performance_yoast_seo_settings(){
+
+		if ( defined( 'WPSEO_VERSION' ) ){
+
+			$settings = get_option( WpPerformance::OPTION_KEY . '_settings', array() );
+
+			if ( isset( $settings['remove_yoast_comment'] ) && 1 === (int) $settings['remove_yoast_comment'] ) {
+				add_action( 'get_header', array( $this, 'remove_yoast_comment' ) );
+				add_action( 'wp_head', array( $this, 'remove_yoast_comment_complete' ), 999 );
+			}
+
+			if ( isset( $settings['remove_yoast_breadcrumbs_duplicates'] ) && 1 === (int) $settings['remove_yoast_breadcrumbs_duplicates'] ) {
+				add_filter('wpseo_breadcrumb_single_link', array( $this, 'remove_yoast_breadcrumb_last_link' ) );
+			}
+		}
+	}
+
+	public function remove_yoast_comment() {
+		ob_start( array( $this, 'remove_yoast_comment_replace' ) );
+	}
+
+	public function remove_yoast_comment_replace($html) {
+		return preg_replace( '/^<!--.*?[Y]oast.*?-->$/mi', '', $html );
+	}
+
+	public function remove_yoast_comment_complete() {
+		ob_end_flush();
+	}
+
+	public function remove_yoast_breadcrumb_last_link($link_output) {
+		return false !== strpos( $link_output, 'breadcrumb_last' ) ? '' : $link_output;
 	}
 
 	public function disable_emojis_tinymce( $plugins ) {
@@ -44,7 +79,7 @@ class WpPerformance_Admin {
 
 	public function wp_performance_remove_script_version( $src ) {
 		if ( ! is_admin() && ! current_user_can('administrator') && ! current_user_can('editor') ) {
-			$settings = get_option( WpPerformance::OPTION_KEY . '_settings', array() );				
+			$settings = get_option( WpPerformance::OPTION_KEY . '_settings', array() );
 			if ( isset( $settings['remove_querystrings'] ) && 1 === (int) $settings['remove_querystrings'] ) {
 				$parts = explode( '?ver', $src );
 				return $parts[0];
@@ -94,10 +129,7 @@ class WpPerformance_Admin {
 				if ( ! is_woocommerce() && ! is_cart() && ! is_checkout() && ! is_account_page() ) {
 					// if we're not on a Woocommerce page, dequeue all of these scripts.
 					wp_dequeue_script( 'wc-add-to-cart' );
-					wp_dequeue_script( 'jquery-blockui' );
-					wp_dequeue_script( 'jquery-placeholder' );
 					wp_dequeue_script( 'woocommerce' );
-					wp_dequeue_script( 'jquery-cookie' );
 					wp_dequeue_script( 'wc-cart-fragments' );
 				}
 			}
@@ -119,7 +151,7 @@ class WpPerformance_Admin {
 		if ( isset( $settings['rsd_clean'] ) && $settings['rsd_clean'] ) {
 			remove_action( 'wp_head', 'rsd_link' );
 		}
-		
+
 		if ( isset( $settings['remove_rsd'] ) && $settings['remove_rsd'] ) {
 			remove_action ('wp_head', 'rsd_link');
 		}
@@ -302,6 +334,16 @@ class WpPerformance_Admin {
 		}
 	}
 
+	public function remove_jquery_migrate( &$scripts ) {
+		if( ! is_admin() ) {
+			$settings = get_option( WpPerformance::OPTION_KEY . '_settings', array() );
+			if ( isset( $settings['remove_jquery_migrate'] ) && 1 === (int) $settings['remove_jquery_migrate'] ) {
+				$scripts->remove('jquery');
+				$scripts->add('jquery', false, array('jquery-core'), '1.12.4');
+			}
+		}
+	}
+
 	public function wp_performance_dequeue_woocommerce_cart_fragments() {
 		if( WpPerformance::is_woocommerce_enabled() ){
 			$settings = get_option( WpPerformance::OPTION_KEY . '_settings', array() );
@@ -367,9 +409,9 @@ class WpPerformance_Admin {
 					$options['ds_adjusted_bounce_rate'] = isset( $post_req['ds_adjusted_bounce_rate'] ) ? sanitize_text_field( $post_req['ds_adjusted_bounce_rate']) : 0;
 					$options['ds_enqueue_order'] = isset( $post_req['ds_enqueue_order'] ) ? sanitize_text_field( $post_req['ds_enqueue_order'] ) : 0;
 					$options['ds_anonymize_ip'] = isset( $post_req['ds_anonymize_ip'] ) ? sanitize_text_field( $post_req['ds_anonymize_ip'] ) : null;
-					
+
 					$options['ds_script_position'] = isset( $post_req['ds_script_position'] ) ? sanitize_text_field( $post_req['ds_script_position'] ) : null;
-					$options['caos_disable_display_features'] = isset( $post_req['caos_disable_display_features'] ) ? sanitize_text_field( $post_req['caos_disable_display_features'] ) : null;					
+					$options['caos_disable_display_features'] = isset( $post_req['caos_disable_display_features'] ) ? sanitize_text_field( $post_req['caos_disable_display_features'] ) : null;
 					$options['ds_track_admin'] = isset( $post_req['ds_track_admin'] ) ? sanitize_text_field( $post_req['ds_track_admin'] ) : null;
 					$options['caos_remove_wp_cron'] = isset( $post_req['caos_remove_wp_cron'] ) ? sanitize_text_field( $post_req['caos_remove_wp_cron'] ) : null;
 
@@ -388,6 +430,7 @@ class WpPerformance_Admin {
 					$options = array(
 						'disable_gravatars'                  => isset( $post_req['disable_gravatars'] ) ? 1 : 0,
 						'disable_referral_spam' 			 => isset( $post_req['disable_referral_spam'] ) ? 1 : 0,
+						'remove_jquery_migrate'				 => isset( $post_req['remove_jquery_migrate'] ) ? 1 : 0,
 						'dns_prefetch'						 => isset( $post_req['dns_prefetch'] ) ? 1 : 0,
 						'dns_prefetch_host_list'			 => isset( $post_req['dns_prefetch_host_list'] ) ? $post_req['dns_prefetch_host_list'] : '',
 						'disable_emoji'                      => isset( $post_req['disable_emoji'] ) ? 1 : 0,
@@ -395,6 +438,8 @@ class WpPerformance_Admin {
 						'remove_querystrings'                => isset( $post_req['remove_querystrings'] ) ? 1 : 0,
 						'lazy_load_google_fonts'             => isset( $post_req['lazy_load_google_fonts'] ) ? 1 : 0,
 						'lazy_load_font_awesome' 			 => isset( $post_req['lazy_load_font_awesome'] ) ? 1 : 0,
+						'remove_yoast_comment'                => isset( $post_req['remove_yoast_comment'] ) ? 1 : 0,
+						'remove_yoast_breadcrumbs_duplicates' => isset( $post_req['remove_yoast_breadcrumbs_duplicates'] ) ? 1 : 0,
 						'default_ping_status'                => isset( $post_req['default_ping_status'] ) ? 1 : 0,
 						'disable_all_comments' 				 => isset( $post_req['disable_all_comments'] ) ? 1 : 0,
 						'disable_author_pages' 				 => isset( $post_req['disable_author_pages'] ) ? 1 : 0,
@@ -501,14 +546,15 @@ class WpPerformance_Admin {
 
 			<?php wp_nonce_field( 'wpperformance-g-analytics-settings-nonce', 'wpperformance_g_analytics_settings_nonce' ); ?>
 		</form>
-		<?php		
+		<?php
 	}
 
-	public static function addon_settings(){ 
-		
+	public static function addon_settings(){
+
 		$default_values = array(
 			'disable_gravatars' 					=> 0,
 			'disable_referral_spam'					=> 0,
+			'remove_jquery_migrate'					=> 0,
 			'dns_prefetch'						 	=> 0,
 			'dns_prefetch_host_list'			 	=> '',
 			'disable_emoji'                         => 0,
@@ -516,6 +562,8 @@ class WpPerformance_Admin {
 			'remove_querystrings'                   => 0,
 			'lazy_load_google_fonts' 				=> 0,
 			'lazy_load_font_awesome' 				=> 0,
+			'remove_yoast_comment'					=> 0,
+			'remove_yoast_breadcrumbs_duplicates'	=> 0,
 			'default_ping_status'                   => 0,
 			'disable_all_comments' 				 	=> 0,
 			'disable_author_pages'					=> 0,
@@ -555,13 +603,13 @@ class WpPerformance_Admin {
 			'disable_wordpress_password_meter'		=> 0,
 			'disable_front_dashicons_when_disabled_toolbar' => 0,
 		);
-		
+
 		$sett = get_option( WpPerformance::OPTION_KEY . '_settings', $default_values );
 
 		$public_post_types = get_post_types( array( 'public' => true ) );
 		?>
 		<div class="addon-settings" data-sett-group="wp-disable">
-			
+
 			<form action="<?php echo esc_url( admin_url( 'admin.php?page=optimisationio-dashboard' ) ); ?>" method="post">
 
 				<div class="addon-settings-tabs">
@@ -572,6 +620,7 @@ class WpPerformance_Admin {
 						<?php } ?>
 						<li data-tab-setting="tags"><?php esc_html_e('Tags', 'optimisationio'); ?></li>
 						<li data-tab-setting="admin"><?php esc_html_e('Admin', 'optimisationio'); ?></li>
+						<li data-tab-setting="seo"><?php esc_html_e('SEO', 'optimisationio'); ?></li>
 						<li data-tab-setting="others"><?php esc_html_e('Others', 'optimisationio'); ?></li>
 					</ul>
 				</div>
@@ -601,6 +650,11 @@ class WpPerformance_Admin {
 								<input type="text" name="exclude_from_disable_google_maps" value="<?php if ( isset( $sett['exclude_from_disable_google_maps'] ) ) { echo $sett['exclude_from_disable_google_maps']; } ?>" /><br/>
 								<small style="display:inline-block; padding-top:5px;"><?php printf('%s Posts %s or %s Pages IDs %s separated by a', '<strong>', '</strong>', '<strong>', '</strong>' ); ?> <code>,</code></small>
 							</div>
+						</div>
+
+						<div class="field">
+							<div class="field-left"><?php esc_attr_e('Remove jQuery migrate', 'optimisationio'); ?></div>
+							<div class="field-right"><?php Optimisationio_Dashboard::checkbox_component('remove_jquery_migrate', isset( $sett['remove_jquery_migrate'] ) && 1 === (int) $sett['remove_jquery_migrate']); ?></div>
 						</div>
 						<div class="field">
 							<div class="field-left"><?php esc_attr_e('Disable Referral Spam', 'optimisationio'); ?></div>
@@ -638,7 +692,7 @@ class WpPerformance_Admin {
 					</div>
 
 					<?php if( WpPerformance::is_woocommerce_enabled() ) { ?>
-					<div data-tab-setting="woocommerce" class="addon-settings-content auto-table-layout active">
+					<div data-tab-setting="woocommerce" class="addon-settings-content auto-table-layout">
 						<div class="field">
 							<div class="field-left"><?php esc_attr_e('Disable WooCommerce scripts and CSS on non WooCommerce pages', 'optimisationio'); ?></div>
 							<div class="field-right"><?php Optimisationio_Dashboard::checkbox_component('disable_woocommerce_non_pages', isset( $sett['disable_woocommerce_non_pages'] ) && 1 === (int) $sett['disable_woocommerce_non_pages']); ?></div>
@@ -683,13 +737,13 @@ class WpPerformance_Admin {
 							<div class="field-right"><?php Optimisationio_Dashboard::checkbox_component('remove_wordpress_generator_tag', isset( $sett['remove_wordpress_generator_tag'] ) && 1 === (int) $sett['remove_wordpress_generator_tag']); ?></div>
 						</div>
 					</div>
-					
+
 					<div data-tab-setting="admin" class="addon-settings-content auto-table-layout">
 						<div class="field">
 							<div class="field-left"><?php esc_html_e( 'Posts revisions number', 'optimisationio'); ?></div>
 							<div class="field-right">
 								<?php
-									
+
 									$revisions_num = array(
 										'default' => __( 'WordPress default', 'optimisationio' ),
 										'0' => 0,
@@ -704,7 +758,7 @@ class WpPerformance_Admin {
 										'25' => 25,
 										'30' => 30,
 									);
-									
+
 									$selected_val = 'default';
 
 									if ( isset( $sett['disable_revisions'] ) ) {
@@ -751,7 +805,7 @@ class WpPerformance_Admin {
 							<div class="field-left"><?php esc_attr_e('Disable comments on certain post types', 'optimisationio'); ?></div>
 							<div class="field-right"><?php Optimisationio_Dashboard::checkbox_component('disable_comments_on_certain_post_types', isset( $sett['disable_comments_on_certain_post_types'] ) && 1 === (int) $sett['disable_comments_on_certain_post_types']); ?></div>
 						</div>
-						
+
 						<?php
 						foreach ( $public_post_types as $key => $value ) { ?>
 							<div class="field sub-sub-field certain-posts-comments-group">
@@ -836,7 +890,18 @@ class WpPerformance_Admin {
 							</div>
 						</div>
 					</div>
-					
+
+					<div data-tab-setting="seo" class="addon-settings-content auto-table-layout">
+						<div class="field">
+							<div class="field-left"><?php esc_attr_e('Remove Yoast SEO comment from head section', 'optimisationio'); ?></div>
+							<div class="field-right"><?php Optimisationio_Dashboard::checkbox_component('remove_yoast_comment', isset( $sett['remove_yoast_comment'] ) && 1 === (int) $sett['remove_yoast_comment']); ?></div>
+						</div>
+						<div class="field">
+							<div class="field-left"><?php esc_attr_e('Remove duplicate names in breadcrumbs WP SEO by Yoast', 'optimisationio'); ?></div>
+							<div class="field-right"><?php Optimisationio_Dashboard::checkbox_component('remove_yoast_breadcrumbs_duplicates', isset( $sett['remove_yoast_breadcrumbs_duplicates'] ) && 1 === (int) $sett['remove_yoast_breadcrumbs_duplicates']); ?></div>
+						</div>
+					</div>
+
 					<div data-tab-setting="others" class="addon-settings-content auto-table-layout">
 						<div class="field">
 							<div class="field-left"><?php esc_attr_e('Disable pingbacks and trackbacks', 'optimisationio'); ?></div>
@@ -883,13 +948,13 @@ class WpPerformance_Admin {
 									'twicemonthly' => __( 'Twice Monthly', 'optimisationio' ),
 									'monthly' => __( 'Once Monthly', 'optimisationio' ),
 								);
-								
+
 								$selected_val = 'daily';
-								
+
 								if ( isset( $sett['delete_spam_comments'] ) && isset( $options[ $sett['delete_spam_comments'] ] ) ) {
 									$selected_val = $sett['delete_spam_comments'];
 								} ?>
-								
+
 								<select name="delete_spam_comments"> <?php
 									foreach ( $options as $key => $val ) {
 										echo '<option value="' . esc_attr( $key ) . '" ' . ($selected_val === $key ? ' selected' : '') . '>' . $val . '</option>';
@@ -904,13 +969,13 @@ class WpPerformance_Admin {
 									printf( __( 'Next spam delete: %s', 'optimisationio' ), '<br/><strong><i>' . date( 'l, F j, Y @ h:i a',( $next_scheduled ) ) . '</i></strong>' );
 								} ?>
 							</div>
-							<div class="field-right"> 
+							<div class="field-right">
 								<?php echo submit_button( __( 'Delete spam comments now', 'optimisationio' ) , 'large submit', 'delete_spam_comments_now', false ); ?>
 							</div>
 						</div>
 					</div>
 				</div>
-				
+
 				<div class="addon-settings-actions-section">
 					<input type="submit" class="button button-primary button-large" name="" value="<?php echo esc_attr("Save settings", "optimisationio"); ?>" />
 				</div>

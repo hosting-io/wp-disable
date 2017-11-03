@@ -62,14 +62,16 @@
 	width:33%;
 	padding:5px;
 	vertical-align: middle;
-	font-size: 17px;
+	font-size: 14px;
 	text-transform: uppercase;
 }
 
 .statistics-top-cell a{
-	white-space: nowrap;
+	/* white-space: nowrap; */ 
 	display:inline-block;
 	text-decoration:none;
+	-moz-border-radius: 46px;
+	-webkit-border-radius: 46px;
 	border-radius: 46px;
 	transition: 0.3s;
 }
@@ -80,10 +82,11 @@
 }
 
 .statistics-top-cell.logo{
+	 width:25%;
 }
 
 .statistics-top-cell.logo img{
-	max-height:46px;
+	max-height:42px;
 	max-width:100%;
 }
 
@@ -109,13 +112,15 @@
 }
 
 .statistics-top-cell.support{
-	width:auto;
+	width:45%;
 	text-align: right;
 }
 
 .statistics-top-cell.support a{
+	display:table;
+	text-align:center;
 	color: #ffcc26;
-	padding: 11px 20px 6px 15px;
+	padding: 7px 20px 5px 15px;
 }
 
 .statistics-top-cell.support a:hover {
@@ -123,8 +128,19 @@
   	color: #bf9200;
 }
 
+.statistics-top-cell.support a img,
+.statistics-top-cell.support a span{
+	display:table-cell;
+	vertical-align:middle;
+}
+
 .statistics-top-cell.support a img{
-	margin-right:15px;
+	/*margin-right:15px;*/
+	margin-top: 5px;
+}
+
+.statistics-top-cell.support a span{
+	padding:0 0 0 5px;
 }
 
 .statistics-measurements{
@@ -255,7 +271,9 @@
 	width:7rem;
 	margin:0 auto;	
 	border:1px solid rgba(255,255,255,0.2);
-	border-radius:9999px;
+	-moz-border-radius: 9999px;
+	-webkit-border-radius: 9999px;
+	border-radius: 9999px;
 }
 
 .stats-part .addon-stats .compress-image-saved > div {
@@ -303,7 +321,9 @@
 	padding:7px;
 	margin:10px 0;
 	border:1px solid rgba(255,255,255,0.05);
-	border-radius:1px; 
+	-moz-border-radius: 1px;
+	-webkit-border-radius: 1px;
+	border-radius: 1px;
 }
 
 .stats-part ul.cache-and-database-list li{
@@ -355,6 +375,8 @@
 	padding: 13px 25px;
 	text-transform:uppercase;
 	border:0;
+	-moz-border-radius: 46px;
+	-webkit-border-radius: 46px;
 	border-radius: 46px;
 	cursor:pointer;
 	overflow:hidden;
@@ -457,7 +479,9 @@
 	font-size:10px;
 	font-weight:100;
 	text-transform: uppercase;
-	border-radius:2px;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+	border-radius: 2px;
 	background: rgba(255,255,255,0.1);
 	cursor:pointer;
 }
@@ -879,15 +903,19 @@
 }
 
 .optio-check-light + .optio-check-btn {
-  background: #ddd;
-  border-radius: 2em;
-  padding: 2px;
-  -webkit-transition: all .4s ease;
-  transition: all .4s ease;
+	background: #ddd;
+	-moz-border-radius: 2em;
+	-webkit-border-radius: 2em;
+	border-radius: 2em;
+	padding: 2px;
+	-webkit-transition: all .4s ease;
+	transition: all .4s ease;
 }
 
 .optio-check-light + .optio-check-btn:after {
-  border-radius: 50%;
+  -moz-border-radius: 50%;
+	-webkit-border-radius: 50%;
+	border-radius: 50%;
   background: #fff;
   -webkit-transition: all .2s ease;
   transition: all .2s ease;
@@ -942,4 +970,110 @@
 .clearing-gravatars-cache-overlay > div img{
 	margin:0 0 2px 1rem;
 	vertical-align:inherit;
+}
+
+.donation-overlay-wrap{
+	position:absolute;
+	top:0;
+	left:0;
+	bottom:24px;
+	right:0;
+	padding-top:30px;
+	display:block;
+	background-color:rgba(20,38,58,0.3);
+}
+
+.donation-overlay-wrap.hidden{
+	display:none;
+}
+
+.donation-overlay-outer{
+	width:100%;
+	height:100%;
+	display:table;
+}
+
+.donation-overlay-main{
+	display:table-cell;
+	vertical-align:top;
+}
+
+.donation-overlay-inner{
+	position:relative;
+	display:block;
+	width:94%;
+	max-width:450px;
+	margin:0 auto;
+	border:1px solid #f1f1f1;
+	border-color:rgba(20,38,58,0.3);
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	overflow:hidden;
+	-moz-box-shadow: 0 3px 10px 0 rgba(0,0,0, 0.5);
+	-webkit-box-shadow: 0 3px 10px 0 rgba(0,0,0, 0.5);
+	box-shadow: 0 3px 10px 0 rgba(0,0,0, 0.5);
+}
+
+.donation-overlay-top{
+	position:relative;
+	padding:25px 25px 5px;
+	text-align:center;
+	background-color:#1b334d;
+	color: #ffcc26;
+	font-size:13px;
+	font-weight:300;
+}
+
+.donation-overlay-top img{
+	max-height:42px;
+	margin:0;
+}
+
+.donation-overlay-top span{
+	display:block;
+	padding:15px 0;
+	text-transform:uppercase;
+}
+
+.donation-overlay-bottom{
+	text-align:center;
+	padding:35px 0;
+	background-color:#fff;
+	background-color:#e6e6e6;
+}
+.donation-overlay-bottom select{
+	margin-bottom:30px;
+}
+
+.donation-overlay-inner button.close{
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	padding: 0;
+	display: inline-block;
+	text-align: center;
+	font-family:sans-serif;
+	color: #5dbfd5;
+	border-width: 1px;
+	border-style: solid;
+	border-color: rgba(27,51,77, 0.9);
+	background: rgba(255, 255, 255, 0.1);
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+	border-radius: 2px;
+	cursor: pointer;
+}
+
+.donation-overlay-inner  button.close span {
+	display:block;
+	width: 25px;
+	height: 24px;
+	line-height: 23px;
+	color: #fff;
+	color: rgba(255, 255, 255, 0.7);
+}
+
+.donation-overlay-inner  button.close:hover span {
+  color: rgba(255, 255, 255, 0.9);
 }

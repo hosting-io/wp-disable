@@ -208,7 +208,11 @@ class WpPerformance {
 
 		$settings = $this->get_settings_values();
 
-		if( ! is_admin() && ! is_admin_bar_showing() && isset( $settings['disable_front_dashicons_when_disabled_toolbar'] ) && $settings['disable_front_dashicons_when_disabled_toolbar'] ){
+		if( ! is_admin() &&
+			! is_admin_bar_showing() && 
+			! is_customize_preview() &&
+			isset( $settings['disable_front_dashicons_when_disabled_toolbar'] ) && 
+			$settings['disable_front_dashicons_when_disabled_toolbar'] ){
 			wp_deregister_style('dashicons');
 		}
 	}

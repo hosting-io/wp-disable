@@ -1,6 +1,14 @@
-.DS_Store/*
+.idea
+
+.DS_Store
+*/.DS_Store
+
+.sass-cache/
+
 cache/local-ga.js
-/.DS_Store
+
 /ie.scssc
 /print.scssc
 /screen.scssc
+
+phpcs.xml

@@ -706,6 +706,44 @@ var Optimisationio_Dashboard_Image_Compression = (function($){
 	}
 }(jQuery));
 
+var Optimisationio_Donation = (function($){
+	
+	var paypal_link = 'https://www.paypal.me/web9/{{amount}}',
+		$elems = {
+			link: null,
+			overlay: null,
+			close: null,
+			select: null,
+			submit: null,
+		};
+
+	function set_elems(){
+		this.$elems = {
+			link: $('.donate-link'),
+			overlay: $('.donation-overlay-wrap'),
+			close: $('.donation-overlay-inner .close'),
+			select: $('.donation-overlay-bottom select'),
+			submit: $('.donation-overlay-bottom button')
+		};
+	}
+
+	function set_events(){
+		var that = this;
+		this.$elems.link[0].addEventListener('click', function(ev){ ev.preventDefault(); ev.stopPropagation(); that.$elems.overlay.removeClass('hidden'); });
+		this.$elems.close[0].addEventListener('click', function(ev){ ev.preventDefault(); ev.stopPropagation(); that.$elems.overlay.addClass('hidden'); });
+		this.$elems.submit[0].addEventListener('click', function(ev){ ev.preventDefault(); ev.stopPropagation(); window.open( paypal_link.replace("{{amount}}", that.$elems.select[0].value, that.paypal_link) ); that.$elems.overlay.addClass('hidden'); });
+	}
+
+	function init(){
+		set_elems();
+		set_events();
+	}
+
+	return {
+		init: init,
+	}
+}(jQuery));
+
 (function ($) {
 
 	"use strict";
@@ -714,6 +752,7 @@ var Optimisationio_Dashboard_Image_Compression = (function($){
 		Optimisationio_Dashbord_WP_Disable.init();
 		Optimisationio_Dashboard_Cache_Performance.init();
 		Optimisationio_Dashboard_Image_Compression.init();
+		Optimisationio_Donation.init();
 	});
 	
 }(jQuery));

@@ -11,6 +11,7 @@ class WpPerformance {
 	private $plugin_settings = null;
 
 	private static $enabled_woocommerce = null;
+	private static $show_seo_tab = null;
 
 	/**
 	 * Constructor.
@@ -957,5 +958,12 @@ class WpPerformance {
 			WpPerformance::$enabled_woocommerce = in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) );
 		}
 		return WpPerformance::$enabled_woocommerce;
+	}
+
+	public static function should_show_seo_tab(){
+		if( null === WpPerformance::$show_seo_tab ){
+			WpPerformance::$show_seo_tab = is_plugin_active( 'wordpress-seo/wp-seo.php' );
+		}
+		return WpPerformance::$show_seo_tab;
 	}
 }

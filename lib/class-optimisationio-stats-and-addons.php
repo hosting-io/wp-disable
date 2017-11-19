@@ -206,7 +206,7 @@ class Optimisationio_Stats_And_Addons {
 						}
 					}
 					else{
-						$ret['msg'] = "Dectivation error";
+						$ret['msg'] = "Deactivation error";
 					}
 				}
 				else{

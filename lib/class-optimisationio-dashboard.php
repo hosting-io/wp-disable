@@ -621,7 +621,9 @@ class Optimisationio_Dashboard {
 
 	private static function display_stats__cache_and_database_and_wp_disable(){
 		$active_addon = self::addon_activated('cache-performance');
-		$cache_info = $active_addon ? Optimisationio_CacheEnabler::get_optimisation_info() : null;
+		if ( ! $active_addon || ! $cache_info = Optimisationio_CacheEnabler::get_optimisation_info() ) {
+			$cache_info = (object) array( 'size' => 0, 'optimised_size' => 0, 'saving' => 0 );
+		}
 		$wp_disable_active_addon = self::addon_activated('wp-disable');
 		?>
 		<div class="addon-stats">

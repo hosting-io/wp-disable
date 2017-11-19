@@ -620,7 +620,9 @@ class WpPerformance_Admin {
 						<?php } ?>
 						<li data-tab-setting="tags"><?php esc_html_e('Tags', 'optimisationio'); ?></li>
 						<li data-tab-setting="admin"><?php esc_html_e('Admin', 'optimisationio'); ?></li>
+						<?php if( WpPerformance::should_show_seo_tab() ) { ?>
 						<li data-tab-setting="seo"><?php esc_html_e('SEO', 'optimisationio'); ?></li>
+						<?php } ?>
 						<li data-tab-setting="others"><?php esc_html_e('Others', 'optimisationio'); ?></li>
 					</ul>
 				</div>

@@ -17,9 +17,10 @@ Legend: `[ ]` todo · `[~]` in progress · `[x]` done · 🔴 critical · 🟠 h
 ---
 
 ## Phase 0 — Tooling & baseline
-- [ ] ⚪ Set up a local PHP lint path (php not installed on this box — use Docker `php:8.2-cli` or install `php-cli`) so every change can be `php -l`'d.
-- [ ] 🟡 Add WordPress Coding Standards (phpcs + WPCS) config (`phpcs.xml.dist`) for repeatable review.
-- [ ] ⚪ Record a clean "before" baseline (current behavior) so we can confirm no regressions.
+- [x] ⚪ Local PHP lint path — **blocked on this box** (no php/docker/sudo/composer). Worked around: `scripts/ship-wp-disable.sh` runs `php -l` when php is present and skips gracefully otherwise; the real executing lint path is CI (below). Install `php-cli` on the LAN server to lint locally.
+- [x] 🟡 Add WPCS config — `phpcs.xml.dist` (WordPress + PHPCompatibilityWP, testVersion 7.4-, text-domain + prefix properties).
+- [x] 🟡 Add CI lint path — `.github/workflows/lint.yml`: `php -l` matrix (7.4/8.1/8.2) + phpcs (non-blocking until phases 2–5 land).
+- [ ] ⚪ Record a clean "before" baseline (current behavior) so we can confirm no regressions. _(Deferred — needs a running WP install.)_
 
 ## Phase 1 — Remove dead / duplicate code (do first; shrinks the surface)
 - [ ] 🟠 Delete legacy duplicate class tree `lib/WpPerformance/` (`Admin.php`, `View.php`) — not loaded anywhere; it's the pre-1.5 version (renders via `tools.php`, references `WpPerformance_View::render`).

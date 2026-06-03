@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<ruleset name="WP Disable">
+	<description>Coding standards for the WP Disable plugin (WPCS-based).</description>
+
+	<!-- What to scan -->
+	<file>.</file>
+
+	<!-- Exclude dev tooling, vendored libs, assets, and build output. -->
+	<exclude-pattern>/scripts/*</exclude-pattern>
+	<exclude-pattern>/dist/*</exclude-pattern>
+	<exclude-pattern>/build/*</exclude-pattern>
+	<exclude-pattern>/vendor/*</exclude-pattern>
+	<exclude-pattern>/node_modules/*</exclude-pattern>
+	<exclude-pattern>*/js/*.min.js</exclude-pattern>
+
+	<!-- Show progress and use colors; show sniff codes so they're actionable. -->
+	<arg value="ps"/>
+	<arg name="colors"/>
+	<arg name="extensions" value="php"/>
+
+	<!-- Only sniff PHP files. -->
+	<arg name="parallel" value="8"/>
+
+	<!-- Target the supported runtime: PHP 7.4+ (see TODO.md decisions). -->
+	<config name="testVersion" value="7.4-"/>
+	<config name="minimum_wp_version" value="6.4"/>
+
+	<!-- Base rules. WordPress = Core + Docs + Extra + DB + Security. -->
+	<rule ref="WordPress">
+		<!-- Legacy class-file naming predates this ruleset; not worth churning. -->
+		<exclude name="WordPress.Files.FileName"/>
+		<!-- Yoda conditions: not enforcing on a legacy codebase mid-refactor. -->
+		<exclude name="WordPress.PHP.YodaConditions"/>
+	</rule>
+
+	<!-- Verify PHP cross-version compatibility (needs PHPCompatibility installed). -->
+	<rule ref="PHPCompatibilityWP"/>
+
+	<!-- Plugin text domain(s). Standardizing on `wp-disable` (Phase 5). -->
+	<rule ref="WordPress.WP.I18n">
+		<properties>
+			<property name="text_domain" type="array">
+				<element value="wp-disable"/>
+				<element value="wpperformance"/>
+				<element value="optimisationio"/>
+			</property>
+		</properties>
+	</rule>
+
+	<!-- Global/function/hook prefixes used by this plugin. -->
+	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
+		<properties>
+			<property name="prefixes" type="array">
+				<element value="wpperformance"/>
+				<element value="wp_disable"/>
+				<element value="optimisationio"/>
+			</property>
+		</properties>
+	</rule>
+</ruleset>

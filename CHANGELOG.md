@@ -14,6 +14,8 @@ Use the prefixes **Added / Changed / Fixed / Security / Removed / Deprecated**.
 ### Added
 - `TODO.md` — full modernization task list (phases 0–6).
 - `CHANGELOG.md` — this development tracker.
+- **Phase 0 — tooling:** `phpcs.xml.dist` (WPCS + PHPCompatibilityWP, PHP 7.4+ target) and `.github/workflows/lint.yml` (CI `php -l` matrix on 7.4/8.1/8.2 + non-blocking phpcs). Local lint is blocked on the dev box (no php), so CI is the executing lint path.
+- `scripts/ship-wp-disable.sh` (local-only, gitignored) — deploy/lint/zip helper.
 
 ### Changed
 - `wpperformance.php`: dropped the `require_once` for the deleted `class-wpperformance-view.php`.

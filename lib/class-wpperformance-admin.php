@@ -334,12 +334,22 @@ class WpPerformance_Admin {
 		}
 	}
 
-	public function remove_jquery_migrate( &$scripts ) {
-		if( ! is_admin() ) {
-			$settings = get_option( WpPerformance::OPTION_KEY . '_settings', array() );
-			if ( isset( $settings['remove_jquery_migrate'] ) && 1 === (int) $settings['remove_jquery_migrate'] ) {
-				$scripts->remove('jquery');
-				$scripts->add('jquery', false, array('jquery-core'), '1.12.4');
+	public function remove_jquery_migrate( $scripts ) {
+		if ( is_admin() ) {
+			return;
+		}
+
+		$settings = get_option( WpPerformance::OPTION_KEY . '_settings', array() );
+
+		if ( isset( $settings['remove_jquery_migrate'] ) && 1 === (int) $settings['remove_jquery_migrate'] ) {
+			// Drop jquery-migrate from the 'jquery' meta-handle's dependencies.
+			// The old code re-registered jquery pinned to 1.12.4, which DOWNGRADED
+			// core jQuery on modern WP (5.6+ ships jQuery 3.x) and broke sites.
+			if ( ! empty( $scripts->registered['jquery'] ) && is_array( $scripts->registered['jquery']->deps ) ) {
+				$scripts->registered['jquery']->deps = array_diff(
+					$scripts->registered['jquery']->deps,
+					array( 'jquery-migrate' )
+				);
 			}
 		}
 	}
@@ -357,7 +367,8 @@ class WpPerformance_Admin {
 
 	public function heartbeat_stop(){
 		$settings = get_option( WpPerformance::OPTION_KEY . '_settings', array() );
-		switch( $settings['heartbeat_location'] ){
+		$location = isset( $settings['heartbeat_location'] ) ? $settings['heartbeat_location'] : 'default';
+		switch( $location ){
 			case 'disable_everywhere':
 				wp_deregister_script('heartbeat');
 				break;
@@ -378,7 +389,9 @@ class WpPerformance_Admin {
 
 	public function heartbeat_frequency( $args ){
 		$settings = get_option( WpPerformance::OPTION_KEY . '_settings', array() );
-		$args['interval'] = (int) $settings['heartbeat_frequency'];
+		if ( isset( $settings['heartbeat_frequency'] ) ) {
+			$args['interval'] = (int) $settings['heartbeat_frequency'];
+		}
 		return $args;
 	}
 

@@ -21,7 +21,15 @@ Use the prefixes **Added / Changed / Fixed / Security / Removed / Deprecated**.
 - `wpperformance.php`: dropped the `require_once` for the deleted `class-wpperformance-view.php`.
 
 ### Fixed
-- _nothing yet_
+- **Phase 2 — functional bugs:**
+  - **Spam-comment cleaner now actually deletes.** `delete_spam_comments()` used `IN ( %s )` with an imploded string, so `$wpdb->prepare` quoted the whole id list as one value and deleted nothing. Now builds one `%d` placeholder per id (`class-wpperformance.php`).
+  - **Comment links no longer blank out comments.** `disable_comments_content_links()` is a `comment_text` filter but `echo`'d and returned null. Now `return`s the stripped content (`class-wpperformance.php`).
+  - **Saved-request stats no longer crossed.** `update_saved_google_fonts_request()` / `update_saved_font_awesome_requests()` each wrote to the *other* option key. Swapped to their correct keys (`class-wpperformance.php`).
+  - **`check_spam_comments_delete()`** was `static` yet branched on `isset($this)` / `$this->...` (dead branch, PHP 8 error). Removed; reads options directly + casts the flag (`class-wpperformance.php`).
+  - **`get_plugin_name()`** called `get_plugin_data(__FILE__)` on the class file (wrong file) and the function may be unloaded. Now guards the include and points at the main plugin file with a safe fallback (`class-wpperformance.php`).
+  - **jQuery Migrate removal no longer downgrades core jQuery.** Old code re-registered `jquery` pinned to `1.12.4`, breaking modern WP (jQuery 3.x). Now just removes `jquery-migrate` from the `jquery` handle's deps (`class-wpperformance-admin.php`).
+  - **Heartbeat handlers** read `heartbeat_location` / `heartbeat_frequency` without `isset` (PHP 8 warnings). Added guards (`class-wpperformance-admin.php`).
+  - Renamed typo method `redirect_athor_pages` → `redirect_author_pages` (+ its hook).
 
 ### Security
 - _nothing yet_

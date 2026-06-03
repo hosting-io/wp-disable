@@ -77,10 +77,15 @@ class WpPerformance {
 
 		$spam_comments_id_arr = $wpdb->get_col( "SELECT comment_id FROM {$wpdb->comments} WHERE comment_approved = 'spam'" );
 		if ( ! empty( $spam_comments_id_arr ) ) {
-			$spam_comments_ids = implode( ', ', array_map( 'intval', $spam_comments_id_arr ) );
+			$spam_comments_id_arr = array_map( 'intval', $spam_comments_id_arr );
 
-			$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->comments} WHERE comment_id IN ( %s )", $spam_comments_ids ) );
-			$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->commentmeta} WHERE comment_id IN ( %s )", $spam_comments_ids ) );
+			// Build one %d placeholder per id. Using IN ( %s ) with an imploded
+			// string (the old code) made $wpdb->prepare quote the whole list as a
+			// single value, so nothing was ever deleted.
+			$placeholders = implode( ', ', array_fill( 0, count( $spam_comments_id_arr ), '%d' ) );
+
+			$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->comments} WHERE comment_id IN ( $placeholders )", $spam_comments_id_arr ) );
+			$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->commentmeta} WHERE comment_id IN ( $placeholders )", $spam_comments_id_arr ) );
 
 			$wpdb->query( "OPTIMIZE TABLE $wpdb->comments" );
 			$wpdb->query( "OPTIMIZE TABLE $wpdb->commentmeta" );
@@ -159,8 +164,15 @@ class WpPerformance {
 	 * @return string The plugin name.
 	 */
 	private function get_plugin_name() {
-		$data = get_plugin_data( __FILE__ );
-		return $data['Name'];
+		// get_plugin_data() lives in wp-admin and must be pointed at the MAIN
+		// plugin file (this is the class file). Guard both so the version-error
+		// notices never fatal.
+		if ( ! function_exists( 'get_plugin_data' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/plugin.php';
+		}
+		$main_file = dirname( __FILE__, 2 ) . '/wpperformance.php';
+		$data = get_plugin_data( $main_file, false, false );
+		return ! empty( $data['Name'] ) ? $data['Name'] : 'WP Disable';
 	}
 
 	// -------------------------------------------------------------------------
@@ -339,17 +351,17 @@ class WpPerformance {
 
 	private function update_saved_google_fonts_request( $count ) {
 		$count = ! isset( $count ) ? 0 : (int) $count;
-		$old_val = get_option( self::OPTION_KEY . '_combined_font_awesome_requests_number' );
+		$old_val = get_option( self::OPTION_KEY . '_combined_google_fonts_requests_number' );
 		if( false === $old_val || ( false !== $old_val && $count > (int) $old_val ) ){
-			update_option( self::OPTION_KEY . '_combined_font_awesome_requests_number', $count );
+			update_option( self::OPTION_KEY . '_combined_google_fonts_requests_number', $count );
 		}
 	}
 
 	private function update_saved_font_awesome_requests( $count ) {
 		$count = ! isset( $count ) ? 0 : (int) $count;
-		$old_val = get_option( self::OPTION_KEY . '_combined_google_fonts_requests_number' );
+		$old_val = get_option( self::OPTION_KEY . '_combined_font_awesome_requests_number' );
 		if( false === $old_val || ( false !== $old_val && $count > (int)  $old_val ) ){
-			update_option( self::OPTION_KEY . '_combined_google_fonts_requests_number', $count );
+			update_option( self::OPTION_KEY . '_combined_font_awesome_requests_number', $count );
 		}
 	}
 
@@ -501,13 +513,11 @@ class WpPerformance {
 
 	public static function check_spam_comments_delete( $reschedule = false ) {
 
-		if ( isset( $this ) ) {
-			$settings = $this->get_settings_values();
-		} else {
-			$settings = get_option( self::OPTION_KEY . '_settings', array() );
-		}
+		// This method is static; $this is never available here (the old
+		// isset( $this ) branch was dead code that also errored on PHP 8).
+		$settings = get_option( self::OPTION_KEY . '_settings', array() );
 
-		if ( isset( $settings['spam_comments_cleaner'] ) && 1 === $settings['spam_comments_cleaner'] && isset( $settings['delete_spam_comments'] ) && $settings['delete_spam_comments'] ) {
+		if ( isset( $settings['spam_comments_cleaner'] ) && 1 === (int) $settings['spam_comments_cleaner'] && isset( $settings['delete_spam_comments'] ) && $settings['delete_spam_comments'] ) {
 			self::schedule_spam_comments_delete( $settings['delete_spam_comments'], $reschedule );
 		} else {
 			self::unschedule_spam_comments_delete();
@@ -568,11 +578,11 @@ class WpPerformance {
 	private function check_pages_disable(){
 		$settings = $this->get_settings_values();
 		if ( isset( $settings['disable_author_pages'] ) && $settings['disable_author_pages'] ) {
-			add_action( 'template_redirect', array( $this, 'redirect_athor_pages' ) );
+			add_action( 'template_redirect', array( $this, 'redirect_author_pages' ) );
 		}
 	}
 
-	public function redirect_athor_pages(){
+	public function redirect_author_pages(){
 		if( get_query_var( 'author' ) || get_query_var( 'author_name' ) ){
 			wp_redirect( home_url(), 307 );
 			exit;
@@ -686,8 +696,9 @@ class WpPerformance {
 	}
 
 	public function disable_comments_content_links( $content = '' ) {
-		$content = preg_replace( '/<a[^>]*href=[^>]*>|<\/[^a]*a[^>]*>/i','',$content );
-		echo $content;
+		// This is a 'comment_text' filter: it must RETURN the value. The old
+		// echo printed the stripped content and returned null, blanking comments.
+		return preg_replace( '/<a[^>]*href=[^>]*>|<\/[^a]*a[^>]*>/i', '', $content );
 	}
 
 	public function disable_comments_authors_links( $author_link ) {

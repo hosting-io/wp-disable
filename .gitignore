@@ -12,3 +12,7 @@ cache/local-ga.js
 /screen.scssc
 
 phpcs.xml
+
+# local-only dev tooling (never shipped in the plugin zip)
+scripts/
+dist/

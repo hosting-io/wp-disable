@@ -16,7 +16,6 @@ if ( ! defined( 'WPINC' ) ) { die; }
 define( 'OPTIMISATIONIO_WP_DISABLE_ADDON', true);
 
 require_once 'lib/class-wpperformance.php';
-require_once 'lib/class-wpperformance-view.php';
 require_once 'lib/class-wpperformance-admin.php';
 
 /**

@@ -361,14 +361,6 @@ class WpPerformance {
 		return $google_fonts_saved + $font_awesome_saved;
 	}
 
-	private function reset_saved_google_fonts_request() {
-
-	}
-
-	private function reset_saved_font_awesome_requests() {
-
-	}
-
 	/**
 	 * Combine multiple Google Fonts links into one.
 	 *

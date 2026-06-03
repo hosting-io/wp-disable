@@ -21,7 +21,7 @@ jobs:
       matrix:
         php: [ '7.4', '8.1', '8.2' ]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Set up PHP ${{ matrix.php }}
         uses: shivammathur/setup-php@v2
@@ -46,7 +46,7 @@ jobs:
     name: WordPress Coding Standards
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Set up PHP 8.2
         uses: shivammathur/setup-php@v2
@@ -57,12 +57,17 @@ jobs:
 
       - name: Install PHPCS + WordPress + Compatibility standards
         run: |
+          # Composer 2.2+ blocks third-party plugins unless explicitly allowed.
+          composer global config --no-plugins allow-plugins.dealerdirect/phpcodesniffer-composer-installer true
           composer global require --no-interaction --no-progress \
             squizlabs/php_codesniffer \
             wp-coding-standards/wpcs \
             phpcompatibility/phpcompatibility-wp \
             dealerdirect/phpcodesniffer-composer-installer
           echo "$(composer global config bin-dir --absolute)" >> "$GITHUB_PATH"
+
+      - name: Verify installed standards
+        run: phpcs -i
 
       - name: Run phpcs (report as PR annotations)
         # Non-blocking for now: a 6-year-old codebase will have many findings.

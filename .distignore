@@ -1,0 +1,29 @@
+# Files and folders that must NOT be deployed to the WordPress.org SVN repo.
+# Used by 10up/action-wordpress-plugin-deploy. Keep in sync with the EXCLUDES
+# list in scripts/ship-wp-disable.sh.
+
+# Version control / CI / dev tooling
+/.git
+/.github
+/.gitignore
+/.distignore
+/.editorconfig
+/phpcs.xml
+/phpcs.xml.dist
+/_config.yml
+
+# Local-only helpers and build output
+/scripts
+/dist
+/build
+/node_modules
+/.idea
+/.sass-cache
+
+# Project docs (developer-facing, not shipped to users)
+/TODO.md
+/CHANGELOG.md
+
+# OS cruft
+.DS_Store
+*/.DS_Store

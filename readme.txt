@@ -1,9 +1,10 @@
-=== Reduce HTTP Requests, Disable Emojis & Disable Embeds, Speedup WooCommerce ===
+=== WP Disable ===
 Contributors: optimisation.io, hosting.io
-Tags: Disable Emoji, Disable Embeds, Disable Gravatars, Remove Querystrings, Reduce HTTP Requests, speedup WooCommerce, Close comments, Optimization
-Requires at least: 4.5
-Tested up to: 4.9
-Stable tag: 1.5.14
+Tags: disable emoji, disable embeds, remove query strings, performance, optimization
+Requires at least: 6.4
+Tested up to: 6.8
+Requires PHP: 7.4
+Stable tag: 2.0.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -76,6 +77,15 @@ You can try our <a href="https://wordpress.org/plugins/wp-image-compression/">Fr
 
 
 == Changelog ==
+= 2.0.0 =
+* Major modernization for current WordPress (6.x) and PHP 7.4+ / 8.x.
+* Removed the obsolete "local Google Analytics" offload (Universal Analytics was sunset by Google in July 2023). Existing GA settings, cron and cache are cleaned up automatically on upgrade.
+* Fixed: spam-comment cleaner now deletes correctly; "remove links from comments" no longer blanks comment text; Google Fonts / Font Awesome saved-request counters corrected.
+* Fixed: jQuery Migrate removal no longer downgrades core jQuery on modern WordPress.
+* Security: output escaping, input sanitization, safe redirects, and sanitized server variables throughout.
+* Compliance: unified text domain to "wp-disable", added Requires PHP / Requires at least headers, refreshed branding.
+* Removed legacy duplicate/dead code and updated the plugin name per WordPress.org guidelines.
+
 = 1.5.14 =
 * Started on Documentation
 * Added donation button - help us make this the best optimisation suite available on the repo.  Every $ donated helps.

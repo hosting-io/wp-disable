@@ -1,0 +1,81 @@
+name: Deploy to WordPress.org
+
+# Publishing model: WordPress.org still runs on SVN, but we never touch it by
+# hand. Push a version tag (e.g. `v2.0.0` or `2.0.0`) and this workflow commits
+# trunk + the tag to plugins.svn.wordpress.org via the 10up deploy action.
+#
+# The wp.org password lives ONLY in encrypted GitHub Actions secrets — never in
+# the repo or a local session. Add these two repo secrets first:
+#   SVN_USERNAME  – your WordPress.org account username (must be a plugin committer)
+#   SVN_PASSWORD  – that account's password
+#
+# The tag's version MUST match `Stable tag` in readme.txt and `Version` in
+# wpperformance.php, or the deploy action aborts.
+#
+# Rehearse safely first: Actions tab → "Deploy to WordPress.org" → Run workflow
+# → set dry_run = true. A dry run does everything except the final SVN commit.
+
+on:
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'
+      - '[0-9]+.[0-9]+.[0-9]+'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to deploy (must match Stable tag, e.g. 2.0.0)'
+        required: true
+      dry_run:
+        description: 'Dry run (do everything except the final SVN commit)'
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    name: Deploy to wp.org SVN
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Resolve version (strip any leading "v" from tags)
+        id: ver
+        run: |
+          if [ -n "${{ github.event.inputs.version }}" ]; then
+            V="${{ github.event.inputs.version }}"
+          else
+            V="${GITHUB_REF_NAME#v}"
+          fi
+          echo "version=$V" >> "$GITHUB_OUTPUT"
+          echo "Resolved version: $V"
+
+      - name: Guard — Stable tag / header must match the version
+        run: |
+          set -e
+          V="${{ steps.ver.outputs.version }}"
+          README_TAG="$(grep -iE '^\s*Stable tag:' readme.txt | sed -E 's/.*:\s*//I' | tr -d '[:space:]')"
+          HEADER_VER="$(grep -iE '^\s*\*?\s*Version:' wpperformance.php | head -1 | sed -E 's/.*Version:\s*//I' | tr -d '[:space:]')"
+          echo "tag=$V  readme Stable tag=$README_TAG  header Version=$HEADER_VER"
+          [ "$V" = "$README_TAG" ] || { echo "::error::version ($V) != readme Stable tag ($README_TAG)"; exit 1; }
+          [ "$V" = "$HEADER_VER" ] || { echo "::error::version ($V) != plugin header Version ($HEADER_VER)"; exit 1; }
+
+      - name: WordPress.org deploy
+        id: deploy
+        uses: 10up/action-wordpress-plugin-deploy@stable
+        with:
+          generate-zip: true
+          dry-run: ${{ github.event.inputs.dry_run || 'false' }}
+        env:
+          SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+          SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
+          SLUG: wp-disable
+          VERSION: ${{ steps.ver.outputs.version }}
+
+      - name: Upload built zip as a run artifact
+        if: ${{ steps.deploy.outputs.zip-path != '' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: wp-disable-${{ steps.ver.outputs.version }}
+          path: ${{ steps.deploy.outputs.zip-path }}

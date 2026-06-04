@@ -1,0 +1,76 @@
+name: Lint
+
+# The local dev box has no PHP, so this CI workflow is the real lint path
+# (GitHub runners ship PHP). Runs on every push/PR to the modernization
+# branches. See TODO.md "Phase 0".
+
+on:
+  push:
+    branches: [ master, main, 'modernize-*' ]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  php-lint:
+    name: php -l (syntax) on PHP ${{ matrix.php }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php: [ '7.4', '8.1', '8.2' ]
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Set up PHP ${{ matrix.php }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: none
+
+      - name: php -l all files
+        run: |
+          set -e
+          ERR=0
+          while IFS= read -r -d '' f; do
+            php -l "$f" || ERR=1
+          done < <(find . -name '*.php' \
+                    -not -path './scripts/*' \
+                    -not -path './vendor/*' \
+                    -not -path './node_modules/*' \
+                    -not -path './dist/*' -not -path './build/*' -print0)
+          exit $ERR
+
+  phpcs:
+    name: WordPress Coding Standards
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Set up PHP 8.2
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          coverage: none
+          tools: cs2pr
+
+      - name: Install PHPCS + WordPress + Compatibility standards
+        run: |
+          # Composer 2.2+ blocks third-party plugins unless explicitly allowed.
+          composer global config --no-plugins allow-plugins.dealerdirect/phpcodesniffer-composer-installer true
+          composer global require --no-interaction --no-progress \
+            squizlabs/php_codesniffer \
+            wp-coding-standards/wpcs \
+            phpcompatibility/phpcompatibility-wp \
+            dealerdirect/phpcodesniffer-composer-installer
+          echo "$(composer global config bin-dir --absolute)" >> "$GITHUB_PATH"
+
+      - name: Verify installed standards
+        run: phpcs -i
+
+      - name: Run phpcs (report as PR annotations)
+        # Non-blocking for now: a 6-year-old codebase will have many findings.
+        # Tighten to `continue-on-error: false` once Phases 2–5 land.
+        continue-on-error: true
+        run: phpcs -q --report=checkstyle | cs2pr

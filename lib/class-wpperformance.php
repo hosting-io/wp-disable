@@ -3,10 +3,15 @@ class WpPerformance {
 
 	private static $instance = false;
 
-	const MIN_PHP_VERSION = '5.2.4';
-	const MIN_WP_VERSION = '4.3';
-	const TEXT_DOMAIN = 'wpperformance';
+	const MIN_PHP_VERSION = '7.4';
+	const MIN_WP_VERSION = '6.4';
+	const TEXT_DOMAIN = 'wp-disable';
 	const OPTION_KEY = 'wpperformance_rev3a';
+
+	// Internal schema version, bumped when a one-time data migration is needed.
+	// v2: removed the obsolete Universal Analytics "local GA" offload feature.
+	const DB_VERSION = 2;
+	const DB_VERSION_KEY = 'wpperformance_db_version';
 
 	private $plugin_settings = null;
 
@@ -20,6 +25,8 @@ class WpPerformance {
 	private function __construct() {
 
 		if ( ! $this->test_host() ) { return; }
+
+		$this->maybe_upgrade();
 
 		if( ! class_exists('Optimisationio_Dashboard') ){
 			require_once 'class-optimisationio-dashboard.php';
@@ -59,10 +66,9 @@ class WpPerformance {
 	 * Delete plugin's transient values.
 	 */
 	public static function delete_transients() {
-		delete_transient( 'wpperformance_ds_tracking_id' );
 		delete_transient( self::OPTION_KEY . '_referalls_spam_blacklist' );
 	}
-	
+
 	/**
 	 * Delete plugin's options values.
 	 */
@@ -70,6 +76,43 @@ class WpPerformance {
 		delete_option( self::OPTION_KEY . '_settings' );
 		delete_option( self::OPTION_KEY . '_combined_google_fonts_requests_number' );
 		delete_option( self::OPTION_KEY . '_combined_font_awesome_requests_number' );
+		delete_option( self::DB_VERSION_KEY );
+	}
+
+	/**
+	 * One-time data migrations, keyed off DB_VERSION_KEY.
+	 */
+	private function maybe_upgrade() {
+
+		$installed = (int) get_option( self::DB_VERSION_KEY, 1 );
+
+		if ( $installed >= self::DB_VERSION ) {
+			return;
+		}
+
+		// v2: tear down the removed Universal Analytics "local GA" offload.
+		wp_clear_scheduled_hook( 'update_local_ga' );
+		delete_transient( 'wpperformance_ds_tracking_id' );
+
+		$settings = get_option( self::OPTION_KEY . '_settings', array() );
+		if ( is_array( $settings ) ) {
+			$ga_keys = array(
+				'ds_tracking_id', 'ds_adjusted_bounce_rate', 'ds_enqueue_order',
+				'ds_anonymize_ip', 'ds_script_position', 'ds_track_admin',
+				'caos_disable_display_features', 'caos_remove_wp_cron',
+			);
+			foreach ( $ga_keys as $ga_key ) {
+				unset( $settings[ $ga_key ] );
+			}
+			update_option( self::OPTION_KEY . '_settings', $settings );
+		}
+
+		$local_ga = dirname( dirname( __FILE__ ) ) . '/cache/local-ga.js';
+		if ( file_exists( $local_ga ) ) {
+			@unlink( $local_ga );
+		}
+
+		update_option( self::DB_VERSION_KEY, self::DB_VERSION );
 	}
 
 	public static function delete_spam_comments() {
@@ -77,10 +120,15 @@ class WpPerformance {
 
 		$spam_comments_id_arr = $wpdb->get_col( "SELECT comment_id FROM {$wpdb->comments} WHERE comment_approved = 'spam'" );
 		if ( ! empty( $spam_comments_id_arr ) ) {
-			$spam_comments_ids = implode( ', ', array_map( 'intval', $spam_comments_id_arr ) );
+			$spam_comments_id_arr = array_map( 'intval', $spam_comments_id_arr );
 
-			$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->comments} WHERE comment_id IN ( %s )", $spam_comments_ids ) );
-			$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->commentmeta} WHERE comment_id IN ( %s )", $spam_comments_ids ) );
+			// Build one %d placeholder per id. Using IN ( %s ) with an imploded
+			// string (the old code) made $wpdb->prepare quote the whole list as a
+			// single value, so nothing was ever deleted.
+			$placeholders = implode( ', ', array_fill( 0, count( $spam_comments_id_arr ), '%d' ) );
+
+			$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->comments} WHERE comment_id IN ( $placeholders )", $spam_comments_id_arr ) );
+			$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->commentmeta} WHERE comment_id IN ( $placeholders )", $spam_comments_id_arr ) );
 
 			$wpdb->query( "OPTIMIZE TABLE $wpdb->comments" );
 			$wpdb->query( "OPTIMIZE TABLE $wpdb->commentmeta" );
@@ -141,7 +189,7 @@ class WpPerformance {
 	}
 
 	/**
-	 * Displays a warning when installed in an old Wordpress version.
+	 * Displays a warning when installed in an old WordPress version.
 	 */
 	public function wp_version_error() {
 		echo '<div class="error"><p><strong>';
@@ -159,8 +207,15 @@ class WpPerformance {
 	 * @return string The plugin name.
 	 */
 	private function get_plugin_name() {
-		$data = get_plugin_data( __FILE__ );
-		return $data['Name'];
+		// get_plugin_data() lives in wp-admin and must be pointed at the MAIN
+		// plugin file (this is the class file). Guard both so the version-error
+		// notices never fatal.
+		if ( ! function_exists( 'get_plugin_data' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/plugin.php';
+		}
+		$main_file = dirname( __FILE__, 2 ) . '/wpperformance.php';
+		$data = get_plugin_data( $main_file, false, false );
+		return ! empty( $data['Name'] ) ? $data['Name'] : 'WP Disable';
 	}
 
 	// -------------------------------------------------------------------------
@@ -169,12 +224,9 @@ class WpPerformance {
 	
 	private function apply_settings() {
 
-		$this->caos_remove_wp_cron();
-
 		$this->check_referral_spam_disable();
 
 		if ( ! is_admin() ) {
-			$this->add_ga_header_script();
 			$this->check_pages_disable();
 			$this->check_dns_prefetch();
 		}
@@ -339,17 +391,17 @@ class WpPerformance {
 
 	private function update_saved_google_fonts_request( $count ) {
 		$count = ! isset( $count ) ? 0 : (int) $count;
-		$old_val = get_option( self::OPTION_KEY . '_combined_font_awesome_requests_number' );
+		$old_val = get_option( self::OPTION_KEY . '_combined_google_fonts_requests_number' );
 		if( false === $old_val || ( false !== $old_val && $count > (int) $old_val ) ){
-			update_option( self::OPTION_KEY . '_combined_font_awesome_requests_number', $count );
+			update_option( self::OPTION_KEY . '_combined_google_fonts_requests_number', $count );
 		}
 	}
 
 	private function update_saved_font_awesome_requests( $count ) {
 		$count = ! isset( $count ) ? 0 : (int) $count;
-		$old_val = get_option( self::OPTION_KEY . '_combined_google_fonts_requests_number' );
+		$old_val = get_option( self::OPTION_KEY . '_combined_font_awesome_requests_number' );
 		if( false === $old_val || ( false !== $old_val && $count > (int)  $old_val ) ){
-			update_option( self::OPTION_KEY . '_combined_google_fonts_requests_number', $count );
+			update_option( self::OPTION_KEY . '_combined_font_awesome_requests_number', $count );
 		}
 	}
 
@@ -359,14 +411,6 @@ class WpPerformance {
 		$google_fonts_saved = 1 < $google_fonts ? $google_fonts - 1 : 0;
 		$font_awesome_saved = 1 < $font_awesome ? $font_awesome - 1 : 0;
 		return $google_fonts_saved + $font_awesome_saved;
-	}
-
-	private function reset_saved_google_fonts_request() {
-
-	}
-
-	private function reset_saved_font_awesome_requests() {
-
 	}
 
 	/**
@@ -509,13 +553,11 @@ class WpPerformance {
 
 	public static function check_spam_comments_delete( $reschedule = false ) {
 
-		if ( isset( $this ) ) {
-			$settings = $this->get_settings_values();
-		} else {
-			$settings = get_option( self::OPTION_KEY . '_settings', array() );
-		}
+		// This method is static; $this is never available here (the old
+		// isset( $this ) branch was dead code that also errored on PHP 8).
+		$settings = get_option( self::OPTION_KEY . '_settings', array() );
 
-		if ( isset( $settings['spam_comments_cleaner'] ) && 1 === $settings['spam_comments_cleaner'] && isset( $settings['delete_spam_comments'] ) && $settings['delete_spam_comments'] ) {
+		if ( isset( $settings['spam_comments_cleaner'] ) && 1 === (int) $settings['spam_comments_cleaner'] && isset( $settings['delete_spam_comments'] ) && $settings['delete_spam_comments'] ) {
 			self::schedule_spam_comments_delete( $settings['delete_spam_comments'], $reschedule );
 		} else {
 			self::unschedule_spam_comments_delete();
@@ -576,13 +618,13 @@ class WpPerformance {
 	private function check_pages_disable(){
 		$settings = $this->get_settings_values();
 		if ( isset( $settings['disable_author_pages'] ) && $settings['disable_author_pages'] ) {
-			add_action( 'template_redirect', array( $this, 'redirect_athor_pages' ) );
+			add_action( 'template_redirect', array( $this, 'redirect_author_pages' ) );
 		}
 	}
 
-	public function redirect_athor_pages(){
+	public function redirect_author_pages(){
 		if( get_query_var( 'author' ) || get_query_var( 'author_name' ) ){
-			wp_redirect( home_url(), 307 );
+			wp_safe_redirect( home_url(), 307 );
 			exit;
 		}
 	}
@@ -614,7 +656,7 @@ class WpPerformance {
 
 		if( ! empty( $list ) ){
 			foreach ($list as $key => $val) {
-				echo "<link rel=\"dns-prefetch\" href=\"" . $val . "\" />\n";
+				echo '<link rel="dns-prefetch" href="' . esc_url( $val ) . '" />' . "\n";
 			}
 		}
 	}
@@ -694,8 +736,9 @@ class WpPerformance {
 	}
 
 	public function disable_comments_content_links( $content = '' ) {
-		$content = preg_replace( '/<a[^>]*href=[^>]*>|<\/[^a]*a[^>]*>/i','',$content );
-		echo $content;
+		// This is a 'comment_text' filter: it must RETURN the value. The old
+		// echo printed the stripped content and returned null, blanking comments.
+		return preg_replace( '/<a[^>]*href=[^>]*>|<\/[^a]*a[^>]*>/i', '', $content );
 	}
 
 	public function disable_comments_authors_links( $author_link ) {
@@ -749,7 +792,7 @@ class WpPerformance {
 			header( 'Content-Type: ' . get_option( 'html_type' ) . '; charset=' . get_option( 'blog_charset' ) );
 		} else {
 			if ( isset( $_GET['feed'] ) ) {
-				wp_redirect( esc_url_raw( remove_query_arg( 'feed' ) ), 301 );
+				wp_safe_redirect( esc_url_raw( remove_query_arg( 'feed' ) ), 301 );
 				exit;
 			}
 
@@ -764,11 +807,13 @@ class WpPerformance {
 			$struct = preg_quote( $struct, '#' );
 			$struct = str_replace( '%feed%', '(\w+)?', $struct );
 			$struct = preg_replace( '#/+#', '/', $struct );
-			$requested_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+			$host = isset( $_SERVER['HTTP_HOST'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_HOST'] ) ) : '';
+			$uri  = isset( $_SERVER['REQUEST_URI'] ) ? esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '';
+			$requested_url = ( is_ssl() ? 'https://' : 'http://' ) . $host . $uri;
 			$new_url = preg_replace( '#' . $struct . '/?$#', '', $requested_url );
 
 			if ( $new_url !== $requested_url ) {
-				wp_redirect( $new_url, 301 );
+				wp_safe_redirect( $new_url, 301 );
 				exit;
 			}
 		}
@@ -819,62 +864,6 @@ class WpPerformance {
 		return $query_vars;
 	}
 
-	private function caos_remove_wp_cron() {
-
-		$settings = $this->get_settings_values();
-
-		if ( isset( $settings['caos_remove_wp_cron'] ) ){
-			// Remove script from wp_cron if option is selected.
-			if( 'on' === esc_attr( $settings['caos_remove_wp_cron'] ) ){
-				wp_clear_scheduled_hook( 'update_local_ga' );
-			}
-			else if( ! wp_next_scheduled( 'update_local_ga' ) ) {
-				wp_schedule_event( time(), 'daily', 'update_local_ga' );
-			}
-		}
-	}
-
-	private function add_ga_header_script() {
-
-		$settings = $this->get_settings_values();
-
-		$ds_tracking_id = get_transient( 'wpperformance_ds_tracking_id' );
-
-		if ( false === $ds_tracking_id ) {
-
-			$ds_tracking_id = isset( $settings['ds_tracking_id'] ) && $settings['ds_tracking_id'] ? esc_attr( $settings['ds_tracking_id'] ) : '';
-			set_transient( 'wpperformance_ds_tracking_id', $ds_tracking_id, 60 * 60 * 24 );	// Keep transient for one day.
-		}
-
-		if ( '' !== $ds_tracking_id ) {
-
-			$local_ga_file = dirname( dirname( __FILE__ ) ) . '/cache/local-ga.js';
-			// If file is not created yet, create now!
-			if( ! file_exists( $local_ga_file ) ){
-				ob_start();
-				do_action('update_local_ga');
-				ob_end_clean();
-			}
-
-			$ds_script_position = isset( $settings['ds_script_position'] ) && $settings['ds_script_position'] ? esc_attr( $settings['ds_script_position'] ) : null;
-
-			if ( isset( $settings['ds_enqueue_order'] ) && $settings['ds_enqueue_order'] ) {
-				$ds_enqueue_order = esc_attr( $settings['ds_enqueue_order'] );
-				$ds_enqueue_order = $ds_enqueue_order ? $ds_enqueue_order : 0;
-			} else {
-				$ds_enqueue_order = 0;
-			}
-
-			switch ( $ds_script_position ) {
-				case 'footer':
-					add_action( 'wp_footer', 'wpperformance_add_ga_header_script', $ds_enqueue_order );
-					break;
-				default:
-					add_action( 'wp_head', 'wpperformance_add_ga_header_script', $ds_enqueue_order );
-			}
-		}
-	}
-
 	public function check_referral_spam_disable(){
 		$settings = $this->get_settings_values();
 		if ( isset( $settings['disable_referral_spam'] ) && 1 === $settings['disable_referral_spam'] ) {
@@ -886,13 +875,13 @@ class WpPerformance {
 	public function filter_referral_spam_requests($request){
 		global $wp_query;
 		
-		$referrer = wp_get_referer() !== false ? wp_get_referer() : ( isset( $_SERVER['HTTP_REFERER'] ) ? $_SERVER['HTTP_REFERER'] : '' );	// Input var okay.
-		
+		$referrer = wp_get_referer() !== false ? wp_get_referer() : ( isset( $_SERVER['HTTP_REFERER'] ) ? esc_url_raw( wp_unslash( $_SERVER['HTTP_REFERER'] ) ) : '' );
+
 		if ( empty( $referrer ) ) {
 			return $request;
 		}
 
-		$referrer = parse_url($referrer, PHP_URL_HOST);
+		$referrer = wp_parse_url($referrer, PHP_URL_HOST);
 		
 		$referrers_blacklist = $this->referrals_blacklist();
 
@@ -912,7 +901,7 @@ class WpPerformance {
         if( $is_blacklisted ){
         	status_header(404);
         	$wp_query->set_404();
-            get_template_part(404);
+            get_template_part('404');
             exit();
         }
 
@@ -925,7 +914,7 @@ class WpPerformance {
 		
 		if( false === $ret ){
 		
-			$response = wp_remote_get('http://wielo.co/referrer-spam.php');
+			$response = wp_remote_get( 'https://wielo.co/referrer-spam.php', array( 'timeout' => 5 ) );
 			
 			if ($response instanceof WP_Error) {
 	            error_log('Unable to get referrals spam blacklist: ' . $response->get_error_message());

@@ -3,7 +3,7 @@
  * Plugin Name: WP Disable
  * Plugin URI: https://optimisation.io
  * Description: Improve WordPress performance by disabling unused items. <a href="admin.php?page=optimisationio-dashboard">Open Settings</a>
- * Version: 2.0.0
+ * Version: 2.0.1
  * Requires at least: 6.4
  * Requires PHP: 7.4
  * Author: optimisation.io, hosting.io

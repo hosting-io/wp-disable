@@ -624,7 +624,7 @@ class WpPerformance {
 
 	public function redirect_author_pages(){
 		if( get_query_var( 'author' ) || get_query_var( 'author_name' ) ){
-			wp_redirect( home_url(), 307 );
+			wp_safe_redirect( home_url(), 307 );
 			exit;
 		}
 	}
@@ -656,7 +656,7 @@ class WpPerformance {
 
 		if( ! empty( $list ) ){
 			foreach ($list as $key => $val) {
-				echo "<link rel=\"dns-prefetch\" href=\"" . $val . "\" />\n";
+				echo '<link rel="dns-prefetch" href="' . esc_url( $val ) . '" />' . "\n";
 			}
 		}
 	}
@@ -792,7 +792,7 @@ class WpPerformance {
 			header( 'Content-Type: ' . get_option( 'html_type' ) . '; charset=' . get_option( 'blog_charset' ) );
 		} else {
 			if ( isset( $_GET['feed'] ) ) {
-				wp_redirect( esc_url_raw( remove_query_arg( 'feed' ) ), 301 );
+				wp_safe_redirect( esc_url_raw( remove_query_arg( 'feed' ) ), 301 );
 				exit;
 			}
 
@@ -807,11 +807,13 @@ class WpPerformance {
 			$struct = preg_quote( $struct, '#' );
 			$struct = str_replace( '%feed%', '(\w+)?', $struct );
 			$struct = preg_replace( '#/+#', '/', $struct );
-			$requested_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+			$host = isset( $_SERVER['HTTP_HOST'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_HOST'] ) ) : '';
+			$uri  = isset( $_SERVER['REQUEST_URI'] ) ? esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '';
+			$requested_url = ( is_ssl() ? 'https://' : 'http://' ) . $host . $uri;
 			$new_url = preg_replace( '#' . $struct . '/?$#', '', $requested_url );
 
 			if ( $new_url !== $requested_url ) {
-				wp_redirect( $new_url, 301 );
+				wp_safe_redirect( $new_url, 301 );
 				exit;
 			}
 		}
@@ -873,13 +875,13 @@ class WpPerformance {
 	public function filter_referral_spam_requests($request){
 		global $wp_query;
 		
-		$referrer = wp_get_referer() !== false ? wp_get_referer() : ( isset( $_SERVER['HTTP_REFERER'] ) ? $_SERVER['HTTP_REFERER'] : '' );	// Input var okay.
-		
+		$referrer = wp_get_referer() !== false ? wp_get_referer() : ( isset( $_SERVER['HTTP_REFERER'] ) ? esc_url_raw( wp_unslash( $_SERVER['HTTP_REFERER'] ) ) : '' );
+
 		if ( empty( $referrer ) ) {
 			return $request;
 		}
 
-		$referrer = parse_url($referrer, PHP_URL_HOST);
+		$referrer = wp_parse_url($referrer, PHP_URL_HOST);
 		
 		$referrers_blacklist = $this->referrals_blacklist();
 
@@ -899,7 +901,7 @@ class WpPerformance {
         if( $is_blacklisted ){
         	status_header(404);
         	$wp_query->set_404();
-            get_template_part(404);
+            get_template_part('404');
             exit();
         }
 
@@ -912,7 +914,7 @@ class WpPerformance {
 		
 		if( false === $ret ){
 		
-			$response = wp_remote_get('http://wielo.co/referrer-spam.php');
+			$response = wp_remote_get( 'https://wielo.co/referrer-spam.php', array( 'timeout' => 5 ) );
 			
 			if ($response instanceof WP_Error) {
 	            error_log('Unable to get referrals spam blacklist: ' . $response->get_error_message());

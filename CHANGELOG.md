@@ -32,7 +32,13 @@ Use the prefixes **Added / Changed / Fixed / Security / Removed / Deprecated**.
   - Renamed typo method `redirect_athor_pages` → `redirect_author_pages` (+ its hook).
 
 ### Security
-- _nothing yet_
+- **Phase 3 — hardening:**
+  - **Output escaping:** DNS-prefetch `<link>` href now `esc_url()`'d (`class-wpperformance.php`); admin settings echoes for `exclude_from_disable_google_maps` (`esc_attr`) and `dns_prefetch_host_list` (`esc_textarea`) (`class-wpperformance-admin.php`).
+  - **Input sanitization:** save handler now `wp_unslash( $_POST )` once, then sanitizes every free-text/array field — `dns_prefetch_host_list` (`sanitize_textarea_field`), `disable_comments_on_post_types` (`array_map('intval')`), `heartbeat_frequency`/`heartbeat_location`/`delete_spam_comments`/`disable_revisions` (`sanitize_text_field`), `exclude_from_disable_google_maps`, and the nonce value (`class-wpperformance-admin.php`).
+  - **Superglobals:** `$_SERVER['HTTP_HOST']`/`['REQUEST_URI']` (feed-redirect) and `$_SERVER['HTTP_REFERER']` (referral-spam) now `isset`-guarded + `wp_unslash` + `sanitize_text_field`/`esc_url_raw` (`class-wpperformance.php`).
+  - **Safe redirects:** all three `wp_redirect()` calls → `wp_safe_redirect()` (`class-wpperformance.php`).
+  - **Misc:** `parse_url()` → `wp_parse_url()`; `get_template_part(404)` → `get_template_part('404')`; `date()` → `wp_date()` (timezone-correct + `esc_html`); referral-spam blocklist fetch switched to HTTPS with a 5s timeout (`class-wpperformance.php` / `-admin.php`).
+  - **Verified (no change needed):** the shared optimisationio dashboard/stats AJAX handlers (addon install/activate/deactivate, settings import/export) are already nonce-gated; the import-export view's `$_GET['export']` is a presence-only UI toggle (no state change). Deeper hardening of that shared framework (cap checks, `wp_unslash`) is noted for later.
 
 ### Removed
 - **Phase 4 — obsolete Universal Analytics "local GA" offload (entire feature):** Google sunset UA in July 2023, so this code was dead. Removed:

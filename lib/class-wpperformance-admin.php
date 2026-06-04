@@ -410,18 +410,18 @@ class WpPerformance_Admin {
 	public function wp_performance_save_dashboard_settings(){
 		if ( is_admin() && current_user_can( 'manage_options' ) ) {
 
-			$post_req = $_POST;
+			$post_req = wp_unslash( $_POST );
 
 			if( isset( $post_req['wpperformance_admin_settings_nonce'] ) ){
 
-				if( wp_verify_nonce( $post_req['wpperformance_admin_settings_nonce'], 'wpperformance-admin-nonce' ) ) {
+				if( wp_verify_nonce( sanitize_text_field( $post_req['wpperformance_admin_settings_nonce'] ), 'wpperformance-admin-nonce' ) ) {
 
 					$options = array(
 						'disable_gravatars'                  => isset( $post_req['disable_gravatars'] ) ? 1 : 0,
 						'disable_referral_spam' 			 => isset( $post_req['disable_referral_spam'] ) ? 1 : 0,
 						'remove_jquery_migrate'				 => isset( $post_req['remove_jquery_migrate'] ) ? 1 : 0,
 						'dns_prefetch'						 => isset( $post_req['dns_prefetch'] ) ? 1 : 0,
-						'dns_prefetch_host_list'			 => isset( $post_req['dns_prefetch_host_list'] ) ? $post_req['dns_prefetch_host_list'] : '',
+						'dns_prefetch_host_list'			 => isset( $post_req['dns_prefetch_host_list'] ) ? sanitize_textarea_field( $post_req['dns_prefetch_host_list'] ) : '',
 						'disable_emoji'                      => isset( $post_req['disable_emoji'] ) ? 1 : 0,
 						'disable_embeds'                     => isset( $post_req['disable_embeds'] ) ? 1 : 0,
 						'remove_querystrings'                => isset( $post_req['remove_querystrings'] ) ? 1 : 0,
@@ -433,12 +433,12 @@ class WpPerformance_Admin {
 						'disable_all_comments' 				 => isset( $post_req['disable_all_comments'] ) ? 1 : 0,
 						'disable_author_pages' 				 => isset( $post_req['disable_author_pages'] ) ? 1 : 0,
 						'disable_comments_on_certain_post_types' => isset( $post_req['disable_comments_on_certain_post_types'] ) ? 1 : 0,
-						'disable_comments_on_post_types' 	 => isset( $post_req['disable_comments_on_post_types'] ) ? $post_req['disable_comments_on_post_types'] : array(),
+						'disable_comments_on_post_types' 	 => isset( $post_req['disable_comments_on_post_types'] ) && is_array( $post_req['disable_comments_on_post_types'] ) ? array_map( 'intval', $post_req['disable_comments_on_post_types'] ) : array(),
 						'close_comments'                     => isset( $post_req['close_comments'] ) ? 1 : 0,
 						'paginate_comments'                  => isset( $post_req['paginate_comments'] ) ? 1 : 0,
 						'remove_comments_links' 			 => isset( $post_req['remove_comments_links'] ) ? 1 : 0,
-						'heartbeat_frequency'				 => isset( $post_req['heartbeat_frequency'] ) ? $post_req['heartbeat_frequency'] : 'default',
-						'heartbeat_location'				 => isset( $post_req['heartbeat_location'] ) ? $post_req['heartbeat_location'] : 'default',
+						'heartbeat_frequency'				 => isset( $post_req['heartbeat_frequency'] ) ? sanitize_text_field( $post_req['heartbeat_frequency'] ) : 'default',
+						'heartbeat_location'				 => isset( $post_req['heartbeat_location'] ) ? sanitize_text_field( $post_req['heartbeat_location'] ) : 'default',
 						'remove_rsd'                         => isset( $post_req['remove_rsd'] ) ? 1 : 0,
 						'remove_windows_live_writer'         => isset( $post_req['remove_windows_live_writer'] ) ? 1 : 0,
 						'remove_wordpress_generator_tag'     => isset( $post_req['remove_wordpress_generator_tag'] ) ? 1 : 0,
@@ -449,10 +449,10 @@ class WpPerformance_Admin {
 						'disabled_feed_behaviour'			 => isset( $post_req['disabled_feed_behaviour'] ) && '404_error' === $post_req['disabled_feed_behaviour'] ? '404_error' : 'redirect',
 						'disable_xmlrpc'                     => isset( $post_req['disable_xmlrpc'] ) ? 1 : 0,
 						'spam_comments_cleaner' 			 => isset( $post_req['spam_comments_cleaner'] ) ? 1 : 0,
-						'delete_spam_comments' 			 	 => isset( $post_req['delete_spam_comments'] ) ? $post_req['delete_spam_comments'] : 'daily',
+						'delete_spam_comments' 			 	 => isset( $post_req['delete_spam_comments'] ) ? sanitize_text_field( $post_req['delete_spam_comments'] ) : 'daily',
 						'disable_autosave'                   => isset( $post_req['disable_autosave'] ) ? 1 : 0,
 						'disable_admin_notices' 			 => isset( $post_req['disable_admin_notices'] ) ? 1 : 0,
-						'disable_revisions'                  => isset( $post_req['disable_revisions'] ) ? $post_req['disable_revisions'] : 'default',
+						'disable_revisions'                  => isset( $post_req['disable_revisions'] ) ? sanitize_text_field( $post_req['disable_revisions'] ) : 'default',
 						'disable_woocommerce_non_pages'      => isset( $post_req['disable_woocommerce_non_pages'] ) ? 1 : 0,
 						'disable_woocommerce_cart_fragments' => isset( $post_req['disable_woocommerce_cart_fragments'] ) ? 1 : 0,
 						'disable_woocommerce_reviews'        => isset( $post_req['disable_woocommerce_reviews'] ) ? 1 : 0,
@@ -460,7 +460,7 @@ class WpPerformance_Admin {
 						'disable_wordpress_password_meter' => isset( $post_req['disable_wordpress_password_meter'] ) ? 1 : 0,
 						'disable_front_dashicons_when_disabled_toolbar' => isset( $post_req['disable_front_dashicons_when_disabled_toolbar'] ) ? 1 : 0,
 						'disable_google_maps'                => isset( $post_req['disable_google_maps'] ) ? 1 : 0,
-						'exclude_from_disable_google_maps'   => isset( $post_req['exclude_from_disable_google_maps'] ) ? trim( $post_req['exclude_from_disable_google_maps'] ) : '',
+						'exclude_from_disable_google_maps'   => isset( $post_req['exclude_from_disable_google_maps'] ) ? sanitize_text_field( trim( $post_req['exclude_from_disable_google_maps'] ) ) : '',
 					);
 
 					WpPerformance::synchronize_discussion_data( $post_req );
@@ -574,7 +574,7 @@ class WpPerformance_Admin {
 						<div class="field sub-field disable-google-maps-group">
 							<div class="field-left" style="vertical-align:top;"><?php printf( __( 'Exclude pages from %1$s Disable Google Maps %2$s filter', 'optimisationio' ), '<strong>', '</strong>' ); ?></div>
 							<div class="field-right">
-								<input type="text" name="exclude_from_disable_google_maps" value="<?php if ( isset( $sett['exclude_from_disable_google_maps'] ) ) { echo $sett['exclude_from_disable_google_maps']; } ?>" /><br/>
+								<input type="text" name="exclude_from_disable_google_maps" value="<?php if ( isset( $sett['exclude_from_disable_google_maps'] ) ) { echo esc_attr( $sett['exclude_from_disable_google_maps'] ); } ?>" /><br/>
 								<small style="display:inline-block; padding-top:5px;"><?php printf('%s Posts %s or %s Pages IDs %s separated by a', '<strong>', '</strong>', '<strong>', '</strong>' ); ?> <code>,</code></small>
 							</div>
 						</div>
@@ -595,7 +595,7 @@ class WpPerformance_Admin {
 						<div class="field sub-field dns-prefetch-group">
 							<div class="field-left" style="vertical-align:top;"><?php esc_attr_e('Prefetch host list', 'optimisationio'); ?></div>
 							<div class="field-right">
-								<textarea name="dns_prefetch_host_list"><?php echo isset( $sett['dns_prefetch_host_list'] ) ? $sett['dns_prefetch_host_list'] : ''; ?></textarea><br/>
+								<textarea name="dns_prefetch_host_list"><?php echo isset( $sett['dns_prefetch_host_list'] ) ? esc_textarea( $sett['dns_prefetch_host_list'] ) : ''; ?></textarea><br/>
 								<small class="dis-ib" style="padding-top:5px;"><?php esc_html_e('One domain by line', 'optimisationio' ); ?></small>
 							</div>
 						</div>
@@ -893,7 +893,7 @@ class WpPerformance_Admin {
 							<div class="field-left"> <?php
 								$next_scheduled = wp_next_scheduled( 'delete_spam_comments' );
 								if ( $next_scheduled ) {
-									printf( __( 'Next spam delete: %s', 'optimisationio' ), '<br/><strong><i>' . date( 'l, F j, Y @ h:i a',( $next_scheduled ) ) . '</i></strong>' );
+									printf( __( 'Next spam delete: %s', 'optimisationio' ), '<br/><strong><i>' . esc_html( wp_date( 'l, F j, Y @ h:i a', $next_scheduled ) ) . '</i></strong>' );
 								} ?>
 							</div>
 							<div class="field-right">

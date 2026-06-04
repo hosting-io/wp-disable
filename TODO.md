@@ -79,4 +79,16 @@ Legend: `[ ]` todo · `[~]` in progress · `[x]` done · 🔴 critical · 🟠 h
 
 ---
 
+## Release to WordPress.org (when ready)
+WP.org still uses SVN, but deployment is automated via `.github/workflows/deploy.yml`
+(`10up/action-wordpress-plugin-deploy`) — no manual SVN needed.
+- [ ] Add GitHub repo secrets `SVN_USERNAME` + `SVN_PASSWORD` (a wp.org account that is a committer on the `wp-disable` plugin).
+- [ ] Merge `modernize-2.0` → `master`.
+- [ ] Pass the live-WP smoke test (Phase 6) — do NOT ship to ~10k installs untested.
+- [ ] Regenerate `lang/wp-disable.pot`; drop stale `lang/wpperformance*`.
+- [ ] Rehearse: Actions → "Deploy to WordPress.org" → Run workflow → `dry_run = true`.
+- [ ] Release: `git tag v2.0.0 && git push origin v2.0.0` → workflow commits trunk + tag to SVN.
+
+---
+
 _See [CHANGELOG.md](CHANGELOG.md) for the running record of what's actually been changed._

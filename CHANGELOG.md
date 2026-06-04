@@ -16,6 +16,7 @@ Use the prefixes **Added / Changed / Fixed / Security / Removed / Deprecated**.
 - `CHANGELOG.md` — this development tracker.
 - **Phase 0 — tooling:** `phpcs.xml.dist` (WPCS + PHPCompatibilityWP, PHP 7.4+ target) and `.github/workflows/lint.yml` (CI `php -l` matrix on 7.4/8.1/8.2 + non-blocking phpcs). Local lint is blocked on the dev box (no php), so CI is the executing lint path.
 - `scripts/ship-wp-disable.sh` (local-only, gitignored) — deploy/lint/zip helper.
+- **Release tooling:** `.github/workflows/deploy.yml` (tag-triggered deploy to WordPress.org SVN via `10up/action-wordpress-plugin-deploy`, with a dry-run mode and a version/Stable-tag guard) and `.distignore` (keeps dev files out of the SVN/zip). Requires `SVN_USERNAME` / `SVN_PASSWORD` GitHub secrets.
 
 ### Changed
 - `wpperformance.php`: dropped the `require_once` for the deleted `class-wpperformance-view.php`.

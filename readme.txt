@@ -1,16 +1,14 @@
 === WP Disable ===
-Contributors: optimisation.io, hosting.io
+Contributors: pigeonhut
 Tags: disable emoji, disable embeds, remove query strings, performance, optimization
 Requires at least: 6.4
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 2.0.0
+Stable tag: 2.0.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Reduce HTTP requests - Disable Emojis, Disable Gravatars, Disable Embeds and Remove Querystrings. SpeedUp WooCommerce, Added support to disable pingbacks, disable trackbacks, close comments after 28 days, Added the ability to force pagingation after 20 posts,
-Disable WooCommerce scripts and CSS on non WooCommerce Pages, Disable RSS, Disable XML-RPC, Disable Autosave, Remove Windows Live Writer tag, Remove Shortlink Tag, Remove WP API from header and
- many more features to help speed and SEO gains.
+Speed up WordPress by disabling unused features — emojis, embeds, query strings, XML-RPC, RSS and more — for fewer requests and faster pages.
 
 == Description ==
 <strong>Reduce HTTP requests</strong> - Disable Emojis, Disable Gravatars, Disable Embeds and Remove Querystrings. SpeedUp WooCommerce, Added support to disable pingbacks, disable trackbacks, close comments after 28 days, Added the ability to force pagingation after 20 posts,
@@ -77,6 +75,9 @@ You can try our <a href="https://wordpress.org/plugins/wp-image-compression/">Fr
 
 
 == Changelog ==
+= 2.0.1 =
+* Housekeeping: corrected the Contributors field to a valid WordPress.org username and shortened the short description to meet the 150-character directory limit.
+
 = 2.0.0 =
 * Major modernization for current WordPress (6.x) and PHP 7.4+ / 8.x.
 * Removed the obsolete "local Google Analytics" offload (Universal Analytics was sunset by Google in July 2023). Existing GA settings, cron and cache are cleaned up automatically on upgrade.

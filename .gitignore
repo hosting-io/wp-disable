@@ -16,3 +16,6 @@ phpcs.xml
 # local-only dev tooling (never shipped in the plugin zip)
 scripts/
 dist/
+
+# local scratch / working notes
+to-add or fix/

@@ -412,33 +412,9 @@ class WpPerformance_Admin {
 
 			$post_req = $_POST;
 
-			if( isset( $post_req['wpperformance_g_analytics_settings_nonce'] ) ){
-
-				if( wp_verify_nonce( $post_req['wpperformance_g_analytics_settings_nonce'], 'wpperformance-g-analytics-settings-nonce' ) ) {
-
-					$options = get_option( WpPerformance::OPTION_KEY . '_settings', array() );
-
-					$options['ds_tracking_id'] = isset( $post_req['ds_tracking_id'] ) ? sanitize_text_field( $post_req['ds_tracking_id'] ) : null;
-					$options['ds_adjusted_bounce_rate'] = isset( $post_req['ds_adjusted_bounce_rate'] ) ? sanitize_text_field( $post_req['ds_adjusted_bounce_rate']) : 0;
-					$options['ds_enqueue_order'] = isset( $post_req['ds_enqueue_order'] ) ? sanitize_text_field( $post_req['ds_enqueue_order'] ) : 0;
-					$options['ds_anonymize_ip'] = isset( $post_req['ds_anonymize_ip'] ) ? sanitize_text_field( $post_req['ds_anonymize_ip'] ) : null;
-
-					$options['ds_script_position'] = isset( $post_req['ds_script_position'] ) ? sanitize_text_field( $post_req['ds_script_position'] ) : null;
-					$options['caos_disable_display_features'] = isset( $post_req['caos_disable_display_features'] ) ? sanitize_text_field( $post_req['caos_disable_display_features'] ) : null;
-					$options['ds_track_admin'] = isset( $post_req['ds_track_admin'] ) ? sanitize_text_field( $post_req['ds_track_admin'] ) : null;
-					$options['caos_remove_wp_cron'] = isset( $post_req['caos_remove_wp_cron'] ) ? sanitize_text_field( $post_req['caos_remove_wp_cron'] ) : null;
-
-					$settings = update_option( WpPerformance::OPTION_KEY . '_settings', $options );
-
-					WpPerformance::delete_transients();
-				}
-			}
-
 			if( isset( $post_req['wpperformance_admin_settings_nonce'] ) ){
 
 				if( wp_verify_nonce( $post_req['wpperformance_admin_settings_nonce'], 'wpperformance-admin-nonce' ) ) {
-
-					$prev_settings = get_option( WpPerformance::OPTION_KEY . '_settings', array() );
 
 					$options = array(
 						'disable_gravatars'                  => isset( $post_req['disable_gravatars'] ) ? 1 : 0,
@@ -487,15 +463,6 @@ class WpPerformance_Admin {
 						'exclude_from_disable_google_maps'   => isset( $post_req['exclude_from_disable_google_maps'] ) ? trim( $post_req['exclude_from_disable_google_maps'] ) : '',
 					);
 
-					$options['ds_tracking_id'] = isset($prev_settings['ds_tracking_id']) ? $prev_settings['ds_tracking_id'] : null;
-					$options['ds_adjusted_bounce_rate'] = isset($prev_settings['ds_adjusted_bounce_rate']) ? $prev_settings['ds_adjusted_bounce_rate'] : 0;
-					$options['ds_enqueue_order'] = isset($prev_settings['ds_enqueue_order']) ? $prev_settings['ds_enqueue_order'] : 0;
-					$options['ds_anonymize_ip'] = isset($prev_settings['ds_anonymize_ip']) ? $prev_settings['ds_anonymize_ip'] : null;
-					$options['ds_script_position'] = isset($prev_settings['ds_script_position']) ? $prev_settings['ds_script_position'] : null;
-					$options['caos_disable_display_features'] = isset($prev_settings['caos_disable_display_features']) ? $prev_settings['caos_disable_display_features'] : null;
-					$options['ds_track_admin'] = isset($prev_settings['ds_track_admin']) ? $prev_settings['ds_track_admin'] : null;
-					$options['caos_remove_wp_cron'] = isset($prev_settings['caos_remove_wp_cron']) ? $prev_settings['caos_remove_wp_cron'] : null;
-
 					WpPerformance::synchronize_discussion_data( $post_req );
 
 					$settings = update_option( WpPerformance::OPTION_KEY . '_settings', $options );
@@ -513,53 +480,6 @@ class WpPerformance_Admin {
 
 			}
 		}
-	}
-
-	public static function offload_google_analytics_settings($settings = array()){
-		$settings = get_option( WpPerformance::OPTION_KEY . '_settings', array() );
-		?>
-		<form action="<?php echo esc_url( admin_url( 'admin.php?page=optimisationio-dashboard' ) ); ?>" method="post" class="offload-g-analytics-form">
-			<div class="form-group">
-				<label><?php esc_html_e( 'GA Code', 'wpperformance' ); ?></label>
-				<input type="text" name="ds_tracking_id" value="<?php echo (isset( $settings['ds_tracking_id'] ))?$settings['ds_tracking_id']:''; ?>" />
-			</div>
-			<div class="form-group">
-				<label><?php esc_html_e( 'Save GA in (please ensure you remove any other GA tracking)', 'wpperformance' ); ?></label>
-				<?php
-				$sgal_script_position = array( 'header', 'footer' );
-				if ( ! isset( $settings['ds_script_position'] ) || ( 'header' !== $settings['ds_script_position'] && 'footer' !== $settings['ds_script_position'] ) ) {
-					$settings['ds_script_position'] = 'header';
-				}
-				foreach ( $sgal_script_position as $option ) {
-					echo "<input type='radio' name='ds_script_position' value='" . $option . "' " . ( $option === $settings['ds_script_position'] ? ' checked="checked"' : '' ) . ' /> <span>' . esc_html( ucfirst( $option ) ) . '</span>&nbsp;&nbsp;';
-				} ?>
-			</div>
-			<div class="form-group">
-				<label><?php esc_html_e( 'Use adjusted bounce rate?', 'wpperformance' ); ?></label>
-				<input type="number" name="ds_adjusted_bounce_rate" min="0" max="60" value="<?php echo isset( $settings['ds_adjusted_bounce_rate'] )?$settings['ds_adjusted_bounce_rate']:0; ?>" />
-			</div>
-			<div class="form-group">
-				<label><?php esc_html_e( 'Change enqueue order? (Default = 0)', 'wpperformance' ); ?></label>
-				<input type="number" name="ds_enqueue_order" min="0" value="<?php echo isset( $settings['ds_enqueue_order'] )?$settings['ds_enqueue_order']:0; ?>" />
-			</div>
-			<div class="form-group">
-				<input type="checkbox" name="caos_disable_display_features" <?php if ( isset( $settings['caos_disable_display_features'] ) && 'on' === $settings['caos_disable_display_features'] ) { echo 'checked = "checked"';} ?> />  Disable all <a href="https://developers.google.com/analytics/devguides/collection/analyticsjs/display-features" target="_blank">display features functionality</a>?
-			</div>
-			<div class="form-group">
-				<input type="checkbox" name="ds_anonymize_ip" <?php if ( isset( $settings['ds_anonymize_ip'] ) && 'on' === $settings['ds_anonymize_ip'] ) { echo 'checked = "checked"';} ?> />  Use <a href="https://support.google.com/analytics/answer/2763052?hl=en" target="_blank">Anonymize IP</a>? (Required by law for some countries)
-			</div>
-			<div class="form-group">
-				<input type="checkbox" name="ds_track_admin" <?php if ( isset( $settings['ds_track_admin'] ) && 'on' === $settings['ds_track_admin'] ) { echo 'checked = "checked"';} ?> /> <?php esc_html_e( 'Track logged in Administrators?', 'wpperformance' ); ?>
-			</div>
-			<div class="form-group">
-				<input type="checkbox" name="caos_remove_wp_cron" <?php if ( isset( $settings['caos_remove_wp_cron'] ) && 'on' === $settings['caos_remove_wp_cron'] ) { echo 'checked="checked"'; } ?> /> <?php esc_html_e( 'Remove script from wp-cron?', 'wpperformance' ); ?>
-			</div>
-			<br/>
-			<input type="submit" class="button button-primary button-large" value="<?php echo esc_attr("Save", "wpperformance"); ?>" />
-
-			<?php wp_nonce_field( 'wpperformance-g-analytics-settings-nonce', 'wpperformance_g_analytics_settings_nonce' ); ?>
-		</form>
-		<?php
 	}
 
 	public static function addon_settings(){
@@ -607,12 +527,6 @@ class WpPerformance_Admin {
 			'disable_revisions'                     => 'default',
 			'disable_google_maps'                   => 0,
 			'exclude_from_disable_google_maps'		=> '',
-			'ds_tracking_id'                        => null,
-			'ds_anonymize_ip'                       => 'off',
-			'ds_script_position'                    => null,
-			'caos_disable_display_features'         => 'off',
-			'ds_track_admin'                        => 'off',
-			'caos_remove_wp_cron'                   => 'off',
 			'disable_wordpress_password_meter'		=> 0,
 			'disable_front_dashicons_when_disabled_toolbar' => 0,
 		);

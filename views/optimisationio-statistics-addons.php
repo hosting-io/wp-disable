@@ -79,9 +79,6 @@ $addons = Optimisationio_Stats_And_Addons::$addons;
 
 					<div class="sidebar-tabs-nav">
 						<ul>
-							<?php if( $addons['wp-disable']['activated'] ){ ?>
-								<li data-tab-id="ga"><?php esc_html_e('Offload Google Analytics', 'optimisationio'); ?></li>
-							<?php } ?>
 							<li data-tab-id="imp"><?php esc_html_e('Import', 'optimisationio'); ?></li>
 							<li data-tab-id="exp"><?php esc_html_e('Export', 'optimisationio'); ?></li>
 						</ul>
@@ -89,11 +86,6 @@ $addons = Optimisationio_Stats_And_Addons::$addons;
 
 					<div class="sidebar-tabs-content">
 						<ul>
-							<?php if( $addons['wp-disable']['activated'] ){ ?>
-								<li data-tab-id="ga">
-									<?php WpPerformance_Admin::offload_google_analytics_settings(); ?>		
-								</li>
-							<?php } ?>
 							<li data-tab-id="imp">
 								<p><?php esc_html_e("Copy into textarea the encoded string of add-ons settings you have exported", "optimisationio"); ?></p>
 								<div class="textarea-wrap">

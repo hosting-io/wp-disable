@@ -35,6 +35,13 @@ Use the prefixes **Added / Changed / Fixed / Security / Removed / Deprecated**.
 - _nothing yet_
 
 ### Removed
+- **Phase 4 — obsolete Universal Analytics "local GA" offload (entire feature):** Google sunset UA in July 2023, so this code was dead. Removed:
+  - `includes/update-local-ga.php` (raw `fsockopen` fetch of `analytics.js`) and the tracked `cache/local-ga.js` artifact.
+  - `wpperformance_add_ga_header_script()`, `wpperformance_update_local_ga_script()`, the `update_local_ga` cron schedule/hook, and GA cron logic in activate/deactivate (`wpperformance.php`).
+  - `WpPerformance::add_ga_header_script()`, `caos_remove_wp_cron()`, and the `wpperformance_ds_tracking_id` transient (`class-wpperformance.php`).
+  - GA save-handling block + the `offload_google_analytics_settings()` form + GA default-option keys (`class-wpperformance-admin.php`).
+  - The "Offload Google Analytics" sidebar tab in both the dashboard and stats-addons views.
+  - **Migration:** new `maybe_upgrade()` (schema `DB_VERSION` 2) runs once on load to clear the leftover `update_local_ga` cron, delete the GA transient, strip the 8 `ds_*`/`caos_*` keys from saved settings, and unlink the cached UA file. `uninstall.php` also clears these.
 - **Phase 1 — dead/duplicate code:**
   - `lib/WpPerformance/Admin.php` + `lib/WpPerformance/View.php` — entire pre-1.5 duplicate class tree (never loaded).
   - `lib/class-wpperformance-view.php` — `WpPerformance_View`, only referenced by the dead code above.

@@ -8,6 +8,11 @@ class WpPerformance {
 	const TEXT_DOMAIN = 'wpperformance';
 	const OPTION_KEY = 'wpperformance_rev3a';
 
+	// Internal schema version, bumped when a one-time data migration is needed.
+	// v2: removed the obsolete Universal Analytics "local GA" offload feature.
+	const DB_VERSION = 2;
+	const DB_VERSION_KEY = 'wpperformance_db_version';
+
 	private $plugin_settings = null;
 
 	private static $enabled_woocommerce = null;
@@ -20,6 +25,8 @@ class WpPerformance {
 	private function __construct() {
 
 		if ( ! $this->test_host() ) { return; }
+
+		$this->maybe_upgrade();
 
 		if( ! class_exists('Optimisationio_Dashboard') ){
 			require_once 'class-optimisationio-dashboard.php';
@@ -59,10 +66,9 @@ class WpPerformance {
 	 * Delete plugin's transient values.
 	 */
 	public static function delete_transients() {
-		delete_transient( 'wpperformance_ds_tracking_id' );
 		delete_transient( self::OPTION_KEY . '_referalls_spam_blacklist' );
 	}
-	
+
 	/**
 	 * Delete plugin's options values.
 	 */
@@ -70,6 +76,43 @@ class WpPerformance {
 		delete_option( self::OPTION_KEY . '_settings' );
 		delete_option( self::OPTION_KEY . '_combined_google_fonts_requests_number' );
 		delete_option( self::OPTION_KEY . '_combined_font_awesome_requests_number' );
+		delete_option( self::DB_VERSION_KEY );
+	}
+
+	/**
+	 * One-time data migrations, keyed off DB_VERSION_KEY.
+	 */
+	private function maybe_upgrade() {
+
+		$installed = (int) get_option( self::DB_VERSION_KEY, 1 );
+
+		if ( $installed >= self::DB_VERSION ) {
+			return;
+		}
+
+		// v2: tear down the removed Universal Analytics "local GA" offload.
+		wp_clear_scheduled_hook( 'update_local_ga' );
+		delete_transient( 'wpperformance_ds_tracking_id' );
+
+		$settings = get_option( self::OPTION_KEY . '_settings', array() );
+		if ( is_array( $settings ) ) {
+			$ga_keys = array(
+				'ds_tracking_id', 'ds_adjusted_bounce_rate', 'ds_enqueue_order',
+				'ds_anonymize_ip', 'ds_script_position', 'ds_track_admin',
+				'caos_disable_display_features', 'caos_remove_wp_cron',
+			);
+			foreach ( $ga_keys as $ga_key ) {
+				unset( $settings[ $ga_key ] );
+			}
+			update_option( self::OPTION_KEY . '_settings', $settings );
+		}
+
+		$local_ga = dirname( dirname( __FILE__ ) ) . '/cache/local-ga.js';
+		if ( file_exists( $local_ga ) ) {
+			@unlink( $local_ga );
+		}
+
+		update_option( self::DB_VERSION_KEY, self::DB_VERSION );
 	}
 
 	public static function delete_spam_comments() {
@@ -181,12 +224,9 @@ class WpPerformance {
 	
 	private function apply_settings() {
 
-		$this->caos_remove_wp_cron();
-
 		$this->check_referral_spam_disable();
 
 		if ( ! is_admin() ) {
-			$this->add_ga_header_script();
 			$this->check_pages_disable();
 			$this->check_dns_prefetch();
 		}
@@ -820,62 +860,6 @@ class WpPerformance {
 
 		// No feed so continue on
 		return $query_vars;
-	}
-
-	private function caos_remove_wp_cron() {
-
-		$settings = $this->get_settings_values();
-
-		if ( isset( $settings['caos_remove_wp_cron'] ) ){
-			// Remove script from wp_cron if option is selected.
-			if( 'on' === esc_attr( $settings['caos_remove_wp_cron'] ) ){
-				wp_clear_scheduled_hook( 'update_local_ga' );
-			}
-			else if( ! wp_next_scheduled( 'update_local_ga' ) ) {
-				wp_schedule_event( time(), 'daily', 'update_local_ga' );
-			}
-		}
-	}
-
-	private function add_ga_header_script() {
-
-		$settings = $this->get_settings_values();
-
-		$ds_tracking_id = get_transient( 'wpperformance_ds_tracking_id' );
-
-		if ( false === $ds_tracking_id ) {
-
-			$ds_tracking_id = isset( $settings['ds_tracking_id'] ) && $settings['ds_tracking_id'] ? esc_attr( $settings['ds_tracking_id'] ) : '';
-			set_transient( 'wpperformance_ds_tracking_id', $ds_tracking_id, 60 * 60 * 24 );	// Keep transient for one day.
-		}
-
-		if ( '' !== $ds_tracking_id ) {
-
-			$local_ga_file = dirname( dirname( __FILE__ ) ) . '/cache/local-ga.js';
-			// If file is not created yet, create now!
-			if( ! file_exists( $local_ga_file ) ){
-				ob_start();
-				do_action('update_local_ga');
-				ob_end_clean();
-			}
-
-			$ds_script_position = isset( $settings['ds_script_position'] ) && $settings['ds_script_position'] ? esc_attr( $settings['ds_script_position'] ) : null;
-
-			if ( isset( $settings['ds_enqueue_order'] ) && $settings['ds_enqueue_order'] ) {
-				$ds_enqueue_order = esc_attr( $settings['ds_enqueue_order'] );
-				$ds_enqueue_order = $ds_enqueue_order ? $ds_enqueue_order : 0;
-			} else {
-				$ds_enqueue_order = 0;
-			}
-
-			switch ( $ds_script_position ) {
-				case 'footer':
-					add_action( 'wp_footer', 'wpperformance_add_ga_header_script', $ds_enqueue_order );
-					break;
-				default:
-					add_action( 'wp_head', 'wpperformance_add_ga_header_script', $ds_enqueue_order );
-			}
-		}
 	}
 
 	public function check_referral_spam_disable(){

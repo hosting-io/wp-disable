@@ -541,14 +541,14 @@ class WpPerformance_Admin {
 
 				<div class="addon-settings-tabs">
 					<ul>
-						<li data-tab-setting="requests" class="active"><?php esc_html_e('Requests', 'optimisationio'); ?></li>
+						<li data-tab-setting="requests" class="active"><?php esc_html_e('Requests', 'wp-disable'); ?></li>
 						<?php if( WpPerformance::is_woocommerce_enabled() ) { ?>
-						<li data-tab-setting="woocommerce"><?php esc_html_e('WooCommerce', 'optimisationio'); ?></li>
+						<li data-tab-setting="woocommerce"><?php esc_html_e('WooCommerce', 'wp-disable'); ?></li>
 						<?php } ?>
-						<li data-tab-setting="tags"><?php esc_html_e('Tags', 'optimisationio'); ?></li>
-						<li data-tab-setting="admin"><?php esc_html_e('Admin', 'optimisationio'); ?></li>
-						<li data-tab-setting="seo"><?php esc_html_e('SEO', 'optimisationio'); ?></li>
-						<li data-tab-setting="others"><?php esc_html_e('Others', 'optimisationio'); ?></li>
+						<li data-tab-setting="tags"><?php esc_html_e('Tags', 'wp-disable'); ?></li>
+						<li data-tab-setting="admin"><?php esc_html_e('Admin', 'wp-disable'); ?></li>
+						<li data-tab-setting="seo"><?php esc_html_e('SEO', 'wp-disable'); ?></li>
+						<li data-tab-setting="others"><?php esc_html_e('Others', 'wp-disable'); ?></li>
 					</ul>
 				</div>
 
@@ -556,23 +556,23 @@ class WpPerformance_Admin {
 
 					<div data-tab-setting="requests" class="addon-settings-content auto-table-layout active">
 						<div class="field">
-							<div class="field-left"><?php esc_attr_e('Disable Emojis', 'optimisationio'); ?></div>
+							<div class="field-left"><?php esc_attr_e('Disable Emojis', 'wp-disable'); ?></div>
 							<div class="field-right"><?php Optimisationio_Dashboard::checkbox_component('disable_emoji', isset( $sett['disable_emoji'] ) && 1 === (int) $sett['disable_emoji']); ?></div>
 						</div>
 						<div class="field">
-							<div class="field-left"><?php esc_attr_e('Remove Querystrings', 'optimisationio'); ?></div>
+							<div class="field-left"><?php esc_attr_e('Remove Querystrings', 'wp-disable'); ?></div>
 							<div class="field-right"><?php Optimisationio_Dashboard::checkbox_component('remove_querystrings', isset( $sett['remove_querystrings'] ) && 1 === (int) $sett['remove_querystrings']); ?></div>
 						</div>
 						<div class="field">
-							<div class="field-left"><?php esc_attr_e('Disable Embeds', 'optimisationio'); ?></div>
+							<div class="field-left"><?php esc_attr_e('Disable Embeds', 'wp-disable'); ?></div>
 							<div class="field-right"><?php Optimisationio_Dashboard::checkbox_component('disable_embeds', isset( $sett['disable_embeds'] ) && 1 === (int) $sett['disable_embeds']); ?></div>
 						</div>
 						<div class="field">
-							<div class="field-left"><?php esc_attr_e('Disable Google Maps', 'optimisationio'); ?></div>
+							<div class="field-left"><?php esc_attr_e('Disable Google Maps', 'wp-disable'); ?></div>
 							<div class="field-right"><?php Optimisationio_Dashboard::checkbox_component('disable_google_maps', isset( $sett['disable_google_maps'] ) && 1 === (int) $sett['disable_google_maps']); ?></div>
 						</div>
 						<div class="field sub-field disable-google-maps-group">
-							<div class="field-left" style="vertical-align:top;"><?php printf( __( 'Exclude pages from %1$s Disable Google Maps %2$s filter', 'optimisationio' ), '<strong>', '</strong>' ); ?></div>
+							<div class="field-left" style="vertical-align:top;"><?php printf( __( 'Exclude pages from %1$s Disable Google Maps %2$s filter', 'wp-disable' ), '<strong>', '</strong>' ); ?></div>
 							<div class="field-right">
 								<input type="text" name="exclude_from_disable_google_maps" value="<?php if ( isset( $sett['exclude_from_disable_google_maps'] ) ) { echo esc_attr( $sett['exclude_from_disable_google_maps'] ); } ?>" /><br/>
 								<small style="display:inline-block; padding-top:5px;"><?php printf('%s Posts %s or %s Pages IDs %s separated by a', '<strong>', '</strong>', '<strong>', '</strong>' ); ?> <code>,</code></small>
@@ -580,40 +580,40 @@ class WpPerformance_Admin {
 						</div>
 
 						<div class="field">
-							<div class="field-left"><?php esc_attr_e('Remove jQuery migrate', 'optimisationio'); ?></div>
+							<div class="field-left"><?php esc_attr_e('Remove jQuery migrate', 'wp-disable'); ?></div>
 							<div class="field-right"><?php Optimisationio_Dashboard::checkbox_component('remove_jquery_migrate', isset( $sett['remove_jquery_migrate'] ) && 1 === (int) $sett['remove_jquery_migrate']); ?></div>
 						</div>
 						<div class="field">
-							<div class="field-left"><?php esc_attr_e('Disable Referral Spam', 'optimisationio'); ?></div>
+							<div class="field-left"><?php esc_attr_e('Disable Referral Spam', 'wp-disable'); ?></div>
 							<div class="field-right"><?php Optimisationio_Dashboard::checkbox_component('disable_referral_spam', isset( $sett['disable_referral_spam'] ) && 1 === (int) $sett['disable_referral_spam']); ?></div>
 						</div>
 						<div class="field">
-							<div class="field-left"><?php esc_attr_e('DNS prefetch', 'optimisationio'); ?></div>
+							<div class="field-left"><?php esc_attr_e('DNS prefetch', 'wp-disable'); ?></div>
 							<div class="field-right"><?php Optimisationio_Dashboard::checkbox_component('dns_prefetch', isset( $sett['dns_prefetch'] ) && 1 === (int) $sett['dns_prefetch']); ?></div>
 						</div>
 
 						<div class="field sub-field dns-prefetch-group">
-							<div class="field-left" style="vertical-align:top;"><?php esc_attr_e('Prefetch host list', 'optimisationio'); ?></div>
+							<div class="field-left" style="vertical-align:top;"><?php esc_attr_e('Prefetch host list', 'wp-disable'); ?></div>
 							<div class="field-right">
 								<textarea name="dns_prefetch_host_list"><?php echo isset( $sett['dns_prefetch_host_list'] ) ? esc_textarea( $sett['dns_prefetch_host_list'] ) : ''; ?></textarea><br/>
-								<small class="dis-ib" style="padding-top:5px;"><?php esc_html_e('One domain by line', 'optimisationio' ); ?></small>
+								<small class="dis-ib" style="padding-top:5px;"><?php esc_html_e('One domain by line', 'wp-disable' ); ?></small>
 							</div>
 						</div>
 
 						<div class="field">
-							<div class="field-left"><?php printf( __( 'Minimize requests and load %1$sGoogle Fonts%2$s asynchronous', 'optimisationio' ), '<strong>', '</strong>' ); ?></div>
+							<div class="field-left"><?php printf( __( 'Minimize requests and load %1$sGoogle Fonts%2$s asynchronous', 'wp-disable' ), '<strong>', '</strong>' ); ?></div>
 							<div class="field-right"><?php Optimisationio_Dashboard::checkbox_component('lazy_load_google_fonts', isset( $sett['lazy_load_google_fonts'] ) && 1 === (int) $sett['lazy_load_google_fonts']); ?></div>
 						</div>
 						<div class="field">
-							<div class="field-left"><?php printf( __( 'Minimize requests and load %1$sFont Awesome%2$s asynchronous', 'optimisationio' ), '<strong>', '</strong>' ); ?></div>
+							<div class="field-left"><?php printf( __( 'Minimize requests and load %1$sFont Awesome%2$s asynchronous', 'wp-disable' ), '<strong>', '</strong>' ); ?></div>
 							<div class="field-right"><?php Optimisationio_Dashboard::checkbox_component('lazy_load_font_awesome', isset( $sett['lazy_load_font_awesome'] ) && 1 === (int) $sett['lazy_load_font_awesome']); ?></div>
 						</div>
 						<div class="field">
-							<div class="field-left"><?php esc_attr_e('Disable WordPress password strength meter js on non related pages', 'optimisationio'); ?></div>
+							<div class="field-left"><?php esc_attr_e('Disable WordPress password strength meter js on non related pages', 'wp-disable'); ?></div>
 							<div class="field-right"><?php Optimisationio_Dashboard::checkbox_component('disable_wordpress_password_meter', isset( $sett['disable_wordpress_password_meter'] ) && 1 === (int) $sett['disable_wordpress_password_meter']); ?></div>
 						</div>
 						<div class="field">
-							<div class="field-left"><?php esc_attr_e('Disable Dashicons when user disables admin toolbar when viewing site', 'optimisationio'); ?></div>
+							<div class="field-left"><?php esc_attr_e('Disable Dashicons when user disables admin toolbar when viewing site', 'wp-disable'); ?></div>
 							<div class="field-right"><?php Optimisationio_Dashboard::checkbox_component('disable_front_dashicons_when_disabled_toolbar', isset( $sett['disable_front_dashicons_when_disabled_toolbar'] ) && 1 === (int) $sett['disable_front_dashicons_when_disabled_toolbar']); ?></div>
 						</div>
 					</div>
@@ -621,22 +621,22 @@ class WpPerformance_Admin {
 					<?php if( WpPerformance::is_woocommerce_enabled() ) { ?>
 					<div data-tab-setting="woocommerce" class="addon-settings-content auto-table-layout">
 						<div class="field">
-							<div class="field-left"><?php esc_attr_e('Disable WooCommerce scripts and CSS on non WooCommerce pages', 'optimisationio'); ?></div>
+							<div class="field-left"><?php esc_attr_e('Disable WooCommerce scripts and CSS on non WooCommerce pages', 'wp-disable'); ?></div>
 							<div class="field-right"><?php Optimisationio_Dashboard::checkbox_component('disable_woocommerce_non_pages', isset( $sett['disable_woocommerce_non_pages'] ) && 1 === (int) $sett['disable_woocommerce_non_pages']); ?></div>
 						</div>
 
 						<div class="field">
-							<div class="field-left"><?php esc_attr_e('Disable WooCommerce Reviews', 'optimisationio'); ?></div>
+							<div class="field-left"><?php esc_attr_e('Disable WooCommerce Reviews', 'wp-disable'); ?></div>
 							<div class="field-right"><?php Optimisationio_Dashboard::checkbox_component('disable_woocommerce_reviews', isset( $sett['disable_woocommerce_reviews'] ) && 1 === (int) $sett['disable_woocommerce_reviews']); ?></div>
 						</div>
 
 						<div class="field">
-							<div class="field-left"><?php esc_attr_e('Defer WooCommerce Cart Fragments', 'optimisationio'); ?></div>
+							<div class="field-left"><?php esc_attr_e('Defer WooCommerce Cart Fragments', 'wp-disable'); ?></div>
 							<div class="field-right"><?php Optimisationio_Dashboard::checkbox_component('disable_woocommerce_cart_fragments', isset( $sett['disable_woocommerce_cart_fragments'] ) && 1 === (int) $sett['disable_woocommerce_cart_fragments']); ?></div>
 						</div>
 
 						<div class="field">
-							<div class="field-left"><?php esc_attr_e('Disable WooCommerce password strength meter js on non related pages', 'optimisationio'); ?></div>
+							<div class="field-left"><?php esc_attr_e('Disable WooCommerce password strength meter js on non related pages', 'wp-disable'); ?></div>
 							<div class="field-right"><?php Optimisationio_Dashboard::checkbox_component('disable_woocommerce_password_meter', isset( $sett['disable_woocommerce_password_meter'] ) && 1 === (int) $sett['disable_woocommerce_password_meter']); ?></div>
 						</div>
 					</div>
@@ -644,35 +644,35 @@ class WpPerformance_Admin {
 
 					<div data-tab-setting="tags" class="addon-settings-content auto-table-layout">
 						<div class="field">
-							<div class="field-left"><?php esc_attr_e('Remove RSD (Really Simple Discovery) tag', 'optimisationio'); ?></div>
+							<div class="field-left"><?php esc_attr_e('Remove RSD (Really Simple Discovery) tag', 'wp-disable'); ?></div>
 							<div class="field-right"><?php Optimisationio_Dashboard::checkbox_component('remove_rsd', isset( $sett['remove_rsd'] ) && 1 === (int) $sett['remove_rsd']); ?></div>
 						</div>
 						<div class="field">
-							<div class="field-left"><?php esc_attr_e('Remove Shortlink Tag', 'optimisationio'); ?></div>
+							<div class="field-left"><?php esc_attr_e('Remove Shortlink Tag', 'wp-disable'); ?></div>
 							<div class="field-right"><?php Optimisationio_Dashboard::checkbox_component('remove_shortlink_tag', isset( $sett['remove_shortlink_tag'] ) && 1 === (int) $sett['remove_shortlink_tag']); ?></div>
 						</div>
 						<div class="field">
-							<div class="field-left"><?php esc_attr_e('Remove Wordpress API from header', 'optimisationio'); ?></div>
+							<div class="field-left"><?php esc_attr_e('Remove WordPress API from header', 'wp-disable'); ?></div>
 							<div class="field-right"><?php Optimisationio_Dashboard::checkbox_component('remove_wordpress_api_from_header', isset( $sett['remove_wordpress_api_from_header'] ) && 1 === (int) $sett['remove_wordpress_api_from_header']); ?></div>
 						</div>
 						<div class="field">
-							<div class="field-left"><?php esc_attr_e('Remove Windows Live Writer tag', 'optimisationio'); ?></div>
+							<div class="field-left"><?php esc_attr_e('Remove Windows Live Writer tag', 'wp-disable'); ?></div>
 							<div class="field-right"><?php Optimisationio_Dashboard::checkbox_component('remove_windows_live_writer', isset( $sett['remove_windows_live_writer'] ) && 1 === (int) $sett['remove_windows_live_writer']); ?></div>
 						</div>
 						<div class="field">
-							<div class="field-left"><?php esc_attr_e('Remove Wordpress Generator Tag', 'optimisationio'); ?></div>
+							<div class="field-left"><?php esc_attr_e('Remove WordPress Generator Tag', 'wp-disable'); ?></div>
 							<div class="field-right"><?php Optimisationio_Dashboard::checkbox_component('remove_wordpress_generator_tag', isset( $sett['remove_wordpress_generator_tag'] ) && 1 === (int) $sett['remove_wordpress_generator_tag']); ?></div>
 						</div>
 					</div>
 
 					<div data-tab-setting="admin" class="addon-settings-content auto-table-layout">
 						<div class="field">
-							<div class="field-left"><?php esc_html_e( 'Posts revisions number', 'optimisationio'); ?></div>
+							<div class="field-left"><?php esc_html_e( 'Posts revisions number', 'wp-disable'); ?></div>
 							<div class="field-right">
 								<?php
 
 									$revisions_num = array(
-										'default' => __( 'WordPress default', 'optimisationio' ),
+										'default' => __( 'WordPress default', 'wp-disable' ),
 										'0' => 0,
 										'1' => 1,
 										'2' => 2,
@@ -713,54 +713,54 @@ class WpPerformance_Admin {
 							</div>
 						</div>
 						<div class="field">
-							<div class="field-left"><?php esc_attr_e('Disable Autosave', 'optimisationio'); ?></div>
+							<div class="field-left"><?php esc_attr_e('Disable Autosave', 'wp-disable'); ?></div>
 							<div class="field-right"><?php Optimisationio_Dashboard::checkbox_component('disable_autosave', isset( $sett['disable_autosave'] ) && 1 === (int) $sett['disable_autosave']); ?></div>
 						</div>
 						<div class="field">
-							<div class="field-left"><?php esc_attr_e('Disable admin notices', 'optimisationio'); ?></div>
+							<div class="field-left"><?php esc_attr_e('Disable admin notices', 'wp-disable'); ?></div>
 							<div class="field-right"><?php Optimisationio_Dashboard::checkbox_component('disable_admin_notices', isset( $sett['disable_admin_notices'] ) && 1 === (int) $sett['disable_admin_notices']); ?></div>
 						</div>
 						<div class="field">
-							<div class="field-left"><?php esc_attr_e('Disable author pages', 'optimisationio'); ?></div>
+							<div class="field-left"><?php esc_attr_e('Disable author pages', 'wp-disable'); ?></div>
 							<div class="field-right"><?php Optimisationio_Dashboard::checkbox_component('disable_author_pages', isset( $sett['disable_author_pages'] ) && 1 === (int) $sett['disable_author_pages']); ?></div>
 						</div>
 						<div class="field">
-							<div class="field-left"><?php esc_attr_e('Disable all comments', 'optimisationio'); ?></div>
+							<div class="field-left"><?php esc_attr_e('Disable all comments', 'wp-disable'); ?></div>
 							<div class="field-right"><?php Optimisationio_Dashboard::checkbox_component('disable_all_comments', isset( $sett['disable_all_comments'] ) && 1 === (int) $sett['disable_all_comments']); ?></div>
 						</div>
 						<div class="field sub-field comments-group">
-							<div class="field-left"><?php esc_attr_e('Disable comments on certain post types', 'optimisationio'); ?></div>
+							<div class="field-left"><?php esc_attr_e('Disable comments on certain post types', 'wp-disable'); ?></div>
 							<div class="field-right"><?php Optimisationio_Dashboard::checkbox_component('disable_comments_on_certain_post_types', isset( $sett['disable_comments_on_certain_post_types'] ) && 1 === (int) $sett['disable_comments_on_certain_post_types']); ?></div>
 						</div>
 
 						<?php
 						foreach ( $public_post_types as $key => $value ) { ?>
 							<div class="field sub-sub-field certain-posts-comments-group">
-								<div class="field-left"><?php printf( __( 'Disable comments on post type "%1$s%2$s%3$s"', 'optimisationio' ), '<strong>', $value, '</strong>' ); ?></div>
+								<div class="field-left"><?php printf( __( 'Disable comments on post type "%1$s%2$s%3$s"', 'wp-disable' ), '<strong>', $value, '</strong>' ); ?></div>
 
 								<div class="field-right"><?php Optimisationio_Dashboard::checkbox_component('disable_comments_on_post_types['.$value.']', isset($sett['disable_comments_on_post_types'][$value]) && 1 === (int) $sett['disable_comments_on_post_types'][$value] ); ?></div>
 							</div> <?php
 						} ?>
 
 						<div class="field sub-field comments-group">
-							<div class="field-left"><?php esc_attr_e('Close comments after 28 days', 'optimisationio'); ?></div>
+							<div class="field-left"><?php esc_attr_e('Close comments after 28 days', 'wp-disable'); ?></div>
 							<div class="field-right"><?php Optimisationio_Dashboard::checkbox_component('close_comments', isset( $sett['close_comments'] ) && 1 === (int) $sett['close_comments'] && get_option('close_comments_for_old_posts') && 28 === (int) get_option('close_comments_days_old') ); ?></div>
 						</div>
 						<div class="field sub-field comments-group">
-							<div class="field-left"><?php esc_attr_e('Paginate comments at 20', 'optimisationio'); ?></div>
+							<div class="field-left"><?php esc_attr_e('Paginate comments at 20', 'wp-disable'); ?></div>
 							<div class="field-right"><?php Optimisationio_Dashboard::checkbox_component('paginate_comments', isset( $sett['paginate_comments'] ) && 1 === (int) $sett['paginate_comments'] && get_option('page_comments') && 20 === (int) get_option('comments_per_page') ); ?></div>
 						</div>
 						<div class="field sub-field comments-group">
-							<div class="field-left"><?php esc_attr_e('Remove links from comments', 'optimisationio'); ?></div>
+							<div class="field-left"><?php esc_attr_e('Remove links from comments', 'wp-disable'); ?></div>
 							<div class="field-right"><?php Optimisationio_Dashboard::checkbox_component('remove_comments_links', isset( $sett['remove_comments_links'] ) && 1 === (int) $sett['remove_comments_links']); ?></div>
 						</div>
 						<div class="field">
-							<div class="field-left"><?php esc_html_e( 'Heartbeat frequency', 'optimisationio'); ?></div>
+							<div class="field-left"><?php esc_html_e( 'Heartbeat frequency', 'wp-disable'); ?></div>
 							<div class="field-right">
 								<?php
-								$seconds = ' ' . __( 'seconds', 'optimisationio' );
+								$seconds = ' ' . __( 'seconds', 'wp-disable' );
 								$heartbeat_frequencies = array(
-									'default' => __( 'WordPress default', 'optimisationio' ),
+									'default' => __( 'WordPress default', 'wp-disable' ),
 									'15' => 15 . $seconds,
 									'20' => 20 . $seconds,
 									'25' => 25 . $seconds,
@@ -792,14 +792,14 @@ class WpPerformance_Admin {
 							</div>
 						</div>
 						<div class="field">
-							<div class="field-left"><?php esc_html_e( 'Heartbeat locations', 'optimisationio'); ?></div>
+							<div class="field-left"><?php esc_html_e( 'Heartbeat locations', 'wp-disable'); ?></div>
 							<div class="field-right">
 								<?php
 								$heartbeat_location = array(
-									'default' => __( 'WordPress default', 'optimisationio' ),
-									'disable_everywhere' => __( 'Disable everywhere', 'optimisationio' ),
-									'disable_on_dashboard_page' => __( 'Disable on dashboard page', 'optimisationio' ),
-									'allow_only_on_post_edit_pages' => __( 'Allow only on post edit pages', 'optimisationio' ),
+									'default' => __( 'WordPress default', 'wp-disable' ),
+									'disable_everywhere' => __( 'Disable everywhere', 'wp-disable' ),
+									'disable_on_dashboard_page' => __( 'Disable on dashboard page', 'wp-disable' ),
+									'allow_only_on_post_edit_pages' => __( 'Allow only on post edit pages', 'wp-disable' ),
 								);
 								$selected_val = 'default';
 								if ( isset( $sett['heartbeat_location'] ) ) {
@@ -820,60 +820,60 @@ class WpPerformance_Admin {
 
 					<div data-tab-setting="seo" class="addon-settings-content auto-table-layout">
 						<div class="field">
-							<div class="field-left"><?php esc_attr_e('Remove Yoast SEO comment from head section', 'optimisationio'); ?></div>
+							<div class="field-left"><?php esc_attr_e('Remove Yoast SEO comment from head section', 'wp-disable'); ?></div>
 							<div class="field-right"><?php Optimisationio_Dashboard::checkbox_component('remove_yoast_comment', isset( $sett['remove_yoast_comment'] ) && 1 === (int) $sett['remove_yoast_comment']); ?></div>
 						</div>
 						<div class="field">
-							<div class="field-left"><?php esc_attr_e('Remove duplicate names in breadcrumbs WP SEO by Yoast', 'optimisationio'); ?></div>
+							<div class="field-left"><?php esc_attr_e('Remove duplicate names in breadcrumbs WP SEO by Yoast', 'wp-disable'); ?></div>
 							<div class="field-right"><?php Optimisationio_Dashboard::checkbox_component('remove_yoast_breadcrumbs_duplicates', isset( $sett['remove_yoast_breadcrumbs_duplicates'] ) && 1 === (int) $sett['remove_yoast_breadcrumbs_duplicates']); ?></div>
 						</div>
 					</div>
 
 					<div data-tab-setting="others" class="addon-settings-content auto-table-layout">
 						<div class="field">
-							<div class="field-left"><?php esc_attr_e('Disable pingbacks and trackbacks', 'optimisationio'); ?></div>
+							<div class="field-left"><?php esc_attr_e('Disable pingbacks and trackbacks', 'wp-disable'); ?></div>
 							<div class="field-right"><?php Optimisationio_Dashboard::checkbox_component('default_ping_status', isset( $sett['default_ping_status'] ) && 1 === (int) $sett['default_ping_status']); ?></div>
 						</div>
 						<div class="field">
-							<div class="field-left"><?php esc_attr_e('Disable feeds', 'optimisationio'); ?></div>
+							<div class="field-left"><?php esc_attr_e('Disable feeds', 'wp-disable'); ?></div>
 							<div class="field-right"><?php Optimisationio_Dashboard::checkbox_component('disable_rss', isset( $sett['disable_rss'] ) && 1 === (int) $sett['disable_rss']); ?></div>
 						</div>
 						<div class="field sub-field feeds-group">
 							<div class="field-left">
 								<label>
-									<input type="radio" name="disabled_feed_behaviour" value="redirect" <?php echo isset( $sett['disabled_feed_behaviour'] ) && '404_error' !== $sett['disabled_feed_behaviour'] ? 'checked="checked"' : ''; ?> /> <span><?php esc_html_e( 'Redirect feed requests to corresponding HTML content', 'optimisationio' ); ?></span>
+									<input type="radio" name="disabled_feed_behaviour" value="redirect" <?php echo isset( $sett['disabled_feed_behaviour'] ) && '404_error' !== $sett['disabled_feed_behaviour'] ? 'checked="checked"' : ''; ?> /> <span><?php esc_html_e( 'Redirect feed requests to corresponding HTML content', 'wp-disable' ); ?></span>
 								</label>
 								<br/>
 								<br/>
 								<label>
-									<input type="radio" name="disabled_feed_behaviour" value="404_error" <?php echo isset( $sett['disabled_feed_behaviour'] ) && '404_error' === $sett['disabled_feed_behaviour'] ? 'checked="checked"' : ''; ?> /> <span><?php esc_html_e( 'Issue a "Page Not Found (404)" error for feed requests', 'optimisationio' ); ?></span>
+									<input type="radio" name="disabled_feed_behaviour" value="404_error" <?php echo isset( $sett['disabled_feed_behaviour'] ) && '404_error' === $sett['disabled_feed_behaviour'] ? 'checked="checked"' : ''; ?> /> <span><?php esc_html_e( 'Issue a "Page Not Found (404)" error for feed requests', 'wp-disable' ); ?></span>
 								</label>
 							</div>
 							<div class="field-right"></div>
 						</div>
 						<div class="field">
-							<div class="field-left"><?php esc_attr_e('Disable XML-RPC', 'optimisationio'); ?></div>
+							<div class="field-left"><?php esc_attr_e('Disable XML-RPC', 'wp-disable'); ?></div>
 							<div class="field-right"><?php Optimisationio_Dashboard::checkbox_component('disable_xmlrpc', isset( $sett['disable_xmlrpc'] ) && 1 === (int) $sett['disable_xmlrpc']); ?></div>
 						</div>
 						<div class="field">
-							<div class="field-left"><?php esc_attr_e('Disable Gravatars', 'optimisationio'); ?></div>
+							<div class="field-left"><?php esc_attr_e('Disable Gravatars', 'wp-disable'); ?></div>
 							<div class="field-right"><?php Optimisationio_Dashboard::checkbox_component('disable_gravatars', isset( $sett['disable_gravatars'] ) && 1 === (int) $sett['disable_gravatars']); ?></div>
 						</div>
 						<div class="field comments-group">
-							<div class="field-left"><?php esc_attr_e('Enable spam comments cleaner', 'optimisationio'); ?></div>
+							<div class="field-left"><?php esc_attr_e('Enable spam comments cleaner', 'wp-disable'); ?></div>
 							<div class="field-right"><?php Optimisationio_Dashboard::checkbox_component('spam_comments_cleaner', isset( $sett['spam_comments_cleaner'] ) && 1 === (int) $sett['spam_comments_cleaner']); ?></div>
 						</div>
 						<div class="field sub-field delete-spam-comments-group comments-group">
-							<div class="field-left"><?php esc_html_e( 'Delete spam comments', 'optimisationio'); ?></div>
+							<div class="field-left"><?php esc_html_e( 'Delete spam comments', 'wp-disable'); ?></div>
 							<div class="field-right">
 								<?php
 								$options = array(
-									'hourly' => __( 'Once Hourly', 'optimisationio' ),
-									'twicedaily' => __( 'Twice Daily', 'optimisationio' ),
-									'daily' => __( 'Once Daily', 'optimisationio' ),
-									'weekly' => __( 'Once Weekly', 'optimisationio' ),
-									'twicemonthly' => __( 'Twice Monthly', 'optimisationio' ),
-									'monthly' => __( 'Once Monthly', 'optimisationio' ),
+									'hourly' => __( 'Once Hourly', 'wp-disable' ),
+									'twicedaily' => __( 'Twice Daily', 'wp-disable' ),
+									'daily' => __( 'Once Daily', 'wp-disable' ),
+									'weekly' => __( 'Once Weekly', 'wp-disable' ),
+									'twicemonthly' => __( 'Twice Monthly', 'wp-disable' ),
+									'monthly' => __( 'Once Monthly', 'wp-disable' ),
 								);
 
 								$selected_val = 'daily';
@@ -893,18 +893,18 @@ class WpPerformance_Admin {
 							<div class="field-left"> <?php
 								$next_scheduled = wp_next_scheduled( 'delete_spam_comments' );
 								if ( $next_scheduled ) {
-									printf( __( 'Next spam delete: %s', 'optimisationio' ), '<br/><strong><i>' . esc_html( wp_date( 'l, F j, Y @ h:i a', $next_scheduled ) ) . '</i></strong>' );
+									printf( __( 'Next spam delete: %s', 'wp-disable' ), '<br/><strong><i>' . esc_html( wp_date( 'l, F j, Y @ h:i a', $next_scheduled ) ) . '</i></strong>' );
 								} ?>
 							</div>
 							<div class="field-right">
-								<?php echo submit_button( __( 'Delete spam comments now', 'optimisationio' ) , 'large submit', 'delete_spam_comments_now', false ); ?>
+								<?php echo submit_button( __( 'Delete spam comments now', 'wp-disable' ) , 'large submit', 'delete_spam_comments_now', false ); ?>
 							</div>
 						</div>
 					</div>
 				</div>
 
 				<div class="addon-settings-actions-section">
-					<input type="submit" class="button button-primary button-large" name="" value="<?php echo esc_attr("Save settings", "optimisationio"); ?>" />
+					<input type="submit" class="button button-primary button-large" name="" value="<?php echo esc_attr("Save settings", "wp-disable"); ?>" />
 				</div>
 
 				<?php wp_nonce_field( 'wpperformance-admin-nonce', 'wpperformance_admin_settings_nonce' ); ?>

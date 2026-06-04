@@ -11,11 +11,11 @@ class Optimisationio_Stats_And_Addons {
 
 	function __construct() {
 		self::$str_i18n = array(
-			"n/a"	=> __( "n/a", "optimisationio" ),
-			"install" => __( "Install", "optimisationio" ),
-			"activate" => __( "Activate", "optimisationio" ),
-			"deactivate" => __( "Deactivate", "optimisationio" ),
-			"changes_may_not_saved" => __("Changes you made may not be saved.", "optimisationio")
+			"n/a"	=> __( "n/a", "wp-disable" ),
+			"install" => __( "Install", "wp-disable" ),
+			"activate" => __( "Activate", "wp-disable" ),
+			"deactivate" => __( "Deactivate", "wp-disable" ),
+			"changes_may_not_saved" => __("Changes you made may not be saved.", "wp-disable")
 		);
 		add_action( 'admin_menu', array( $this, 'statistics_menu' ), 8 );
 		add_action( 'admin_enqueue_scripts', array( $this, 'addons_pages_styles' ) );
@@ -35,9 +35,9 @@ class Optimisationio_Stats_And_Addons {
 
 	public function statistics_menu() {
 		
-		add_menu_page( __( 'Optimisation.io', 'optimisationio' ), __( 'Optimisation.io', 'optimisationio' ), 'manage_options', 'optimisationio-statistics-and-addons', array( $this, 'statistics_page' ), 'dashicons-dashboard' );
+		add_menu_page( __( 'Optimisation.io', 'wp-disable' ), __( 'Optimisation.io', 'wp-disable' ), 'manage_options', 'optimisationio-statistics-and-addons', array( $this, 'statistics_page' ), 'dashicons-dashboard' );
 
-		add_submenu_page( 'optimisationio-statistics-and-addons', __( 'Statistics', 'optimisationio' ), __( 'Statistics', 'optimisationio' ), 'manage_options', 'optimisationio-statistics-and-addons' );
+		add_submenu_page( 'optimisationio-statistics-and-addons', __( 'Statistics', 'wp-disable' ), __( 'Statistics', 'wp-disable' ), 'manage_options', 'optimisationio-statistics-and-addons' );
 	}
 
 	public function statistics_page() {
@@ -234,7 +234,7 @@ class Optimisationio_Stats_And_Addons {
 		if( $this->wp_verify_nonce( $post_req['nonce'], 'optimisationio-import-export-nonce' ) ){
 
 			if( ! isset( $post_req['data'] ) || ! is_string( $post_req['data'] ) ){
-				$ret['msg'] = __("Invalid import arguments", "optimisationio");
+				$ret['msg'] = __("Invalid import arguments", "wp-disable");
 				$ret['type'] = 'invalid_arguments';
 			}
 			else{
@@ -327,11 +327,11 @@ class Optimisationio_Stats_And_Addons {
 						}
 					}
 
-					$ret['msg'] = __("Settings imported successfully", "optimisationio");
+					$ret['msg'] = __("Settings imported successfully", "wp-disable");
 					$ret['error'] = 0;
 				}
 				else{
-					$ret['msg'] = __("Imported invalid data", "optimisationio");
+					$ret['msg'] = __("Imported invalid data", "wp-disable");
 					$ret['type'] = 'invalid_data';
 				}
 			}
@@ -349,7 +349,7 @@ class Optimisationio_Stats_And_Addons {
 		if( $this->wp_verify_nonce( $post_req['nonce'], 'optimisationio-import-export-nonce' ) ){
 
 			if( ! isset( $post_req['data'] ) || ! is_array( $post_req['data'] ) ){
-				$ret['msg'] = __("Invalid export arguments", "optimisationio");
+				$ret['msg'] = __("Invalid export arguments", "wp-disable");
 				$ret['type'] = 'invalid_arguments';
 			}
 			else{
@@ -398,13 +398,13 @@ class Optimisationio_Stats_And_Addons {
 					$ret['error'] = 0;
 				}
 				else{
-					$ret['msg'] = __("Can't find saved data to export", "optimisationio");
+					$ret['msg'] = __("Can't find saved data to export", "wp-disable");
 					$ret['type'] = 'not_saved_data';
 				}
 			}
 		}
 		else{
-			$ret['msg'] = __("Failed data verification", "optimisationio");
+			$ret['msg'] = __("Failed data verification", "wp-disable");
 			$ret['type'] = 'verification_fail';
 		}
 
@@ -432,9 +432,9 @@ class Optimisationio_Stats_And_Addons {
 		);
 
 		$addon_description = array(
-			self::$addons_slug[0] => __( 'Improve WordPress performance by disabling unused items.', 'optimisationio' ),
-			self::$addons_slug[1] => __( 'Simple efficient WordPress caching.', 'optimisationio' ),
-			self::$addons_slug[2] => __( 'Image Compression and resizing - Setup under the Tools menu', 'optimisationio' ),
+			self::$addons_slug[0] => __( 'Improve WordPress performance by disabling unused items.', 'wp-disable' ),
+			self::$addons_slug[1] => __( 'Simple efficient WordPress caching.', 'wp-disable' ),
+			self::$addons_slug[2] => __( 'Image Compression and resizing - Setup under the Tools menu', 'wp-disable' ),
 		);
 
 		$addon_image = array(
@@ -531,7 +531,7 @@ class Optimisationio_Stats_And_Addons {
 	}
 
 	public static function echo_stats_size( $valid, $size ){
-		$e = '<i class="n_a">' . __( 'n/a', 'optimisationio' ) . '</i>';
+		$e = '<i class="n_a">' . __( 'n/a', 'wp-disable' ) . '</i>';
 		if( $valid ){
 			$size = size_format( $size );
 			$e = $size ? $size : '0 B';
@@ -562,7 +562,7 @@ class Optimisationio_Stats_And_Addons {
 					<div>
 						<div>
 							<span><?php Optimisationio_Stats_And_Addons::echo_stats_size( $active_addon, $active_addon ? 1000 * $image_compress_info['total_size_optimized'] : 0 ); ?></span>
-							<?php esc_html_e('Saved', 'optimisationio'); ?>
+							<?php esc_html_e('Saved', 'wp-disable'); ?>
 						</div>
 					</div>
 				</div>
@@ -581,17 +581,17 @@ class Optimisationio_Stats_And_Addons {
 		?>
 		<div class="addon-stats">
 			<ul class="cache-and-database-list">
-				<li><?php esc_html_e( 'Original DB', 'optimisationio' ); ?><span><?php Optimisationio_Stats_And_Addons::echo_stats_size( $active_addon, $active_addon ? $cache_info->size : 0 ); ?></span></li>
-				<li><?php esc_html_e( 'New DB', 'optimisationio' ); ?><span><?php Optimisationio_Stats_And_Addons::echo_stats_size( $active_addon, $active_addon ? $cache_info->optimised_size : 0 ); ?></span></li>
-				<li><?php esc_html_e( 'Savings', 'optimisationio' ); ?><span><?php Optimisationio_Stats_And_Addons::echo_stats_size( $active_addon, $active_addon ? $cache_info->saving : 0 ); ?></span></li>
+				<li><?php esc_html_e( 'Original DB', 'wp-disable' ); ?><span><?php Optimisationio_Stats_And_Addons::echo_stats_size( $active_addon, $active_addon ? $cache_info->size : 0 ); ?></span></li>
+				<li><?php esc_html_e( 'New DB', 'wp-disable' ); ?><span><?php Optimisationio_Stats_And_Addons::echo_stats_size( $active_addon, $active_addon ? $cache_info->optimised_size : 0 ); ?></span></li>
+				<li><?php esc_html_e( 'Savings', 'wp-disable' ); ?><span><?php Optimisationio_Stats_And_Addons::echo_stats_size( $active_addon, $active_addon ? $cache_info->saving : 0 ); ?></span></li>
 			</ul>			
 			<ul class="cache-and-database-list">
 				<li><?php echo sprintf('Pages average %sload time', '<br/>'); ?><span><?php echo $active_addon ? Optimisationio::average_pages_load_time() : '<i class="n_a">' . self::$str_i18n['n/a'] . '</i>'; ?></span></li>
 				<li><?php echo sprintf('Requests %s Saved', '<br/>'); ?><span><?php echo $wp_disable_active_addon ? WpPerformance::saved_external_requests() : '<i class="n_a">' . self::$str_i18n['n/a'] . '</i>'; ?></span></li>
 			</ul>
 			<ul class="cache-and-database-list">
-				<li><?php esc_html_e( 'Cache', 'optimisationio' ); ?><span><?php Optimisationio_Stats_And_Addons::echo_stats_size( $active_addon, $active_addon ? Optimisationio_CacheEnabler::get_cache_size() : 0 ); ?></span></li>
-				<li><?php esc_html_e( 'Gravatars Cache', 'optimisationio' ); ?><span><?php echo $active_addon ? Optimisationio_Admin::cache_gravatars_number() : '<i class="n_a">' . self::$str_i18n['n/a'] . '</i>'; ?></span></li>
+				<li><?php esc_html_e( 'Cache', 'wp-disable' ); ?><span><?php Optimisationio_Stats_And_Addons::echo_stats_size( $active_addon, $active_addon ? Optimisationio_CacheEnabler::get_cache_size() : 0 ); ?></span></li>
+				<li><?php esc_html_e( 'Gravatars Cache', 'wp-disable' ); ?><span><?php echo $active_addon ? Optimisationio_Admin::cache_gravatars_number() : '<i class="n_a">' . self::$str_i18n['n/a'] . '</i>'; ?></span></li>
 			</ul>
 		</div>
 		<?php

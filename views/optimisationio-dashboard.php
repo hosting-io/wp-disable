@@ -14,19 +14,19 @@ $addons = Optimisationio_Dashboard::$addons;
 						<img src="<?php echo esc_url( plugin_dir_url( dirname( __FILE__ ) ) . 'images/logo-optimisation.png' ); ?>" alt="" />
 					</div>
 					<div class="statistics-top-cell manual-optimisation">
-						<a href="https://optimisation.io/faq/" title="" target="_blank"><img src="<?php echo esc_url( plugin_dir_url( dirname( __FILE__ ) ) . 'images/logo-optimisation-line.png' ); ?>" alt="" /><?php _e( 'Help and Support' , 'optimisationio' ); ?></a>
+						<a href="https://optimisation.io/faq/" title="" target="_blank"><img src="<?php echo esc_url( plugin_dir_url( dirname( __FILE__ ) ) . 'images/logo-optimisation-line.png' ); ?>" alt="" /><?php _e( 'Help and Support' , 'wp-disable' ); ?></a>
 					</div>
 					<div class="statistics-top-cell support">
-						<a href="https://www.paypal.me/web9/10" class="donate-link" title="" target="_blank"><img src="<?php echo esc_url( plugin_dir_url( dirname( __FILE__ ) ) . 'images/icon-support.png' ); ?>" alt="" /><span><?php _e( 'Donate and help us build the ultimate optimisation suite' , 'optimisationio' ); ?></span></a>
+						<a href="https://www.paypal.me/web9/10" class="donate-link" title="" target="_blank"><img src="<?php echo esc_url( plugin_dir_url( dirname( __FILE__ ) ) . 'images/icon-support.png' ); ?>" alt="" /><span><?php _e( 'Donate and help us build the ultimate optimisation suite' , 'wp-disable' ); ?></span></a>
 					</div>
 				</div>
 
 				<?php Optimisationio_Dashboard::display_stats__measurements(); ?>
 
 				<ul class="statistics-tabs-nav">
-					<li data-tab="disable"><?php _e('Remove Excess Bloat', 'optimisationio');?></li>
-					<li data-tab="images"><?php _e('Compress Images', 'optimisationio');?></li>
-					<li data-tab="cache"><?php _e('Cache & Database', 'optimisationio');?></li>
+					<li data-tab="disable"><?php _e('Remove Excess Bloat', 'wp-disable');?></li>
+					<li data-tab="images"><?php _e('Compress Images', 'wp-disable');?></li>
+					<li data-tab="cache"><?php _e('Cache & Database', 'wp-disable');?></li>
 				</ul>
 
 				<div class="statistics-tabs-content-wrap">
@@ -95,7 +95,7 @@ $addons = Optimisationio_Dashboard::$addons;
 					<div class="donation-overlay-inner">
 						<div class="donation-overlay-top">
 							<img src="<?php echo esc_url( plugin_dir_url( dirname( __FILE__ ) ) . 'images/logo-optimisation.png' ); ?>" alt="" />
-							<span><?php _e( 'Donate and help us build the ultimate optimisation suite' , 'optimisationio' ); ?></span>
+							<span><?php _e( 'Donate and help us build the ultimate optimisation suite' , 'wp-disable' ); ?></span>
 						</div>
 						<div class="donation-overlay-bottom">
 							<select name="donation-value">

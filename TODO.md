@@ -66,6 +66,10 @@ Legend: `[ ]` todo · `[~]` in progress · `[x]` done · 🔴 critical · 🟠 h
 - [ ] 🟡 Audit all `add_management_page`/menu + `current_user_can` + nonce coverage on every form submit path post-cleanup.
 - [ ] 🟡 Confirm no use of functions removed/deprecated through WP 6.x→7.0 (e.g. legacy widget/`create_function`, `wp_make_content_images_responsive`, etc.) — grep after refactor.
 
+## Phase 5 follow-up (deferred — needs tooling not on this box)
+- [ ] 🟡 Regenerate translations for the new `wp-disable` text domain: `wp i18n make-pot . lang/wp-disable.pot` and remove the now-stale `lang/wpperformance*.{pot,mo}` (they reference the old domain and can no longer load). Not blocking — wp.org serves translations by slug.
+- [ ] ⚪ Confirm `readme.txt` "Tested up to" matches the current live WordPress release at submission time.
+
 ## Phase 6 — Verify
 - [ ] 🟠 `php -l` every file (PHP 8.2) — zero parse errors.
 - [ ] 🟠 phpcs against WPCS — triage remaining warnings.

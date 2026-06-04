@@ -19,6 +19,15 @@ Use the prefixes **Added / Changed / Fixed / Security / Removed / Deprecated**.
 
 ### Changed
 - `wpperformance.php`: dropped the `require_once` for the deleted `class-wpperformance-view.php`.
+- **Phase 5 — WP7 / modern compliance:**
+  - **Text domain unified to `wp-disable`** across all 150+ `__()/_e()/esc_*` calls (was a mix of `optimisationio` / `wpperformance` / `wpper`, none of which matched the slug, so translations never loaded). `TEXT_DOMAIN` const + `load_plugin_textdomain` updated. Slugs, nonces, and `Optimisationio_*` class names deliberately left unchanged.
+  - **Plugin header** (`wpperformance.php`): `Version` → `2.0.0`; added `Requires at least: 6.4`, `Requires PHP: 7.4`, `License`/`License URI`, `Text Domain: wp-disable`, `Domain Path: /lang`; refreshed copyright to 2017–2026.
+  - **Version floors** (`class-wpperformance.php`): `MIN_PHP_VERSION` 5.2.4 → 7.4; `MIN_WP_VERSION` 4.3 → 6.4. (`OPTION_KEY` left as-is to preserve existing users' saved settings.)
+  - **`readme.txt`**: `Requires at least` → 6.4, `Tested up to` → 6.8 (verify against live latest in Phase 6), added `Requires PHP: 7.4`, `Stable tag` → 2.0.0, and a 2.0.0 changelog entry.
+- **Trademark compliance (WordPress.org guidelines):**
+  - Renamed the public plugin title (readme `=== ... ===`) from the keyword-stuffed `Reduce HTTP Requests, … Speedup WooCommerce` to **`WP Disable`** — removes the third-party "WooCommerce" trademark and keyword stuffing; matches the plugin header name. ("WP" is not WordPress-trademarked, so the name/slug are compliant.)
+  - Removed "WooCommerce" (+ stuffed terms) from `readme.txt` Tags.
+  - Corrected the trademark casing "Wordpress" → "WordPress" in the two visible admin labels and a doc comment. (Internal option keys like `remove_wordpress_*` left unchanged to preserve saved settings.)
 
 ### Fixed
 - **Phase 2 — functional bugs:**

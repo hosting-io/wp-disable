@@ -3,11 +3,17 @@
  * Plugin Name: WP Disable
  * Plugin URI: https://optimisation.io
  * Description: Improve WordPress performance by disabling unused items. <a href="admin.php?page=optimisationio-dashboard">Open Settings</a>
- * Author:  optimisation.io, hosting.io
- * Author URI:https://optimisation.io
- * Version: 1.5.14
+ * Version: 2.0.0
+ * Requires at least: 6.4
+ * Requires PHP: 7.4
+ * Author: optimisation.io, hosting.io
+ * Author URI: https://optimisation.io
+ * License: GPLv2 or later
+ * License URI: https://www.gnu.org/licenses/gpl-2.0.html
+ * Text Domain: wp-disable
+ * Domain Path: /lang
  *
- * Copyright (C) 2017 Optimisation.io
+ * Copyright (C) 2017-2026 Optimisation.io
  */
 
 // If this file is called directly, abort.

@@ -1,6 +1,6 @@
 <?php
 $active_export = isset($_GET) && isset($_GET['export']);
-$str_i18n = array( 'page_title' => __( '%1$s Optimisation.io - Import/Export add-ons settings %2$s', 'optimisationio' ) );
+$str_i18n = array( 'page_title' => __( '%1$s Optimisation.io - Import/Export add-ons settings %2$s', 'wp-disable' ) );
 $base_curr_url = admin_url('admin.php?page=optimisationio-import-export');
 $addons = Optimisationio_Stats_And_Addons::$addons;
 ?>
@@ -13,21 +13,21 @@ $addons = Optimisationio_Stats_And_Addons::$addons;
 	<div class="wrap-main <?php echo $active_export ? 'view-export': 'view-import'; ?>">
 
 		<ul class="wrap-imp-exp-nav">
-			<li class="t-import <?php echo ! $active_export ? 'active': ''; ?>"><a href="<?php echo esc_url( $base_curr_url ); ?>" title=""><?php esc_html_e("Import", "optimisationio"); ?></a></li>
-			<li class="t-export <?php echo $active_export ? 'active': ''; ?>"><a href="<?php echo esc_url( $base_curr_url . '&export' ); ?>" title=""><?php esc_html_e("Export", "optimisationio"); ?></a></li>
+			<li class="t-import <?php echo ! $active_export ? 'active': ''; ?>"><a href="<?php echo esc_url( $base_curr_url ); ?>" title=""><?php esc_html_e("Import", "wp-disable"); ?></a></li>
+			<li class="t-export <?php echo $active_export ? 'active': ''; ?>"><a href="<?php echo esc_url( $base_curr_url . '&export' ); ?>" title=""><?php esc_html_e("Export", "wp-disable"); ?></a></li>
 		</ul>
 
 		<div class="wrap-imp-exp-content">
 			<div class="wrap-imp-exp-inner">
 				<div class="wrap-imp-exp-main c-import">
 					<div class="imp-exp-options">
-						<p><?php esc_html_e("Copy into textarea the encoded string of add-ons settings you have exported", "optimisationio"); ?></p>
+						<p><?php esc_html_e("Copy into textarea the encoded string of add-ons settings you have exported", "wp-disable"); ?></p>
 					</div>
 					<div class="textarea-wrap"><textarea></textarea></div>
 				</div>
 				<div class="wrap-imp-exp-main c-export">
 					<div class="imp-exp-options">
-						<p><?php esc_html_e("Select the add-οns whose settings you want to include in the exported data", "optimisationio"); ?></p>
+						<p><?php esc_html_e("Select the add-οns whose settings you want to include in the exported data", "wp-disable"); ?></p>
 						<?php foreach ($addons as $key => $val) { 
 							if( $val['activated'] ){ ?>
 							<label><input type="checkbox" name="export_addons[]" value="<?php echo $val['slug']; ?>" checked /><?php echo $val['title']; ?></label>
@@ -39,11 +39,11 @@ $addons = Optimisationio_Stats_And_Addons::$addons;
 			</div>
 		</div>
 
-		<button class="import-btn button button-primary button-large" disabled><?php esc_html_e( "Import settings", "optimisationio" ); ?></button>
-		<button class="export-btn button button-primary button-large"><?php esc_html_e( "Export current settings", "optimisationio" ); ?></button>
+		<button class="import-btn button button-primary button-large" disabled><?php esc_html_e( "Import settings", "wp-disable" ); ?></button>
+		<button class="export-btn button button-primary button-large"><?php esc_html_e( "Export current settings", "wp-disable" ); ?></button>
 
-		<button class="clear-import-btn button button-large hidden"><?php esc_html_e( "Clear", "optimisationio" ); ?></button>
-		<button class="copy-export-btn button button-large hidden"><?php esc_html_e( "Copy to clipboard", "optimisationio" ); ?></button>
+		<button class="clear-import-btn button button-large hidden"><?php esc_html_e( "Clear", "wp-disable" ); ?></button>
+		<button class="copy-export-btn button button-large hidden"><?php esc_html_e( "Copy to clipboard", "wp-disable" ); ?></button>
 
 	</div>
 	
@@ -213,7 +213,7 @@ $addons = Optimisationio_Stats_And_Addons::$addons;
 			});
 
 			export_clipboard.on('success', function(e){
-				alert('<?php esc_html_e( "Exported settings copied to clipboard", "optimisationio" ); ?>')
+				alert('<?php esc_html_e( "Exported settings copied to clipboard", "wp-disable" ); ?>')
 			});
 
 			if( 'undefined' !== typeof saved_active_tab && saved_active_tab !== curr_tab ){

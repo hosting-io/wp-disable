@@ -3,9 +3,9 @@ class WpPerformance {
 
 	private static $instance = false;
 
-	const MIN_PHP_VERSION = '5.2.4';
-	const MIN_WP_VERSION = '4.3';
-	const TEXT_DOMAIN = 'wpperformance';
+	const MIN_PHP_VERSION = '7.4';
+	const MIN_WP_VERSION = '6.4';
+	const TEXT_DOMAIN = 'wp-disable';
 	const OPTION_KEY = 'wpperformance_rev3a';
 
 	// Internal schema version, bumped when a one-time data migration is needed.
@@ -189,7 +189,7 @@ class WpPerformance {
 	}
 
 	/**
-	 * Displays a warning when installed in an old Wordpress version.
+	 * Displays a warning when installed in an old WordPress version.
 	 */
 	public function wp_version_error() {
 		echo '<div class="error"><p><strong>';

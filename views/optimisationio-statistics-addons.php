@@ -14,19 +14,19 @@ $addons = Optimisationio_Stats_And_Addons::$addons;
 						<img src="<?php echo esc_url( plugin_dir_url( dirname( __FILE__ ) ) . 'images/logo-optimisation.png' ); ?>" alt="" />
 					</div>
 					<div class="statistics-top-cell manual-optimisation">
-						<a href="https://optimisation.io/contact-us/" title="" target="_blank"><img src="<?php echo esc_url( plugin_dir_url( dirname( __FILE__ ) ) . 'images/logo-optimisation-line.png' ); ?>" alt="" /><?php _e( 'Request manual optimisation' , 'optimisationio' ); ?></a>
+						<a href="https://optimisation.io/contact-us/" title="" target="_blank"><img src="<?php echo esc_url( plugin_dir_url( dirname( __FILE__ ) ) . 'images/logo-optimisation-line.png' ); ?>" alt="" /><?php _e( 'Request manual optimisation' , 'wp-disable' ); ?></a>
 					</div>
 					<div class="statistics-top-cell support">
-						<a href="https://optimisation.io/contact-us/" title="" target="_blank"><img src="<?php echo esc_url( plugin_dir_url( dirname( __FILE__ ) ) . 'images/icon-support.png' ); ?>" alt="" /><?php _e( 'Support' , 'optimisationio' ); ?></a>
+						<a href="https://optimisation.io/contact-us/" title="" target="_blank"><img src="<?php echo esc_url( plugin_dir_url( dirname( __FILE__ ) ) . 'images/icon-support.png' ); ?>" alt="" /><?php _e( 'Support' , 'wp-disable' ); ?></a>
 					</div>
 				</div>
 
 				<?php Optimisationio_Stats_And_Addons::display_stats__measurements(); ?>
 
 				<ul class="statistics-tabs-nav">
-					<li data-tab="disable"><?php _e('Remove Excess Bloat', 'optimisationio');?></li>
-					<li data-tab="images"><?php _e('Compress Images', 'optimisationio');?></li>
-					<li data-tab="cache"><?php _e('Cache & Database', 'optimisationio');?></li>
+					<li data-tab="disable"><?php _e('Remove Excess Bloat', 'wp-disable');?></li>
+					<li data-tab="images"><?php _e('Compress Images', 'wp-disable');?></li>
+					<li data-tab="cache"><?php _e('Cache & Database', 'wp-disable');?></li>
 				</ul>
 				
 				<div class="statistics-tabs-content-wrap">
@@ -79,26 +79,26 @@ $addons = Optimisationio_Stats_And_Addons::$addons;
 
 					<div class="sidebar-tabs-nav">
 						<ul>
-							<li data-tab-id="imp"><?php esc_html_e('Import', 'optimisationio'); ?></li>
-							<li data-tab-id="exp"><?php esc_html_e('Export', 'optimisationio'); ?></li>
+							<li data-tab-id="imp"><?php esc_html_e('Import', 'wp-disable'); ?></li>
+							<li data-tab-id="exp"><?php esc_html_e('Export', 'wp-disable'); ?></li>
 						</ul>
 					</div>
 
 					<div class="sidebar-tabs-content">
 						<ul>
 							<li data-tab-id="imp">
-								<p><?php esc_html_e("Copy into textarea the encoded string of add-ons settings you have exported", "optimisationio"); ?></p>
+								<p><?php esc_html_e("Copy into textarea the encoded string of add-ons settings you have exported", "wp-disable"); ?></p>
 								<div class="textarea-wrap">
 									<textarea id="import_settings_tarea"></textarea>
 								</div>
 								
-								<button class="import-btn button button-primary button-large" disabled><?php esc_html_e( "Import settings", "optimisationio" ); ?></button>
+								<button class="import-btn button button-primary button-large" disabled><?php esc_html_e( "Import settings", "wp-disable" ); ?></button>
 								
-								<button class="clear-import-btn button button-large hidden"><?php esc_html_e( "Clear", "optimisationio" ); ?></button>
+								<button class="clear-import-btn button button-large hidden"><?php esc_html_e( "Clear", "wp-disable" ); ?></button>
 							</li>
 							<li data-tab-id="exp">
 								
-								<p><?php esc_html_e("Select the add-οns whose settings you want to include in the exported data", "optimisationio"); ?></p>
+								<p><?php esc_html_e("Select the add-οns whose settings you want to include in the exported data", "wp-disable"); ?></p>
 
 								<div class="export-addons-list-options">
 									<?php foreach ($addons as $key => $val) { 
@@ -112,9 +112,9 @@ $addons = Optimisationio_Stats_And_Addons::$addons;
 									<textarea id="export_settings_tarea" readonly></textarea>
 								</div>
 								
-								<button class="export-btn button button-primary button-large"><?php esc_html_e( "Export current settings", "optimisationio" ); ?></button>
+								<button class="export-btn button button-primary button-large"><?php esc_html_e( "Export current settings", "wp-disable" ); ?></button>
 
-								<button class="copy-export-btn button button-large hidden"><?php esc_html_e( "Copy to clipboard", "optimisationio" ); ?></button>
+								<button class="copy-export-btn button button-large hidden"><?php esc_html_e( "Copy to clipboard", "wp-disable" ); ?></button>
 							</li>
 						</ul>
 					</div>

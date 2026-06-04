@@ -75,7 +75,7 @@ jobs:
 
       - name: Upload built zip as a run artifact
         if: ${{ steps.deploy.outputs.zip-path != '' }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: wp-disable-${{ steps.ver.outputs.version }}
           path: ${{ steps.deploy.outputs.zip-path }}

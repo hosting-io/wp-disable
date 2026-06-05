@@ -11,29 +11,48 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Speed up WordPress by disabling unused features — emojis, embeds, query strings, XML-RPC, RSS and more — for fewer requests and faster pages.
 
 == Description ==
-<strong>Reduce HTTP requests</strong> - Disable Emojis, Disable Gravatars, Disable Embeds and Remove Querystrings. SpeedUp WooCommerce, Added support to disable pingbacks, disable trackbacks, close comments after 28 days, Added the ability to force pagingation after 20 posts,
-Disable WooCommerce scripts and CSS on non WooCommerce Pages, Disable RSS, Disable XML-RPC, Disable Autosave, Remove Windows Live Writer tag, Remove Shortlink Tag, Remove WP API from header and
- many more features to help speed and SEO gains.  Now includes <strong>Disable Comments, Heartbeat Control, Selective Disable</strong>
 
- <strong>**NEW Features:**</strong>
- Better Stats on Dashboard
- Disable loading dashicons on front end if admin bar disabled
- Disable Author Pages
+**WP Disable makes your site faster by switching off the features you don't use.** Every disabled item is one less HTTP request, one less script, or one less query — adding up to lighter pages and better Core Web Vitals. Pick only what you need; nothing is forced on.
 
-Disabling Emojis does not disable emoticons, it disables the support for Emojis added since WP 4.2 and removes 1 HTTP request.<br>
+= Reduce requests & strip front-end bloat =
+* Disable emojis (removes the emoji detection script and styles)
+* Remove query strings from static assets (`?ver=...`) for cleaner caching
+* Disable oEmbeds (the auto-embed script that loads site-wide)
+* Disable Gravatars
+* Remove jQuery Migrate on the front end
+* Combine and asynchronously load Google Fonts and Font Awesome
+* Add DNS-prefetch hints for external hosts
+* Remove the password-strength-meter script where it isn't needed
+* Drop Dashicons on the front end when the admin toolbar is hidden
 
-Disabling Embeds  - script that auto formats pasted content in the visual editor, eg videos, etc. Big issue with this script is it loads on every
-single page. You can still use the default embed code from YouTube, Twitter etc to included content.
+= Clean up the page header =
+* Remove the generator tag, shortlink, RSD, Windows Live Writer, and REST API link tags
 
-Remove Query Strings: If you look at the waterfall view of your page load, you will see your query strings end in something like ver=1.12.4.
-These are called query strings and help determine the version of the script. The problem with query strings like these is that it isn't very efficient for caching purposes and sometimes prevents caching those assets altogether.  If you are using a CDN already, you can ignore this.
+= Comments & discussion =
+* Disable comments everywhere, or selectively per post type
+* Close comments on older posts and paginate long threads
+* Strip links from comments
+* Disable pingbacks and trackbacks
+* Schedule automatic spam-comment cleanup
 
-Disabling Gravatars is completely optional, advise, if you don't use them, disable as it gets rid of one more useless HTTP request.
+= Admin & performance controls =
+* Limit or disable post revisions and autosave
+* Control the WordPress Heartbeat (frequency and where it runs)
+* Disable the REST/XML feeds (RSS), XML-RPC, author archive pages, and admin notices
 
-General Performance improvements: Added support for : disable ping/trackbacks, close comments after 28 days, force pagingation after 20 posts, Disable WooCommerce scripts and CSS on non WooCommerce Pages.
+= SEO helpers =
+* Remove the Yoast SEO HTML comment from the head
+* Remove duplicate names in Yoast breadcrumbs
 
-<b>Have an idea ?</b><br>
-<a href="https://github.com/hosting-io/wp-disable">Public repo on GitHub</a> if you would like to contribute or have any ideas to add.
+= Optional WooCommerce optimisations =
+When WooCommerce is active, you can stop its scripts and styles from loading on non-store pages, defer cart fragments, disable product reviews, and skip the password-strength meter on unrelated pages.
+
+= Good to know =
+* Disabling emojis does not affect normal emoticons — it only removes the extra emoji-detection script.
+* Removing query strings can interfere with some CDNs that key cache on them; leave it off if unsure.
+* Everything is optional and reversible — toggle a setting off and the behaviour returns.
+
+**Have an idea or found a bug?** The plugin is developed in the open — see the [public GitHub repo](https://github.com/hosting-io/wp-disable) to contribute or open an issue.
 
 == Installation ==
 

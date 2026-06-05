@@ -96,6 +96,7 @@ You can try our <a href="https://wordpress.org/plugins/wp-image-compression/">Fr
 == Changelog ==
 = 2.0.2 =
 * Hardening: block direct access to all plugin PHP files.
+* The SEO tab now only appears when a supported SEO plugin (Yoast SEO) is active, and fixed a settings message typo. Props @JeroenSormani.
 * Refreshed the plugin description.
 
 = 2.0.1 =

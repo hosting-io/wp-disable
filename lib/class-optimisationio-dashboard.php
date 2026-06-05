@@ -252,7 +252,7 @@ class Optimisationio_Dashboard {
 						}
 					}
 					else{
-						$ret['msg'] = "Dectivation error";
+						$ret['msg'] = "Deactivation error";
 					}
 				}
 				else{

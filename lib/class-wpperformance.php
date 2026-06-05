@@ -948,4 +948,15 @@ class WpPerformance {
 		}
 		return WpPerformance::$enabled_woocommerce;
 	}
+
+	/**
+	 * Whether to show the SEO settings tab.
+	 *
+	 * True only when a supported SEO plugin is active (currently Yoast SEO);
+	 * the SEO options are no-ops otherwise. Kept abstracted so other SEO
+	 * plugins can be added here later. Props @JeroenSormani.
+	 */
+	public static function should_show_seo_tab(){
+		return defined( 'WPSEO_VERSION' );
+	}
 }

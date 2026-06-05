@@ -1,4 +1,5 @@
 <?php
+defined( 'ABSPATH' ) || exit; // Prevent direct access.
 class WpPerformance {
 
 	private static $instance = false;

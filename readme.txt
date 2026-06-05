@@ -4,7 +4,7 @@ Tags: disable emoji, disable embeds, remove query strings, performance, optimiza
 Requires at least: 6.4
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 2.0.1
+Stable tag: 2.0.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -94,6 +94,10 @@ You can try our <a href="https://wordpress.org/plugins/wp-image-compression/">Fr
 
 
 == Changelog ==
+= 2.0.2 =
+* Hardening: block direct access to all plugin PHP files.
+* Refreshed the plugin description.
+
 = 2.0.1 =
 * Housekeeping: corrected the Contributors field to a valid WordPress.org username and shortened the short description to meet the 150-character directory limit.
 

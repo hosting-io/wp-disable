@@ -1,4 +1,5 @@
 <?php
+defined( 'ABSPATH' ) || exit; // Prevent direct access.
 
 include_once( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
 

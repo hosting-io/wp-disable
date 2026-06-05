@@ -1,4 +1,5 @@
 <?php
+defined( 'ABSPATH' ) || exit; // Prevent direct access.
 $addons = Optimisationio_Dashboard::$addons;
 ?>
 <div class="wrap">

@@ -1,4 +1,5 @@
 <?php
+defined( 'ABSPATH' ) || exit; // Prevent direct access.
 class Optimisationio_Stats_And_Addons {
 
 	private static $instance = null;

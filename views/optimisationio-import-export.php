@@ -1,4 +1,5 @@
 <?php
+defined( 'ABSPATH' ) || exit; // Prevent direct access.
 $active_export = isset($_GET) && isset($_GET['export']);
 $str_i18n = array( 'page_title' => __( '%1$s Optimisation.io - Import/Export add-ons settings %2$s', 'wp-disable' ) );
 $base_curr_url = admin_url('admin.php?page=optimisationio-import-export');

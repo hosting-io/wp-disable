@@ -1,4 +1,5 @@
 <?php
+defined( 'ABSPATH' ) || exit; // Prevent direct access.
 class Optimisationio_Dashboard {
 
 	private static $instance = null;

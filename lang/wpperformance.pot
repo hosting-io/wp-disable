@@ -41,7 +41,7 @@ msgid "Changes you made may not be saved."
 msgstr ""
 
 #: lib/class-optimisationio-dashboard.php:39
-msgid "Optimisation.io"
+msgid "Folium Studio"
 msgstr ""
 
 #: lib/class-optimisationio-dashboard.php:282

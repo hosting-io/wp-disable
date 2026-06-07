@@ -417,6 +417,25 @@ class WpPerformance_Admin {
 
 				if( wp_verify_nonce( sanitize_text_field( $post_req['wpperformance_admin_settings_nonce'] ), 'wpperformance-admin-nonce' ) ) {
 
+					self::persist_settings( $post_req );
+				}
+
+			}
+		}
+	}
+
+	/**
+	 * Build, sanitise and persist the settings option from a request array.
+	 *
+	 * Shared by the legacy admin-form handler (above) and the Folium UI ajax
+	 * save endpoint (Optimisationio_Dashboard::ajax_app_save). Callers MUST gate
+	 * capability + nonce before calling this. Input uses the same checkbox
+	 * semantics as the form: a toggle key present means "on", absent means "off".
+	 *
+	 * @param array $post_req Unslashed request data (real option field names).
+	 */
+	public static function persist_settings( array $post_req ) {
+
 					$options = array(
 						'disable_gravatars'                  => isset( $post_req['disable_gravatars'] ) ? 1 : 0,
 						'disable_referral_spam' 			 => isset( $post_req['disable_referral_spam'] ) ? 1 : 0,
@@ -477,10 +496,6 @@ class WpPerformance_Admin {
 					else {
 						WpPerformance::check_spam_comments_delete( false );
 					}
-				}
-
-			}
-		}
 	}
 
 	public static function addon_settings(){

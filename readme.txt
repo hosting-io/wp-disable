@@ -4,7 +4,7 @@ Tags: disable emoji, disable embeds, remove query strings, performance, optimiza
 Requires at least: 6.4
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 2.0.2
+Stable tag: 2.1.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -52,7 +52,7 @@ When WooCommerce is active, you can stop its scripts and styles from loading on 
 * Removing query strings can interfere with some CDNs that key cache on them; leave it off if unsure.
 * Everything is optional and reversible — toggle a setting off and the behaviour returns.
 
-**Have an idea or found a bug?** The plugin is developed in the open — see the [public GitHub repo](https://github.com/hosting-io/wp-disable) to contribute or open an issue.
+**Have an idea or found a bug?** The plugin is developed in the open — see the [public GitHub repo](https://github.com/FoliumStudio/wp-disable) to contribute or open an issue.
 
 == Installation ==
 
@@ -67,7 +67,7 @@ This section describes how to install the plugin and get it working.
 
 = I would like to contribute/I have an idea =
 
-<a href="https://github.com/hosting-io/wp-disable">Public repo on GitHub</a> if you would like to contribute or have any ideas to add.
+<a href="https://github.com/FoliumStudio/wp-disable">Public repo on GitHub</a> if you would like to contribute or have any ideas to add.
 
 = Do I still need caching ? =
 
@@ -94,6 +94,9 @@ You can try our <a href="https://wordpress.org/plugins/wp-image-compression/">Fr
 
 
 == Changelog ==
+= 2.1.0 =
+* New admin experience: WP Disable now opens inside the shared "Folium" menu with a redesigned, tabbed settings screen (dashboard, live optimisation count, instant search). All existing settings and their behaviour are unchanged.
+* Settings are saved over ajax using the same validation as before — no change to what gets stored.
 = 2.0.2 =
 * Hardening: block direct access to all plugin PHP files.
 * The SEO tab now only appears when a supported SEO plugin (Yoast SEO) is active, and fixed a settings message typo. Props @JeroenSormani.

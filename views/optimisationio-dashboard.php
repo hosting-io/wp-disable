@@ -15,7 +15,7 @@ $addons = Optimisationio_Dashboard::$addons;
 						<img src="<?php echo esc_url( plugin_dir_url( dirname( __FILE__ ) ) . 'images/logo-optimisation.png' ); ?>" alt="" />
 					</div>
 					<div class="statistics-top-cell manual-optimisation">
-						<a href="https://optimisation.io/faq/" title="" target="_blank"><img src="<?php echo esc_url( plugin_dir_url( dirname( __FILE__ ) ) . 'images/logo-optimisation-line.png' ); ?>" alt="" /><?php _e( 'Help and Support' , 'wp-disable' ); ?></a>
+						<a href="https://foliumstudio.co.uk" title="" target="_blank"><img src="<?php echo esc_url( plugin_dir_url( dirname( __FILE__ ) ) . 'images/logo-optimisation-line.png' ); ?>" alt="" /><?php _e( 'Help and Support' , 'wp-disable' ); ?></a>
 					</div>
 					<div class="statistics-top-cell support">
 						<a href="https://www.paypal.me/web9/10" class="donate-link" title="" target="_blank"><img src="<?php echo esc_url( plugin_dir_url( dirname( __FILE__ ) ) . 'images/icon-support.png' ); ?>" alt="" /><span><?php _e( 'Donate and help us build the ultimate optimisation suite' , 'wp-disable' ); ?></span></a>

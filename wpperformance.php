@@ -1,25 +1,35 @@
 <?php
 /**
  * Plugin Name: WP Disable
- * Plugin URI: https://optimisation.io
- * Description: Improve WordPress performance by disabling unused items. <a href="admin.php?page=optimisationio-dashboard">Open Settings</a>
- * Version: 2.0.2
+ * Plugin URI: https://foliumstudio.co.uk
+ * Description: Improve WordPress performance by disabling unused items. <a href="admin.php?page=wp-disable">Open Settings</a>
+ * Version: 2.1.0
  * Requires at least: 6.4
  * Requires PHP: 7.4
- * Author: optimisation.io, hosting.io
- * Author URI: https://optimisation.io
+ * Author: Folium Studio
+ * Author URI: https://foliumstudio.co.uk
  * License: GPLv2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: wp-disable
  * Domain Path: /lang
  *
- * Copyright (C) 2017-2026 Optimisation.io
+ * Copyright (C) 2017-2026 Folium Studio
  */
 
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) { die; }
 
 define( 'OPTIMISATIONIO_WP_DISABLE_ADDON', true);
+
+// Plugin path/URL constants (used for Folium app asset enqueue, etc.).
+define( 'WP_DISABLE_FILE', __FILE__ );
+define( 'WP_DISABLE_DIR', plugin_dir_path( __FILE__ ) );
+define( 'WP_DISABLE_URL', plugin_dir_url( __FILE__ ) );
+define( 'WP_DISABLE_VERSION', '2.1.0' );
+
+// Shared Folium UI design framework (vendored, newest-wins). Boots on
+// plugins_loaded:4 and owns the single "Folium" admin menu + app frame.
+require_once __DIR__ . '/lib/folium-ui/loader.php';
 
 require_once 'lib/class-wpperformance.php';
 require_once 'lib/class-wpperformance-admin.php';

@@ -1,0 +1,43 @@
+/* WP Disable — Folium app: the handful of classes the app emits that aren't
+   already in folium-ui.css. Everything else (fl-*, wpd-section/group/metrics/
+   tools-grid/field/warn…) is provided by the shared library. Uses folium-ui
+   design tokens so it tracks the active theme. Never styles html/body. */
+
+/* dependent field row under a toggled-on setting (table layout) */
+.wpd-subrow > td {
+  background: var(--fl-surface-2, rgba(0,0,0,.02));
+  border-top: 0;
+  padding-top: 4px;
+}
+.wpd-subrow .wpd-field {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* inline action row (import button + hint) */
+.wpd-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* dashboard "by section" jump rows */
+.wpd-jump { cursor: pointer; }
+.wpd-jump:hover { background: var(--fl-surface-2, rgba(0,0,0,.03)); }
+
+/* post-type checkbox grid (Disable comments on certain post types) */
+.wpd-pt-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+}
+.wpd-pt {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--fl-ink-2, inherit);
+}

@@ -36,7 +36,7 @@ class Optimisationio_Stats_And_Addons {
 
 	public function statistics_menu() {
 		
-		add_menu_page( __( 'Optimisation.io', 'wp-disable' ), __( 'Optimisation.io', 'wp-disable' ), 'manage_options', 'optimisationio-statistics-and-addons', array( $this, 'statistics_page' ), 'dashicons-dashboard' );
+		add_menu_page( __( 'Folium Studio', 'wp-disable' ), __( 'Folium Studio', 'wp-disable' ), 'manage_options', 'optimisationio-statistics-and-addons', array( $this, 'statistics_page' ), 'dashicons-dashboard' );
 
 		add_submenu_page( 'optimisationio-statistics-and-addons', __( 'Statistics', 'wp-disable' ), __( 'Statistics', 'wp-disable' ), 'manage_options', 'optimisationio-statistics-and-addons' );
 	}

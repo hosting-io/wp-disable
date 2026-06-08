@@ -3,7 +3,7 @@
  * Plugin Name: Featherweight
  * Plugin URI: https://foliumstudio.co.uk
  * Description: Featherweight (formerly WP Disable) speeds up WordPress by switching off the features you don't use. <a href="admin.php?page=wp-disable">Open Settings</a>
- * Version: 2.2.0
+ * Version: 2.2.1
  * Requires at least: 6.4
  * Requires PHP: 7.4
  * Author: Folium Studio
@@ -25,7 +25,7 @@ define( 'OPTIMISATIONIO_WP_DISABLE_ADDON', true);
 define( 'WP_DISABLE_FILE', __FILE__ );
 define( 'WP_DISABLE_DIR', plugin_dir_path( __FILE__ ) );
 define( 'WP_DISABLE_URL', plugin_dir_url( __FILE__ ) );
-define( 'WP_DISABLE_VERSION', '2.2.0' );
+define( 'WP_DISABLE_VERSION', '2.2.1' );
 
 // Shared Folium UI design framework (vendored, newest-wins). Boots on
 // plugins_loaded:4 and owns the single "Folium" admin menu + app frame.

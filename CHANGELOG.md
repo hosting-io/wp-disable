@@ -10,6 +10,20 @@ Use the prefixes **Added / Changed / Fixed / Security / Removed / Deprecated**.
 
 ---
 
+## [2.2.1] — 2026-06-08 — suite UI polish
+
+### Changed
+- **Folium UI → 1.0.3.** Shared admin-menu mark swapped from the legacy chat-bubble
+  SVG to a **leaf** (`menu_icon()`) — "folium" is Latin for leaf. Re-vendored into
+  Featherweight + Sitewise.
+- **Sitewise flagged `coming` in the catalog.** On sites where Sitewise isn't
+  installed, the overview now shows "Coming soon" instead of a broken Install link
+  to the old `wp-call-me-back` listing. The flag is gated on `!has_file`, so a
+  genuinely-installed Sitewise still shows its real state.
+
+> Note: 2.2.0 shipped to wp.org via manual workflow_dispatch (no git tag); 2.2.1 is
+> the follow-up so these post-release UI tweaks ship under a fresh version.
+
 ## [2.2.0] — 2026-06-08 — Featherweight rebrand + dead-code purge
 
 ### Changed

@@ -5,6 +5,9 @@
 # Version control / CI / dev tooling
 /.git
 /.github
+# wp.org listing assets (icon/banner/screenshots) — published to SVN /assets by
+# the deploy action, must NOT live inside the distributed plugin zip.
+/.wordpress-org
 /.gitignore
 /.distignore
 /.editorconfig

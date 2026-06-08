@@ -38,7 +38,7 @@ if ( class_exists( 'Folium_UI' ) ) {
 
 class Folium_UI {
 
-	const VERSION     = '1.0.0';
+	const VERSION     = '1.0.1';
 	const MENU_SLUG   = 'folium';
 	const STUDIO_SLUG = 'studio'; // the suite-overview landing (folium-ui's own "app").
 
@@ -371,15 +371,15 @@ class Folium_UI {
 	public static function catalog() {
 		$catalog = array(
 			array(
-				'id'    => 'wp-disable',
-				'mark'  => 'D',
-				'name'  => 'WP Disable',
+				'id'    => 'wp-disable', // matches the Folium page slug + permanent wp.org slug.
+				'mark'  => 'F',
+				'name'  => 'Featherweight',
 				'tag'   => 'Performance',
 				'desc'  => 'Strip the scripts, meta tags and requests WordPress injects by default — lighter pages, fewer round-trips.',
 				'stats' => array( array( '25', 'optimisations' ), array( '214 KB', 'saved / page' ), array( '86', 'perf score' ) ),
 				'file'  => 'wp-disable/wpperformance.php',
 				'wporg' => 'https://wordpress.org/plugins/wp-disable/',
-				'home'  => 'https://foliumstudio.co.uk/plugins/wp-disable/',
+				'home'  => 'https://foliumstudio.co.uk/plugins/featherweight/',
 			),
 			array(
 				'id'    => 'sitewise', // matches the Folium page slug it registers.
@@ -524,7 +524,7 @@ class Folium_UI {
 
 	/**
 	 * Plugins for the switcher dropdown: installed (active or inactive) Folium
-	 * plugins from the catalog, so non-adopted ones (e.g. WP Disable) appear too.
+	 * plugins from the catalog, so non-adopted ones (e.g. Folium Cache) appear too.
 	 *
 	 * @return array<int,array>
 	 */

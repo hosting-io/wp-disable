@@ -216,7 +216,7 @@ class WpPerformance {
 		}
 		$main_file = dirname( __FILE__, 2 ) . '/wpperformance.php';
 		$data = get_plugin_data( $main_file, false, false );
-		return ! empty( $data['Name'] ) ? $data['Name'] : 'WP Disable';
+		return ! empty( $data['Name'] ) ? $data['Name'] : 'Featherweight';
 	}
 
 	// -------------------------------------------------------------------------

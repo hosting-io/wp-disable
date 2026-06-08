@@ -314,7 +314,7 @@
         <div class="fl-stack" style="gap:7px">
           <span class="fl-eyebrow"><span class="fl-num">00</span> — OVERVIEW</span>
           <h2 class="fl-h1" style="font-size:24px">Dashboard</h2>
-          <p class="fl-lead">A live read on what WP Disable is removing right now.</p>
+          <p class="fl-lead">A live read on what Featherweight is removing right now.</p>
         </div>
         <div class="wpd-section-meta"><span class="fl-meta">UPDATED LIVE</span></div>
       </div>
@@ -345,14 +345,14 @@
           <div class="fl-card-head"><div class="fl-card-title"><span class="fl-eyebrow"><span class="fl-i" data-ic="upload" style="width:13px;height:13px"></span> IMPORT</span></div></div>
           <div class="fl-card-pad">
             <p class="fl-row-desc" style="margin:0 0 10px">Paste a configuration and apply it.</p>
-            <textarea class="fl-textarea" id="wpd-import" placeholder="Paste WP Disable JSON…" style="min-height:150px"></textarea>
+            <textarea class="fl-textarea" id="wpd-import" placeholder="Paste Featherweight JSON…" style="min-height:150px"></textarea>
             <div class="wpd-actions" style="margin-top:12px"><button class="fl-btn fl-btn--primary fl-btn--sm" data-act="import"><span class="fl-i" data-ic="upload"></span> Apply import</button><span class="fl-hint" id="wpd-import-msg"></span></div>
           </div>
         </div>
       </div>
       <div class="fl-banner fl-banner--warn" style="margin-top:16px">
         <span class="fl-i" data-ic="warn" style="color:var(--fl-warn)"></span>
-        <div class="fl-banner-body"><div class="fl-banner-title">Reset all settings</div><div class="fl-banner-desc">Restores every option to its WP Disable default. This cannot be undone.</div></div>
+        <div class="fl-banner-body"><div class="fl-banner-title">Reset all settings</div><div class="fl-banner-desc">Restores every option to its Featherweight default. This cannot be undone.</div></div>
         <button class="fl-btn fl-btn--danger fl-btn--sm" data-act="reset"><span class="fl-i" data-ic="refresh"></span> Reset to defaults</button>
       </div>
     </div>`;

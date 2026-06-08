@@ -71,22 +71,9 @@ This section describes how to install the plugin and get it working.
 
 <a href="https://github.com/FoliumStudio/featherweight">Public repo on GitHub</a> if you would like to contribute or have any ideas to add.
 
-= Do I still need caching ? =
-
-Yes, We have just release a <a href="https://wordpress.org/plugins/cache-performance/">WordPress Caching plugin</a> which is really easy to setup and includes a built in CD-rewrite rule system.<br>
-
 = What about Minification, do I still need it? =
 
-Yes, you absolutely do, and none come close to the awesome <a href="https://en-gb.wordpress.org/plugins/autoptimize/"> Autoptimize</a> by Frank Goossens.
-
-= Do I still need a CDN ? =
-
-Yes, WarpCache is our recommended choice for the ultimate in flexibility and performance. <br>
-We will soon be adding a free CDN for css/js for all users that is integrated with just an "on/off" switch in the plugin and no setup.
-
-= What about my Image Compression =
-
-You can try our <a href="https://wordpress.org/plugins/wp-image-compression/">Free Image Compression plugin</a> which has really good compression ratios with little to no loss of image quality.
+Yes — minification helps on-page performance, but that's outside the remit of this plugin. Featherweight focuses on removing the requests and bloat WordPress adds by default; pair it with a dedicated minification tool if you want that too.
 
 == Screenshots ==
 1. Plugin Interface
@@ -99,6 +86,8 @@ You can try our <a href="https://wordpress.org/plugins/wp-image-compression/">Fr
 = 2.2.0 =
 * **WP Disable is now Featherweight** — a new name and look as part of the Folium Studio suite. Nothing else changes: same plugin, same slug, same settings (everything you've configured carries over automatically on update).
 * New plugin icon and banner.
+* Refreshed the readme and FAQ.
+* Coming soon: Rank Math support, alongside the existing Yoast SEO helpers.
 * Housekeeping: removed the unused pre-Folium dashboard, the old cross-plugin add-on installer, and their assets — a smaller, lighter download. No change to any optimisation feature or setting.
 = 2.1.0 =
 * New admin experience: WP Disable now opens inside the shared "Folium" menu with a redesigned, tabbed settings screen (dashboard, live optimisation count, instant search). All existing settings and their behaviour are unchanged.

@@ -2,7 +2,7 @@
 
 Running, developer-facing record of the modernization (2.0.0), the Folium UI
 reskin (2.1.0), and the Featherweight rebrand + dead-code purge (2.2.0).
-User-facing release notes live in [`readme.txt`](readme.txt) / [`changelog.txt`](changelog.txt); this file
+User-facing release notes live in [`readme.txt`](readme.txt); this file
 tracks every concrete change (with file references) as the work in [`TODO.md`](TODO.md) is done.
 
 Format: keep entries newest-first under the unreleased heading; move to a versioned heading on release.

@@ -13,7 +13,6 @@
 /.editorconfig
 /phpcs.xml
 /phpcs.xml.dist
-/_config.yml
 
 # Local-only helpers and build output
 /scripts

@@ -26,7 +26,7 @@ if ( ! isset( $GLOBALS['folium_ui_registry'] ) ) {
 	$GLOBALS['folium_ui_registry'] = array();
 }
 $GLOBALS['folium_ui_registry'][] = array(
-	'version' => '1.0.2',
+	'version' => '1.0.3',
 	'path'    => __DIR__ . '/folium-ui.php',
 );
 

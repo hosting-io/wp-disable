@@ -38,7 +38,7 @@ if ( class_exists( 'Folium_UI' ) ) {
 
 class Folium_UI {
 
-	const VERSION     = '1.0.2';
+	const VERSION     = '1.0.3';
 	const MENU_SLUG   = 'folium';
 	const STUDIO_SLUG = 'studio'; // the suite-overview landing (folium-ui's own "app").
 
@@ -392,6 +392,7 @@ class Folium_UI {
 				'file'  => 'wp-call-me-back/sitewise.php',
 				'wporg' => 'https://wordpress.org/plugins/wp-call-me-back/',
 				'home'  => 'https://foliumstudio.co.uk/plugins/sitewise/',
+				'coming' => true, // not publicly live yet — show "Coming soon", not a broken Install link.
 			),
 			array(
 				'id'     => 'cache-performance',

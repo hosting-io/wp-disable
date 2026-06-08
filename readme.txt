@@ -2,7 +2,7 @@
 Contributors: pigeonhut
 Tags: disable emoji, disable embeds, remove query strings, performance, optimization
 Requires at least: 6.4
-Tested up to: 6.8
+Tested up to: 7.0
 Requires PHP: 7.4
 Stable tag: 2.2.1
 License: GPLv2 or later
@@ -84,6 +84,7 @@ Yes — minification helps on-page performance, but that's outside the remit of 
 
 == Changelog ==
 = 2.2.1 =
+* Tested up to WordPress 7.0.
 * The Folium suite menu now uses a leaf icon (fitting — "Folium" is Latin for leaf).
 * Sitewise now shows as "Coming soon" in the Folium overview until it's publicly released, rather than linking out.
 = 2.2.0 =

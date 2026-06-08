@@ -13,6 +13,8 @@ Use the prefixes **Added / Changed / Fixed / Security / Removed / Deprecated**.
 ## [2.2.1] — 2026-06-08 — suite UI polish
 
 ### Changed
+- `readme.txt` **Tested up to → 7.0** (clears the "not tested with your current
+  version of WordPress" admin notice on WP 7.0).
 - **Folium UI → 1.0.3.** Shared admin-menu mark swapped from the legacy chat-bubble
   SVG to a **leaf** (`menu_icon()`) — "folium" is Latin for leaf. Re-vendored into
   Featherweight + Sitewise.

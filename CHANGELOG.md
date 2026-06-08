@@ -1,6 +1,7 @@
 # Changelog (development tracker)
 
-Running, developer-facing record of the 2.0.0 modernization effort.
+Running, developer-facing record of the modernization (2.0.0), the Folium UI
+reskin (2.1.0), and the Featherweight rebrand + dead-code purge (2.2.0).
 User-facing release notes live in [`readme.txt`](readme.txt) / [`changelog.txt`](changelog.txt); this file
 tracks every concrete change (with file references) as the work in [`TODO.md`](TODO.md) is done.
 
@@ -9,7 +10,75 @@ Use the prefixes **Added / Changed / Fixed / Security / Removed / Deprecated**.
 
 ---
 
-## [Unreleased] — targeting 2.0.0
+## [2.2.0] — 2026-06-08 — Featherweight rebrand + dead-code purge
+
+### Changed
+- **Rebranded WP Disable → Featherweight** (Folium Studio suite). Cosmetic only — the
+  slug, text domain, and main file all stay `wp-disable` per wp.org's permanent-slug
+  rules. `Plugin Name` header, `readme.txt` title/description (+ "formerly WP Disable"),
+  the Folium `register_plugin` name, and the vendored catalog entry now say
+  Featherweight; new feather icon (`images/featherweight-icon.png`). Version 2.1.0 → 2.2.0.
+- **Vendored Folium UI 1.0.0 → 1.0.1** (loader version stamp + `Folium_UI::VERSION` +
+  `VERSION` file) so the rebranded catalog deterministically wins the newest-wins
+  negotiation; re-vendored into Featherweight **and** Sitewise. (Fixes the switcher /
+  overview cards still reading "WP Disable" when Sitewise's older copy won the tie.)
+- GitHub repo links in `readme.txt` → `FoliumStudio/featherweight` (repo renamed; slug stays).
+- `readme.txt` FAQ: removed the stale caching / CDN / image-compression cross-sells;
+  rewrote the minification answer ("outside this plugin's remit"); noted **Rank Math
+  support coming soon**.
+
+### Added
+- wp.org listing assets in `.wordpress-org/` — `icon-128x128`/`icon-256x256` and
+  `banner-772x250`/`banner-1544x500` (published to SVN `/assets` by the deploy action,
+  excluded from the plugin zip via `.distignore`).
+
+### Removed
+- **The entire pre-Folium dead admin layer** (distinct from Phase 1's pre-1.5 cleanup;
+  ~6.4k lines, none reachable once Folium UI owns the screen):
+  - `views/` (all 3), legacy `css/` (6) and `js/` (6 — kept the live `js/css-lazy-load.js`
+    used by the async Google Fonts / Font Awesome feature), the stale optimisation.io
+    `images/`, and the orphaned `class-optimisationio-stats-and-addons` +
+    `class-optimisationio-upgrader-skin` classes.
+  - Slimmed `class-optimisationio-dashboard` 893 → 148 lines (live Folium bridge only:
+    register, enqueue, app_data, save/reset ajax, legacy-slug redirect).
+  - Dropped the dead `addon_settings()` PHP form from `class-wpperformance-admin`
+    934 → 501 lines (the only caller of `checkbox_component`); kept `persist_settings`.
+  - `uninstall.php`: dropped the dashboard-class dependency, inlined the legacy
+    add-on download-link transient cleanup.
+
+## [2.1.0] — 2026-06-07 — Folium UI reskin
+
+### Added
+- Adopted the shared, vendored **Folium UI** design framework (`lib/folium-ui/`,
+  newest-wins loader). The plugin now opens inside the single "Folium" admin menu with
+  a redesigned tabbed settings screen (dashboard + live optimisation count + instant
+  search) instead of its own top-level page.
+- `assets/js/wp-disable-app.js` + `assets/css/wp-disable-app.css` — the JS app that
+  renders the settings screen against the real 44-key option schema.
+- `Optimisationio_Dashboard`: `register_plugin` (Folium nesting), `folium_ui_enqueue`
+  hook, `wp_disable_app_save` / `wp_disable_app_reset` ajax, and a redirect from the
+  retired top-level slug to the in-frame Folium page.
+
+### Changed
+- Settings now save over ajax through the **same** `WpPerformance_Admin::persist_settings()`
+  validation as the legacy form — no change to what gets stored.
+
+## [2.0.2] — 2026-06-05
+
+### Security
+- Block direct access to all plugin PHP files (`defined( 'ABSPATH'/'WPINC' ) || exit`).
+
+### Changed
+- The SEO tab now appears only when a supported SEO plugin (Yoast SEO) is active;
+  fixed a settings-message typo (props @JeroenSormani). Refreshed the plugin description.
+
+## [2.0.1] — 2026-06-05
+
+### Changed
+- Housekeeping: corrected the `Contributors` field to a valid WordPress.org username
+  and shortened the short description to meet the 150-character directory limit.
+
+## [2.0.0] — 2026-06-05 — modernization
 
 ### Added
 - `TODO.md` — full modernization task list (phases 0–6).

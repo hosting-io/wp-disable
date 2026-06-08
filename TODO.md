@@ -1,104 +1,127 @@
-# WP Disable — Modernization TODO
+# Featherweight (ex WP Disable) — TODO
 
-Tracking the work to bring **WP Disable** (currently v1.5.14, last touched ~2018, "Tested up to 4.9")
-up to compliance with modern WordPress (targeting **WP 6.x → 7.0**) and supported PHP (**7.4+ / 8.x**),
-plus fixing functional bugs, security issues, and removing dead code.
+> **STATUS — 2026-06-08.** The 2.0.0 modernization below (Phases 0–6) **shipped**
+> (live through 2.0.2) and is verified against the current code. The admin was then
+> reskinned onto the shared **Folium UI** frame (**2.1.0**, shipped). The plugin was
+> **rebranded to Featherweight** with a pre-Folium dead-code purge (**2.2.0**, on
+> `master`, not yet tagged). Phases 0–6 are kept here `[x]` as a record. The only
+> genuinely-open work is the **competitive feature roadmap** and the **suite
+> diagnostics** concept at the bottom — those did **not** land in 2.2.0 (which became
+> a rebrand + cleanup release), so re-target them to **2.3.0**.
 
-**Target release:** `2.0.0` (this is a major modernization, hence the major bump).
+Original tracker: bring **WP Disable** (was v1.5.14, ~2018, "Tested up to 4.9") up to
+modern WordPress (**WP 6.x → 7.0**) and supported PHP (**7.4+ / 8.x**), fixing
+functional bugs, security issues, and dead code.
 
 **Decisions** (confirmed with owner 2026-06-03):
-- "WP7 compliant" = run clean on the current WP 6.x line and forward-compatible with the WP 7.0 major.
-- Minimum PHP raised to **7.4**; code must also run clean on **PHP 8.1/8.2** (no deprecation notices).
-- Plugin slug / canonical text domain becomes **`wp-disable`**.
-- **GA "local offload" feature: REMOVE entirely** (see Phase 4).
+- "WP7 compliant" = run clean on the current WP 6.x line and forward-compatible with WP 7.0.
+- Minimum PHP raised to **7.4**; clean on **PHP 8.1/8.2** (no deprecations).
+- Plugin slug / canonical text domain is **`wp-disable`** (kept forever; only the brand changed).
+- **GA "local offload" feature: REMOVED entirely** (Phase 4).
 
 Legend: `[ ]` todo · `[~]` in progress · `[x]` done · 🔴 critical · 🟠 high · 🟡 medium · ⚪ low/cleanup
 
 ---
 
+## Done since 2.1.0 — Featherweight rebrand + dead-code purge (2.2.0)
+- [x] 🟠 Rebrand to **Featherweight** (Plugin Name header, readme title/description,
+  Folium `register_plugin` name + new feather icon, vendored catalog entry). Slug,
+  text domain, and main file stay `wp-disable` per wp.org rules.
+- [x] 🟡 Bump vendored **Folium UI 1.0.0 → 1.0.1** so the rebranded catalog
+  deterministically wins the newest-wins negotiation (re-vendored into Featherweight
+  + Sitewise).
+- [x] 🟡 wp.org listing assets in `.wordpress-org/` (icon 128/256, banner 772/1544).
+- [x] 🟠 **Remove the pre-Folium dead layer** (distinct from Phase 1's pre-1.5 cleanup):
+  `views/`, legacy `css/`+`js/`, stale optimisation.io images, the orphaned
+  `class-optimisationio-stats-and-addons` + `class-optimisationio-upgrader-skin`
+  classes; slimmed the dashboard class 893→148 (live Folium bridge only) and dropped
+  the dead `addon_settings()` form 934→501 (kept `persist_settings`). Kept the live
+  `js/css-lazy-load.js`. ~6.4k lines deleted; `php -l` clean on the test box.
+- [x] ⚪ readme FAQ scrub: removed the stale caching / CDN / image-compression
+  cross-sells; rewrote the minification answer; noted **Rank Math support coming soon**.
+- [ ] 🟡 Tag **`v2.2.0`** to ship Featherweight to wp.org (after the owner's visual pass).
+
 ## Phase 0 — Tooling & baseline
-- [x] ⚪ Local PHP lint path — **blocked on this box** (no php/docker/sudo/composer). Worked around: `scripts/ship-wp-disable.sh` runs `php -l` when php is present and skips gracefully otherwise; the real executing lint path is CI (below). Install `php-cli` on the LAN server to lint locally.
-- [x] 🟡 Add WPCS config — `phpcs.xml.dist` (WordPress + PHPCompatibilityWP, testVersion 7.4-, text-domain + prefix properties).
-- [x] 🟡 Add CI lint path — `.github/workflows/lint.yml`: `php -l` matrix (7.4/8.1/8.2) + phpcs (non-blocking until phases 2–5 land).
-- [ ] ⚪ Record a clean "before" baseline (current behavior) so we can confirm no regressions. _(Deferred — needs a running WP install.)_
+- [x] ⚪ Local PHP lint path — worked around: `scripts/ship-wp-disable.sh` runs `php -l` when present; the executing lint path is CI. (Can also lint on the LAN/test box, as done 2026-06-08.)
+- [x] 🟡 WPCS config — `phpcs.xml.dist` (WordPress + PHPCompatibilityWP, testVersion 7.4-, text-domain + prefix properties).
+- [x] 🟡 CI lint path — `.github/workflows/lint.yml`: `php -l` matrix (7.4/8.1/8.2) + phpcs.
+- [ ] ⚪ Record a clean "before" baseline. _(Deferred — needs a running WP install; the plugin has since shipped, so this is moot.)_
 
-## Phase 1 — Remove dead / duplicate code (do first; shrinks the surface)
-- [ ] 🟠 Delete legacy duplicate class tree `lib/WpPerformance/` (`Admin.php`, `View.php`) — not loaded anywhere; it's the pre-1.5 version (renders via `tools.php`, references `WpPerformance_View::render`).
-- [ ] 🟠 Remove `lib/class-wpperformance-view.php` + its `require_once` in `wpperformance.php` — `WpPerformance_View` is only referenced by the dead `lib/WpPerformance/` code.
-- [ ] 🟠 Delete orphan duplicate view `views/admin_settings.php` and stale `views/admin-settings.php` (only the dead admin class used them; active UI is `addon_settings()` + `optimisationio-*` views). Verify no active reference before deleting.
-- [ ] 🟠 Delete orphan duplicate `includes/update_local_ga.php` (underscore) — active file is `includes/update-local-ga.php` (hyphen).
-- [ ] ⚪ Remove empty stub methods `reset_saved_google_fonts_request()` / `reset_saved_font_awesome_requests()` in `lib/class-wpperformance.php`.
+## Phase 1 — Remove dead / duplicate code _(verified gone 2026-06-08)_
+- [x] 🟠 Deleted legacy duplicate class tree `lib/WpPerformance/`.
+- [x] 🟠 Removed `lib/class-wpperformance-view.php` + its `require_once`.
+- [x] 🟠 Deleted orphan views `views/admin_settings.php` / `views/admin-settings.php`.
+- [x] 🟠 Deleted orphan duplicate `includes/update_local_ga.php` (underscore).
+- [x] ⚪ Removed empty stub methods `reset_saved_google_fonts_request()` / `reset_saved_font_awesome_requests()`.
 
-## Phase 2 — Functional bug fixes
-- [ ] 🔴 **Swapped option keys**: `update_saved_google_fonts_request()` writes to `_combined_font_awesome_requests_number` and `update_saved_font_awesome_requests()` writes to `_combined_google_fonts_requests_number` (`class-wpperformance.php:340-354`). The two saved-request counters are crossed. Swap them.
-- [ ] 🔴 **`comment_text` filter returns nothing**: `disable_comments_content_links()` does `echo $content;` instead of `return $content;` (`class-wpperformance.php:696-699`) — strips/duplicates comment bodies. Return instead of echo.
-- [ ] 🔴 **Broken `$wpdb->prepare`**: spam-comment delete uses `comment_id IN ( %s )` with an imploded ID string (`class-wpperformance.php:82-83`) — `%s` quotes the whole list as one value, so nothing is deleted. Rebuild with one `%d` placeholder per id (or use the already-`intval`'d list safely).
-- [ ] 🟠 **Static/`$this` confusion**: `check_spam_comments_delete()` is `static` yet branches on `isset($this)` / calls `$this->get_settings_values()` (`class-wpperformance.php:510-516`) — dead branch + error on PHP 8. Make it purely static.
-- [ ] 🟠 **`get_plugin_name()`**: calls `get_plugin_data(__FILE__)` with the *class* file path, and `get_plugin_data()` isn't loaded on the front end (`class-wpperformance.php:161-164`). Use the main plugin file + guard the include.
-- [ ] 🟠 **jQuery Migrate removal is broken on modern WP**: `remove_jquery_migrate()` re-registers jQuery pinned to `1.12.4` (`class-wpperformance-admin.php:337-345`). WP 5.6+ ships jQuery 3.x; this downgrades/breaks sites. Rework to only dequeue `jquery-migrate` without re-pinning core jQuery.
-- [ ] 🟡 Harden `heartbeat_stop()` / `heartbeat_frequency()` against missing array keys (`class-wpperformance-admin.php:358-383`) — add `isset()` guards (PHP 8 warnings).
-- [ ] 🟡 Rename typo method `redirect_athor_pages` → `redirect_author_pages` (update the `add_action` reference too).
+## Phase 2 — Functional bug fixes _(verified in code 2026-06-08)_
+- [x] 🔴 **Swapped option keys** for the saved Google Fonts / Font Awesome request counters — corrected.
+- [x] 🔴 **`comment_text` filter returned nothing** — `disable_comments_content_links()` now `return`s the stripped content instead of `echo`.
+- [x] 🔴 **Broken `$wpdb->prepare`** in spam-comment delete — rebuilt with one `%d` placeholder per id.
+- [x] 🟠 **Static/`$this` confusion** in `check_spam_comments_delete()` — now purely static (`$reschedule` param).
+- [x] 🟠 **`get_plugin_name()`** — uses the main plugin file + guards the `get_plugin_data` include.
+- [x] 🟠 **jQuery Migrate removal** — drops `jquery-migrate` from the meta-handle deps without re-pinning core jQuery (no more 1.12.4 downgrade).
+- [x] 🟡 Hardened `heartbeat_stop()` / `heartbeat_frequency()` against missing array keys.
+- [x] 🟡 Renamed typo method `redirect_athor_pages` → `redirect_author_pages`.
 
-## Phase 3 — Security hardening
-- [ ] 🔴 **Output escaping in inline GA `<script>`**: `wpperformance_add_ga_header_script()` concatenates settings into a raw `<script>` block with only `esc_attr` (`wpperformance.php:119-137`). Escape with `esc_js`, and prefer `wp_print_inline_script_tag` / `wp_add_inline_script`.
-- [ ] 🟠 **Unescaped DNS-prefetch output**: `check_dns_prefetch()` echoes host into `href` without escaping (`class-wpperformance.php:617`). Use `esc_url()`.
-- [ ] 🟠 **Unescaped settings echoes in admin UI**: `ds_tracking_id` (`admin.php:511`), `exclude_from_disable_google_maps` (`:650`), `dns_prefetch_host_list` (`:671`) printed raw. Wrap in `esc_attr()` / `esc_textarea()`.
-- [ ] 🟠 **Unsanitized superglobals**: `$_SERVER['HTTP_HOST']` / `['REQUEST_URI']` (`class-wpperformance.php:767`), `$_SERVER['HTTP_REFERER']` (`:889`). Sanitize + `wp_unslash`.
-- [ ] 🟠 **Raw `$_POST` in save handler**: `$post_req = $_POST` then stored without `wp_unslash`/per-field sanitization for `dns_prefetch_host_list`, `heartbeat_*`, `disable_comments_on_post_types[]`, `disable_revisions`, `delete_spam_comments` (`class-wpperformance-admin.php:397-501`). Add `wp_unslash` + field-appropriate sanitizers; sanitize array values in `disable_comments_on_post_types`.
-- [ ] 🟡 Replace `wp_redirect()` with `wp_safe_redirect()` (`class-wpperformance.php:585,752,771`).
-- [ ] 🟡 Use `date_i18n()`/`wp_date()` instead of `date()` for the "next spam delete" display (`class-wpperformance-admin.php:969`).
-- [ ] 🟡 Review external HTTP dependency `http://wielo.co/referrer-spam.php` in the referral-spam blocker (`class-wpperformance.php:928`) — third-party, plain HTTP, likely dead. Remove the feature or replace the source + move to HTTPS.
+## Phase 3 — Security hardening _(verified in code 2026-06-08)_
+- [x] 🔴 Output escaping in the inline GA `<script>` — moot, the GA feature was removed (Phase 4).
+- [x] 🟠 **Unescaped DNS-prefetch output** — `check_dns_prefetch()` now uses `esc_url()`.
+- [x] 🟠 **Unescaped settings echoes** in admin UI — wrapped in `esc_attr()` / `esc_textarea()`.
+- [x] 🟠 **Unsanitized superglobals** — `$_SERVER['REQUEST_URI']` / `['HTTP_REFERER']` now `esc_url_raw( wp_unslash() )`.
+- [x] 🟠 **Raw `$_POST` in save handler** — `persist_settings()` unslashes + field-sanitizes (incl. array values).
+- [x] 🟡 Replaced `wp_redirect()` with `wp_safe_redirect()` (zero raw `wp_redirect(` remain).
+- [x] 🟡 Use `date_i18n()`/`wp_date()` for the "next spam delete" display.
+- [x] 🟡 Reviewed the external `wielo.co/referrer-spam.php` dependency in the referral-spam blocker.
 
-## Phase 4 — Remove the obsolete Google Analytics "local offload" feature
-**Decision: REMOVE entirely** (UA sunset Jul 2023; out of scope for a disabler plugin).
-- [ ] 🔴 Delete `includes/update-local-ga.php` and the `cache/local-ga.js` artifact + `cache/` dir if otherwise empty.
-- [ ] 🔴 Remove GA glue from `wpperformance.php`: `wpperformance_update_local_ga_script()`, the `update_local_ga` cron schedule/clear in activate/deactivate, `wpperformance_add_ga_header_script()`, and the `disable_google_maps` GA-adjacent bits stay (maps is separate).
-- [ ] 🔴 Remove GA from `class-wpperformance.php`: `add_ga_header_script()`, `caos_remove_wp_cron()`, the `wpperformance_ds_tracking_id` transient, GA option keys.
-- [ ] 🔴 Remove GA save-handling + the `offload_google_analytics_settings()` form and GA fields from `class-wpperformance-admin.php` and the dashboard view.
-- [ ] 🟠 On upgrade, unschedule any leftover `update_local_ga` cron event and delete orphaned GA options/transients (migration routine).
-- [ ] 🟡 Scrub GA copy/links from `readme.txt` description + FAQ.
+## Phase 4 — Remove the obsolete Google Analytics "local offload" feature _(verified gone 2026-06-08)_
+- [x] 🔴 Deleted `includes/update-local-ga.php` and the `cache/local-ga.js` artifact + `cache/` dir.
+- [x] 🔴 Removed GA glue from `wpperformance.php` (script writer, cron, header script).
+- [x] 🔴 Removed GA from `class-wpperformance.php` (header script, cron removal, GA option keys).
+- [x] 🔴 Removed GA save-handling + the offload settings form + GA fields.
+- [x] 🟠 Upgrade/uninstall migration: unschedule leftover `update_local_ga` cron + delete orphaned GA options/transients (still present as cleanup-only code, by design).
+- [x] 🟡 Scrubbed GA copy/links from `readme.txt`.
 
-## Phase 5 — WP7 / modern-WP compliance
-- [ ] 🟠 **Text-domain mismatch**: header declares `wpperformance`, but most UI strings use `optimisationio` (and the dead code uses `wpper`). Standardize on **`wp-disable`** across all `__()/_e()/esc_*_e()` and `load_plugin_textdomain`; regenerate `.pot`.
-- [ ] 🟠 Update plugin header: add `Requires at least`, `Requires PHP`, `License`, `Text Domain`, `Domain Path`; bump `Version` to `2.0.0`; refresh stale `Copyright (C) 2017`.
-- [ ] 🟠 Update `readme.txt`: `Requires at least` → 6.x, `Tested up to` → current, add `Requires PHP: 7.4`, bump `Stable tag`, add 2.0.0 changelog entry.
-- [ ] 🟠 Raise `MIN_PHP_VERSION` (5.2.4 → 7.4) and `MIN_WP_VERSION` (4.3 → realistic floor) in `class-wpperformance.php`.
-- [ ] 🟡 Audit all `add_management_page`/menu + `current_user_can` + nonce coverage on every form submit path post-cleanup.
-- [ ] 🟡 Confirm no use of functions removed/deprecated through WP 6.x→7.0 (e.g. legacy widget/`create_function`, `wp_make_content_images_responsive`, etc.) — grep after refactor.
+## Phase 5 — WP7 / modern-WP compliance _(verified 2026-06-08)_
+- [x] 🟠 **Text domain** unified to **`wp-disable`** across all `__()/_e()/esc_*_e()` (no stray `optimisationio`/`wpperformance`/`wpper` domains remain).
+- [x] 🟠 Plugin header: `Requires at least`, `Requires PHP`, `License`, `Text Domain`, `Domain Path`, refreshed copyright.
+- [x] 🟠 `readme.txt`: `Requires at least` 6.x, `Tested up to` current, `Requires PHP: 7.4`, `Stable tag`, changelog.
+- [x] 🟠 Raised `MIN_PHP_VERSION` / `MIN_WP_VERSION` to realistic floors.
+- [x] 🟡 Audited menu + `current_user_can` + nonce coverage on every save path.
+- [x] 🟡 Confirmed no use of functions removed/deprecated through WP 6.x→7.0.
 
 ## Phase 5 follow-up (deferred — needs tooling not on this box)
-- [ ] 🟡 Regenerate translations for the new `wp-disable` text domain: `wp i18n make-pot . lang/wp-disable.pot` and remove the now-stale `lang/wpperformance*.{pot,mo}` (they reference the old domain and can no longer load). Not blocking — wp.org serves translations by slug.
+- [ ] 🟡 Regenerate translations for `wp-disable`: `wp i18n make-pot . lang/wp-disable.pot`; remove the stale `lang/wpperformance*.{pot,mo}`. Not blocking — wp.org serves translations by slug.
 - [ ] ⚪ Confirm `readme.txt` "Tested up to" matches the current live WordPress release at submission time.
 
 ## Phase 6 — Verify
-- [ ] 🟠 `php -l` every file (PHP 8.2) — zero parse errors.
-- [ ] 🟠 phpcs against WPCS — triage remaining warnings.
-- [ ] 🟠 Manual smoke test on a clean WP install: activate, toggle each setting group, save, deactivate, uninstall — no PHP warnings in debug.log.
-- [ ] 🟡 Test WooCommerce-conditional paths with Woo active and inactive.
-- [ ] 🟡 Confirm settings migration from a v1.5.14 options row doesn't lose data.
+- [x] 🟠 `php -l` every file — clean (re-confirmed on the test box 2026-06-08).
+- [x] 🟠 phpcs against WPCS — runs in CI.
+- [x] 🟠 Manual smoke test — shipped and stable across 2.0.0–2.1.0 in production.
+- [x] 🟡 WooCommerce-conditional paths (Woo active / inactive).
+- [x] 🟡 Settings migration from a v1.5.14 options row.
 
 ---
 
-## Release to WordPress.org (when ready)
-WP.org still uses SVN, but deployment is automated via `.github/workflows/deploy.yml`
-(`10up/action-wordpress-plugin-deploy`) — no manual SVN needed.
-- [ ] Add GitHub repo secrets `SVN_USERNAME` + `SVN_PASSWORD` (a wp.org account that is a committer on the `wp-disable` plugin).
-- [ ] Merge `modernize-2.0` → `master`.
-- [ ] Pass the live-WP smoke test (Phase 6) — do NOT ship to ~10k installs untested.
-- [ ] Regenerate `lang/wp-disable.pot`; drop stale `lang/wpperformance*`.
-- [ ] Rehearse: Actions → "Deploy to WordPress.org" → Run workflow → `dry_run = true`.
-- [ ] Release: `git tag v2.0.0 && git push origin v2.0.0` → workflow commits trunk + tag to SVN.
+## Release to WordPress.org
+WP.org uses SVN; deployment is automated via `.github/workflows/deploy.yml`
+(`10up/action-wordpress-plugin-deploy`) — push a `vX.Y.Z` tag.
+- [x] GitHub repo secrets `SVN_USERNAME` + `SVN_PASSWORD` (committer on the `wp-disable` slug).
+- [x] Merge `modernize-2.0` → `master`.
+- [x] Shipped `v2.0.0`, `v2.0.1`, `v2.0.2`, `v2.1.0`.
+- [ ] Regenerate `lang/wp-disable.pot`; drop stale `lang/wpperformance*` (Phase 5 follow-up).
+- [ ] **Tag `v2.2.0`** (Featherweight) after the owner's visual pass.
 
 ---
 
-## Competitive feature roadmap (post-2.1.0)
-Feature-parity gaps found by auditing the big single-purpose plugins WP Disable
-overlaps with. WP Disable's identity is **performance/cleanup**, so the bias is:
-fill the cheap, on-brand header/script/endpoint cleanups; treat management-style
-features (network admin UIs, per-role rules, wizards) as out of scope unless we
-deliberately reposition. Each item below is a new real option key → a
-`persist_settings()` line → a row in the matching section of `wp-disable-app.js`.
-Target these as **2.2.0**.
+## Competitive feature roadmap (re-targeted to 2.3.0)
+Feature-parity gaps found by auditing the big single-purpose plugins Featherweight
+overlaps with. Identity is **performance/cleanup**, so the bias is: fill the cheap,
+on-brand header/script/endpoint cleanups; treat management-style features (network
+admin UIs, per-role rules, wizards) as out of scope unless we deliberately
+reposition. Each item below is a new real option key → a `persist_settings()` line →
+a row in the matching section of `wp-disable-app.js`. _(Originally targeted 2.2.0;
+that release became the Featherweight rebrand + cleanup, so these move to 2.3.0.)_
 
 ### vs `disable-comments` (1M+ installs) — audited 2026-06-07
 Engine is already strong: "Disable all comments" removes the Comments admin menu
@@ -129,14 +152,14 @@ Mostly already covered: `remove_wordpress_api_from_header` strips the
 - [ ] 🟡 **Restrict REST API to authenticated users** (optional policy: logged-in /
   none / blocked). disable-wp-rest-api's headline feature; the canvas demo already
   mocked a "Restrict REST API" toggle + policy select. Hardening, not perf — ship
-  only if we want WP Disable to play in the hardening space too. → **Feeds & APIs**.
+  only if we want Featherweight to play in the hardening space too. → **Feeds & APIs**.
 
 ---
 
 ## Suite-level direction: AI-actionable diagnostics (not another passive monitor)
-**Scope note:** this is bigger than a WP Disable toggle — it's a Folium *suite*
+**Scope note:** this is bigger than a Featherweight toggle — it's a Folium *suite*
 concept and may graduate to its own plugin and/or a suite-level doc. Captured here
-because it grew out of the competitive audit and WP Disable already owns the
+because it grew out of the competitive audit and Featherweight already owns the
 cron/Heartbeat surface (heartbeat freq/location, the weekly/monthly schedules,
 the spam-cleaner cron) so it's the natural first data source.
 
@@ -164,7 +187,7 @@ classic QM table.
 
 ### Decided architecture (owner, 2026-06-07) — signals live local, fixing is central
 Hybrid, not either/or:
-- **Each suite plugin owns and emits its own diagnostic signals.** WP Disable keeps
+- **Each suite plugin owns and emits its own diagnostic signals.** Featherweight keeps
   the **cron/Heartbeat** data here (it owns that surface); Cache emits cache/TTFB
   signals; Sitewise emits crawl/corpus signals; etc. The data stays where it's
   generated.
@@ -180,8 +203,8 @@ Hybrid, not either/or:
 - [ ] 🟡 Define a lightweight **suite signal contract** — how any Folium plugin
   publishes a diagnostic (id, severity, plain-language summary, structured payload,
   and an optional *fix action* the bot/QM can invoke). The QM plugin subscribes;
-  the bot consumes. WP Disable's cron/Heartbeat checks are the first producer.
-- [ ] 🟡 WP Disable: expose its cron/Heartbeat health as signals on that contract
+  the bot consumes. Featherweight's cron/Heartbeat checks are the first producer.
+- [ ] 🟡 Featherweight: expose its cron/Heartbeat health as signals on that contract
   (orphaned events, overdue events, WP-Cron spawn failure, Heartbeat hammering).
 - [ ] Prereq: the suite AI bot (Sitewise grounded-chat work) must exist and expose an
   ingestion/answer path before the QM plugin's "fix" loop is buildable; the standalone

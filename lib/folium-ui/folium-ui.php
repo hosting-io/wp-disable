@@ -405,17 +405,6 @@ class Folium_UI {
 				'home'   => 'https://foliumstudio.co.uk/plugins/folium-cache/',
 				'coming' => true,
 			),
-			array(
-				'id'     => 'folium-images',
-				'mark'   => 'I',
-				'name'   => 'Folium Images',
-				'tag'    => 'Media',
-				'desc'   => 'Compress, convert to WebP / AVIF, and serve images from a CDN.',
-				'stats'  => array( array( '—', 'optimised' ) ),
-				'file'   => 'folium-images/folium-images.php',
-				'home'   => 'https://foliumstudio.co.uk/plugins/folium-images/',
-				'coming' => true,
-			),
 		);
 
 		/**
@@ -473,13 +462,13 @@ class Folium_UI {
 				$open = true;
 			} elseif ( $has_file ) {
 				$url  = admin_url( 'plugins.php' );
-				$note = __( 'Activate', 'default' );
+				$note = __( 'Activate', 'wp-disable' );
 			} elseif ( $coming ) {
 				$url  = '';
-				$note = __( 'Coming soon', 'default' );
+				$note = __( 'Coming soon', 'wp-disable' );
 			} else {
 				$url  = $c['wporg'] ?? ( $c['home'] ?? '' );
-				$note = __( 'Install', 'default' );
+				$note = __( 'Install', 'wp-disable' );
 			}
 
 			$ver = $has_file && ! empty( $installed[ $file ]['Version'] ) ? 'v' . $installed[ $file ]['Version'] : '';

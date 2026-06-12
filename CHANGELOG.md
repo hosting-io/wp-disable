@@ -10,6 +10,32 @@ Use the prefixes **Added / Changed / Fixed / Security / Removed / Deprecated**.
 
 ---
 
+## [2.2.2] — 2026-06-12 — REST output fix + WordPress compliance + overview cleanup
+
+### Fixed
+- **"Headers already sent" on REST / AJAX / feed requests** (forum report, was
+  `class-wpperformance.php:660`). `check_dns_prefetch()` echoed the `<link rel="dns-prefetch">`
+  tags directly at `plugins_loaded` time; since `is_admin()` is false during REST,
+  that body output preceded the JSON headers. The echo now defers to a new
+  `print_dns_prefetch()` registered on `wp_head` (never fires on REST/AJAX/feed), so
+  the hints still land in `<head>` on front-end pages only.
+
+### Changed
+- **Plugin Check / WordPress.org compliance pass.** Cleaned the actionable findings:
+  i18n domains on cron schedule labels, escaped old-version admin notices,
+  `wp_delete_file()` for legacy GA cache cleanup, `wp_strip_all_tags()` for comment
+  author-link stripping, nonce-checker-safe feed query handling, prefixed uninstall
+  loop variables, and versioned/footer-loaded async CSS helper script.
+- Replaced the spam-comment cleanup SQL with WordPress comment APIs (`get_comments()`
+  + `wp_delete_comment()`), so comment/meta deletion goes through core rather than
+  direct table writes.
+- WooCommerce detection now uses WooCommerce's loaded runtime markers instead of
+  filtering the raw `active_plugins` option.
+
+### Removed
+- **Placeholder "Folium Images" card** from the Folium suite overview (`Folium_UI::catalog()`)
+  — it had no plugin behind it. Re-vendored folium-ui into Featherweight + Sitewise.
+
 ## [2.2.1] — 2026-06-08 — suite UI polish
 
 ### Changed
@@ -22,9 +48,11 @@ Use the prefixes **Added / Changed / Fixed / Security / Removed / Deprecated**.
   installed, the overview now shows "Coming soon" instead of a broken Install link
   to the old `wp-call-me-back` listing. The flag is gated on `!has_file`, so a
   genuinely-installed Sitewise still shows its real state.
+- `readme.txt` title now matches the plugin header (`Featherweight`), with the
+  former WP Disable name kept in the description instead.
 
-> Note: 2.2.0 shipped to wp.org via manual workflow_dispatch (no git tag); 2.2.1 is
-> the follow-up so these post-release UI tweaks ship under a fresh version.
+> Note: 2.2.0 + 2.2.1 shipped to wp.org via manual workflow_dispatch (no git tag);
+> 2.2.2 is the first tag-triggered deploy of the rebranded plugin.
 
 ## [2.2.0] — 2026-06-08 — Featherweight rebrand + dead-code purge
 

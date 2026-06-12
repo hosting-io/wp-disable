@@ -37,8 +37,6 @@ class WpPerformance {
 
 		new WpPerformance_Admin;		
 
-		add_action( 'init', array( $this, 'text_domain' ) );
-
 		$this->apply_settings();
 	}
 
@@ -50,17 +48,6 @@ class WpPerformance {
 			self::$instance = new self();
 		}
 		return self::$instance;
-	}
-
-	/**
-	 * Loads the plugin text domain for translation
-	 */
-	public function text_domain() {
-		load_plugin_textdomain(
-			self::TEXT_DOMAIN,
-			false,
-			dirname( dirname( __FILE__ ) ) . DIRECTORY_SEPARATOR . 'lang' . DIRECTORY_SEPARATOR
-		);
 	}
 
 	/**
@@ -110,29 +97,25 @@ class WpPerformance {
 
 		$local_ga = dirname( dirname( __FILE__ ) ) . '/cache/local-ga.js';
 		if ( file_exists( $local_ga ) ) {
-			@unlink( $local_ga );
+			wp_delete_file( $local_ga );
 		}
 
 		update_option( self::DB_VERSION_KEY, self::DB_VERSION );
 	}
 
 	public static function delete_spam_comments() {
-		global $wpdb;
-
-		$spam_comments_id_arr = $wpdb->get_col( "SELECT comment_id FROM {$wpdb->comments} WHERE comment_approved = 'spam'" );
+		$spam_comments_id_arr = get_comments(
+			array(
+				'status' => 'spam',
+				'fields' => 'ids',
+				'number' => 0,
+			)
+		);
 		if ( ! empty( $spam_comments_id_arr ) ) {
 			$spam_comments_id_arr = array_map( 'intval', $spam_comments_id_arr );
-
-			// Build one %d placeholder per id. Using IN ( %s ) with an imploded
-			// string (the old code) made $wpdb->prepare quote the whole list as a
-			// single value, so nothing was ever deleted.
-			$placeholders = implode( ', ', array_fill( 0, count( $spam_comments_id_arr ), '%d' ) );
-
-			$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->comments} WHERE comment_id IN ( $placeholders )", $spam_comments_id_arr ) );
-			$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->commentmeta} WHERE comment_id IN ( $placeholders )", $spam_comments_id_arr ) );
-
-			$wpdb->query( "OPTIMIZE TABLE $wpdb->comments" );
-			$wpdb->query( "OPTIMIZE TABLE $wpdb->commentmeta" );
+			foreach ( $spam_comments_id_arr as $comment_id ) {
+				wp_delete_comment( $comment_id, true );
+			}
 		}
 	}
 
@@ -180,11 +163,11 @@ class WpPerformance {
 	public function php_version_error() {
 		echo '<div class="error"><p><strong>';
 		printf(
-			'Error: %3$s requires PHP version %1$s or greater.<br/>' .
-			'Your installed PHP version: %2$s',
-			self::MIN_PHP_VERSION,
-			PHP_VERSION,
-			$this->get_plugin_name()
+			/* translators: 1: required PHP version, 2: installed PHP version, 3: plugin name. */
+			esc_html__( 'Error: %3$s requires PHP version %1$s or greater. Your installed PHP version: %2$s', 'wp-disable' ),
+			esc_html( self::MIN_PHP_VERSION ),
+			esc_html( PHP_VERSION ),
+			esc_html( $this->get_plugin_name() )
 		);
 		echo '</strong></p></div>';
 	}
@@ -195,9 +178,10 @@ class WpPerformance {
 	public function wp_version_error() {
 		echo '<div class="error"><p><strong>';
 		printf(
-			'Error: %2$s requires WordPress version %1$s or greater.',
-			self::MIN_WP_VERSION,
-			$this->get_plugin_name()
+			/* translators: 1: required WordPress version, 2: plugin name. */
+			esc_html__( 'Error: %2$s requires WordPress version %1$s or greater.', 'wp-disable' ),
+			esc_html( self::MIN_WP_VERSION ),
+			esc_html( $this->get_plugin_name() )
 		);
 		echo '</strong></p></div>';
 	}
@@ -252,7 +236,9 @@ class WpPerformance {
 	public function enqueue_scripts() {
 		$async_links = $this->check_googlefonts_fontawesome_styles();
 		if ( ! empty( $async_links ) ) {
-			wp_enqueue_script( 'wp-disable-css-lazy-load',  plugin_dir_url( dirname( __FILE__ ) ) . 'js/css-lazy-load.js' );
+			$script_path = dirname( __DIR__ ) . '/js/css-lazy-load.js';
+			$script_ver  = file_exists( $script_path ) ? (string) filemtime( $script_path ) : WP_DISABLE_VERSION;
+			wp_enqueue_script( 'wp-disable-css-lazy-load', plugin_dir_url( dirname( __FILE__ ) ) . 'js/css-lazy-load.js', array(), $script_ver, true );
 			wp_localize_script( 'wp-disable-css-lazy-load', 'WpDisableAsyncLinks', $async_links );
 		}
 	}
@@ -635,15 +621,26 @@ class WpPerformance {
 	}
 
 	private function check_dns_prefetch(){
-		
+
 		$settings = $this->get_settings_values();
-		
+
 		if( ! isset( $settings['dns_prefetch'] ) || ! $settings['dns_prefetch'] ) {
 			return;
 		}
 
-		$list = array();
-		$host_list = $settings['dns_prefetch_host_list'];
+		// Defer the actual output to wp_head. Echoing here (plugins_loaded time)
+		// emits body output before headers are sent — which on REST/AJAX/feed
+		// requests triggers "headers already sent". wp_head only fires while
+		// rendering a front-end page, which is where dns-prefetch hints belong.
+		add_action( 'wp_head', array( $this, 'print_dns_prefetch' ), 0 );
+	}
+
+	public function print_dns_prefetch(){
+
+		$settings = $this->get_settings_values();
+
+		$list      = array();
+		$host_list = isset( $settings['dns_prefetch_host_list'] ) ? $settings['dns_prefetch_host_list'] : '';
 		$host_list = '' !== $host_list ? explode("\n", $host_list) : array();
 
 		if( ! empty( $host_list ) ){
@@ -743,7 +740,7 @@ class WpPerformance {
 	}
 
 	public function disable_comments_authors_links( $author_link ) {
-		return strip_tags( $author_link );
+		return wp_strip_all_tags( $author_link );
 	}
 
 	public function check_feeds_disable() {
@@ -792,7 +789,14 @@ class WpPerformance {
 			// Override the xml+rss header set by WP in send_headers
 			header( 'Content-Type: ' . get_option( 'html_type' ) . '; charset=' . get_option( 'blog_charset' ) );
 		} else {
-			if ( isset( $_GET['feed'] ) ) {
+			$uri           = isset( $_SERVER['REQUEST_URI'] ) ? esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '';
+			$request_query = wp_parse_url( $uri, PHP_URL_QUERY );
+			$query_args    = array();
+			if ( $request_query ) {
+				wp_parse_str( $request_query, $query_args );
+			}
+
+			if ( isset( $query_args['feed'] ) ) {
 				wp_safe_redirect( esc_url_raw( remove_query_arg( 'feed' ) ), 301 );
 				exit;
 			}
@@ -809,7 +813,6 @@ class WpPerformance {
 			$struct = str_replace( '%feed%', '(\w+)?', $struct );
 			$struct = preg_replace( '#/+#', '/', $struct );
 			$host = isset( $_SERVER['HTTP_HOST'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_HOST'] ) ) : '';
-			$uri  = isset( $_SERVER['REQUEST_URI'] ) ? esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '';
 			$requested_url = ( is_ssl() ? 'https://' : 'http://' ) . $host . $uri;
 			$new_url = preg_replace( '#' . $struct . '/?$#', '', $requested_url );
 
@@ -917,26 +920,26 @@ class WpPerformance {
 		
 			$response = wp_remote_get( 'https://wielo.co/referrer-spam.php', array( 'timeout' => 5 ) );
 			
-			if ($response instanceof WP_Error) {
-	            error_log('Unable to get referrals spam blacklist: ' . $response->get_error_message());
-	            return;
-	        }
+			if ( $response instanceof WP_Error ) {
+				do_action( 'wp_disable_referral_spam_blacklist_error', 'request_failed', $response );
+				return;
+			}
 
-	        $ret = $response['body'];
+			$ret = $response['body'];
 
-	        if (empty($ret)) {
-	            error_log('Invalid referrals spam blacklist response');
-	            return;
-	        }
+			if ( empty( $ret ) ) {
+				do_action( 'wp_disable_referral_spam_blacklist_error', 'empty_response', $response );
+				return;
+			}
 
-	        $ret = json_decode($ret, true);
+			$ret = json_decode( $ret, true );
 
-	        if (null === $ret) {
-	            error_log('Invalid referrals spam blacklist data');
-	            return;
-	        }
+			if ( null === $ret ) {
+				do_action( 'wp_disable_referral_spam_blacklist_error', 'invalid_json', $response );
+				return;
+			}
 
-	        set_transient( self::OPTION_KEY . '_referalls_spam_blacklist', $ret, DAY_IN_SECONDS );	// Refresh daily.
+			set_transient( self::OPTION_KEY . '_referalls_spam_blacklist', $ret, DAY_IN_SECONDS );	// Refresh daily.
 	    }
 
         return $ret;
@@ -944,7 +947,7 @@ class WpPerformance {
 
 	public static function is_woocommerce_enabled(){
 		if( null === WpPerformance::$enabled_woocommerce ){
-			WpPerformance::$enabled_woocommerce = in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) );
+			WpPerformance::$enabled_woocommerce = class_exists( 'WooCommerce' ) || function_exists( 'WC' );
 		}
 		return WpPerformance::$enabled_woocommerce;
 	}

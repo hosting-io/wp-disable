@@ -7,8 +7,8 @@ WpPerformance::unschedule_spam_comments_delete();
 
 // Clean up legacy add-on download-link transients from the pre-Folium era
 // (the cross-plugin installer that set these was removed in 2.2.0).
-foreach ( array( 'wp-disable', 'cache-performance', 'wp-image-compression' ) as $legacy_slug ) {
-	delete_transient( 'optimisaitionio_addon_download_link[' . $legacy_slug . ']' );
+foreach ( array( 'wp-disable', 'cache-performance', 'wp-image-compression' ) as $wp_disable_legacy_slug ) {
+	delete_transient( 'optimisaitionio_addon_download_link[' . $wp_disable_legacy_slug . ']' );
 }
 
 // Clean up the legacy Universal Analytics offload cron + transient, if present.

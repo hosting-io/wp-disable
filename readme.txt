@@ -1,10 +1,10 @@
-=== Featherweight — formerly WP Disable ===
+=== Featherweight ===
 Contributors: pigeonhut
 Tags: disable emoji, disable embeds, remove query strings, performance, optimization
 Requires at least: 6.4
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 2.2.1
+Stable tag: 2.2.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -83,6 +83,11 @@ Yes — minification helps on-page performance, but that's outside the remit of 
 
 
 == Changelog ==
+= 2.2.2 =
+* Fixed: "headers already sent" warning on REST, AJAX and feed requests when the DNS-prefetch option was enabled — the prefetch tags now print in the page head instead of at plugin load.
+* WordPress.org compliance pass: tightened escaping, i18n domains, file deletion, feed query handling, uninstall naming, script versioning, and Plugin Check warnings.
+* Spam-comment cleanup now uses WordPress core comment APIs instead of direct database deletion.
+* Removed the placeholder "Folium Images" card from the Folium suite overview.
 = 2.2.1 =
 * Tested up to WordPress 7.0.
 * The Folium suite menu now uses a leaf icon (fitting — "Folium" is Latin for leaf).

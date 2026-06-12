@@ -114,7 +114,9 @@ class Optimisationio_Dashboard {
 		}
 		check_ajax_referer( 'wp_disable_app', 'nonce' );
 
-		$raw = isset( $_POST['data'] ) ? json_decode( wp_unslash( $_POST['data'] ), true ) : array(); // phpcs:ignore WordPress.Security.ValidationSanitization.InputNotValidated
+		// Decoded settings are sanitized field-by-field by persist_settings().
+		$raw_json = isset( $_POST['data'] ) ? wp_unslash( $_POST['data'] ) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+		$raw      = '' !== $raw_json ? json_decode( $raw_json, true ) : array();
 		if ( ! is_array( $raw ) ) {
 			$raw = array();
 		}

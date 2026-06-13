@@ -22,6 +22,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Register this copy. (Version is stamped to match folium-ui.php's constant.)
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Shared Folium UI registry must use one stable global across bundled plugin copies.
 if ( ! isset( $GLOBALS['folium_ui_registry'] ) ) {
 	$GLOBALS['folium_ui_registry'] = array();
 }
@@ -29,6 +30,7 @@ $GLOBALS['folium_ui_registry'][] = array(
 	'version' => '1.0.3',
 	'path'    => __DIR__ . '/folium-ui.php',
 );
+// phpcs:enable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 
 // Schedule the resolver exactly once, regardless of which copy runs first.
 if ( ! function_exists( 'folium_ui_boot' ) ) {
@@ -36,6 +38,7 @@ if ( ! function_exists( 'folium_ui_boot' ) ) {
 	/**
 	 * Pick the newest registered copy and load it.
 	 */
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Shared Folium UI loader function must be stable across bundled copies.
 	function folium_ui_boot() {
 		$registry = isset( $GLOBALS['folium_ui_registry'] ) ? $GLOBALS['folium_ui_registry'] : array();
 		if ( empty( $registry ) ) {

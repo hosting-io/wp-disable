@@ -310,13 +310,14 @@
       </div>`;
 
     return `<div class="wpd-section" data-section="dashboard" data-screen-label="Dashboard">
-      <div class="wpd-section-head" style="border:0;padding-bottom:8px">
-        <div class="fl-stack" style="gap:7px">
-          <span class="fl-eyebrow"><span class="fl-num">00</span> — OVERVIEW</span>
-          <h2 class="fl-h1" style="font-size:24px">Dashboard</h2>
-          <p class="fl-lead">A live read on what Featherweight is removing right now.</p>
+      <div class="wpd-hero-card fw-hero fl-card">
+        <div class="wpd-hero-copy">
+          <span class="fl-eyebrow"><span class="fl-num">00</span> — FEATHERWEIGHT</span>
+          <h2 class="fl-h1">Lighter WordPress, fewer requests.</h2>
+          <p class="fl-lead">A live read on what Featherweight is removing right now: scripts, meta tags, comments, feeds and background admin noise.</p>
+          <span class="fl-pill fl-pill--good"><span class="fl-dot"></span> Updated live</span>
         </div>
-        <div class="wpd-section-meta"><span class="fl-meta">UPDATED LIVE</span></div>
+        <div class="wpd-hero-mark fw-hero-mark">F</div>
       </div>
       ${header}
       ${breakdown}

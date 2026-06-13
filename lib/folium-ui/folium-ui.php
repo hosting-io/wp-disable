@@ -3,7 +3,7 @@
  * Folium UI — versioned implementation (the design-system runtime).
  *
  * Loaded by loader.php for the single newest active copy. Owns:
- *   - one shared "Folium" top-level admin menu (so plugins don't each litter
+ *   - one shared "By Folium" top-level admin menu (so plugins don't each litter
  *     the sidebar with their own top-level item),
  *   - the plugin registry + switcher dropdown (the in-page selector),
  *   - asset enqueueing (CSS / JS / bundled fonts) on Folium screens.
@@ -57,10 +57,10 @@ class Folium_UI {
 	/** @var array<string,string> Admin page hook suffix per plugin slug. */
 	private static $page_hooks = array();
 
-	/** @var string Hook suffix of the top-level "Folium" page. */
+	/** @var string Hook suffix of the top-level "By Folium" page. */
 	private static $top_hook = '';
 
-	/** @var string Slug rendered on the top-level "Folium" landing. */
+	/** @var string Slug rendered on the top-level "By Folium" landing. */
 	private static $default_slug = '';
 
 	/**
@@ -76,6 +76,10 @@ class Folium_UI {
 
 		add_action( 'admin_menu', array( __CLASS__, 'build_menu' ), 9 );
 		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'maybe_enqueue' ) );
+		add_action( 'admin_footer', array( __CLASS__, 'maybe_mark_menu_current_script' ) );
+		add_filter( 'parent_file', array( __CLASS__, 'maybe_mark_parent_menu' ) );
+		add_filter( 'custom_menu_order', array( __CLASS__, 'use_custom_menu_order' ) );
+		add_filter( 'menu_order', array( __CLASS__, 'order_admin_menu' ) );
 	}
 
 	/**
@@ -105,13 +109,14 @@ class Folium_UI {
 				'menu'       => $args['slug'],
 				'capability' => 'manage_options',
 				'render'     => null,
+				'render_mode' => 'app',
 			)
 		);
 	}
 
 	/**
-	 * Build the single "Folium" top-level menu with one submenu per registered
-	 * plugin. Runs on admin_menu priority 9.
+	 * Build the single "By Folium" top-level menu and hidden plugin pages. Runs
+	 * on admin_menu priority 9.
 	 */
 	public static function build_menu() {
 		if ( empty( self::$plugins ) ) {
@@ -121,30 +126,27 @@ class Folium_UI {
 		$first              = reset( self::$plugins );
 		self::$default_slug = key( self::$plugins );
 
-		// Single top-level "Folium" item. It renders the landing (the default
+		// Single top-level "By Folium" item. It renders the landing (the default
 		// plugin for now; a universal home view later).
 		self::$top_hook = add_menu_page(
-			'Folium',
-			'Folium',
+			'By Folium',
+			'By Folium',
 			$first['capability'],
 			self::MENU_SLUG,
 			array( __CLASS__, 'render_landing' ),
 			self::menu_icon(),
-			58
+			2
 		);
 
-		// Register each plugin page as hidden-but-accessible (null parent). This
-		// keeps admin.php?page=<slug> routable for the switcher/overview WITHOUT
-		// adding a sidebar item — and crucially WITHOUT remove_submenu_page(),
-		// which would break direct access (WP can't resolve a removed submenu's
-		// parent/capability, yielding "Sorry, you are not allowed").
+		// Register plugin pages as hidden admin pages. The in-page switcher owns
+		// suite navigation, so the WP sidebar stays as one clean "By Folium" item.
 		foreach ( self::$plugins as $slug => $p ) {
 			$render = function () use ( $slug ) {
 				Folium_UI::render_app( $slug );
 			};
 			$hook = add_submenu_page(
-				'',                       // null/empty parent: registered, not shown.
-				$p['name'] . ' — Folium',
+				'',
+				$p['name'] . ' — By Folium',
 				$p['name'],
 				$p['capability'],
 				$p['menu'],
@@ -161,6 +163,105 @@ class Folium_UI {
 	 */
 	public static function render_landing() {
 		self::render_app( self::STUDIO_SLUG );
+	}
+
+	/**
+	 * Enable a deterministic admin menu order so the shared suite entry sits
+	 * directly below Dashboard even when another plugin claims an early position.
+	 *
+	 * @param bool $enabled Current custom menu order flag.
+	 * @return bool
+	 */
+	public static function use_custom_menu_order( $enabled ) {
+		return true;
+	}
+
+	/**
+	 * Move the shared "By Folium" top-level menu directly after Dashboard.
+	 *
+	 * @param array $menu_order Ordered menu slugs.
+	 * @return array
+	 */
+	public static function order_admin_menu( $menu_order ) {
+		if ( ! is_array( $menu_order ) ) {
+			return $menu_order;
+		}
+
+		$menu_order = array_values( array_diff( $menu_order, array( self::MENU_SLUG ) ) );
+		$dashboard  = array_search( 'index.php', $menu_order, true );
+		$insert_at  = false === $dashboard ? 0 : $dashboard + 1;
+
+		array_splice( $menu_order, $insert_at, 0, array( self::MENU_SLUG ) );
+		return $menu_order;
+	}
+
+	/**
+	 * Plugin pages should highlight the shared "By Folium" sidebar item when
+	 * they are open.
+	 *
+	 * @param string $parent_file Current WordPress parent menu file.
+	 * @return string
+	 */
+	public static function maybe_mark_parent_menu( $parent_file ) {
+		global $plugin_page;
+
+		$current_page = $plugin_page;
+		if ( empty( $current_page ) && isset( $_GET['page'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only admin menu highlighting.
+			$current_page = sanitize_key( wp_unslash( $_GET['page'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only admin menu highlighting.
+		}
+
+		if ( self::MENU_SLUG === $current_page ) {
+			return self::MENU_SLUG;
+		}
+
+		foreach ( self::$plugins as $plugin ) {
+			if ( ! empty( $plugin['menu'] ) && $plugin['menu'] === $current_page ) {
+				return self::MENU_SLUG;
+			}
+		}
+
+		return $parent_file;
+	}
+
+	/**
+	 * Hidden admin pages do not get WordPress' native current-menu classes.
+	 * Add them client-side so direct plugin pages still look anchored under
+	 * the single "By Folium" sidebar item, without exposing a WP submenu.
+	 */
+	public static function maybe_mark_menu_current_script() {
+		global $plugin_page;
+
+		$current_page = $plugin_page;
+		if ( empty( $current_page ) && isset( $_GET['page'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only admin menu highlighting.
+			$current_page = sanitize_key( wp_unslash( $_GET['page'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only admin menu highlighting.
+		}
+
+		$mark_current = false;
+		foreach ( self::$plugins as $plugin ) {
+			if ( ! empty( $plugin['menu'] ) && $plugin['menu'] === $current_page ) {
+				$mark_current = true;
+				break;
+			}
+		}
+
+		if ( ! $mark_current ) {
+			return;
+		}
+		?>
+		<script>
+		(function () {
+			var item = document.getElementById('toplevel_page_folium');
+			if (!item) { return; }
+			item.classList.remove('wp-not-current-submenu');
+			item.classList.add('current', 'menu-top');
+			var link = item.querySelector('a.menu-top');
+			if (!link) { return; }
+			link.classList.remove('wp-not-current-submenu');
+			link.classList.add('current', 'menu-top');
+			link.setAttribute('aria-current', 'page');
+		}());
+		</script>
+		<?php
 	}
 
 	/**
@@ -278,7 +379,7 @@ class Folium_UI {
 		}
 		?>
 		<div class="wrap fl-root" style="margin:10px 20px 0 0;">
-		<section id="wpd" class="folium-app" data-layout="tabs" data-accent="green" data-active="<?php echo esc_attr( $current_slug ); ?>" aria-label="Folium">
+		<section id="wpd" class="folium-app" data-layout="tabs" data-accent="green" data-active="<?php echo esc_attr( $current_slug ); ?>" aria-label="By Folium">
 			<header class="wpd-bar">
 				<div class="wpd-switcher">
 					<button class="wpd-switch" id="wpd-switch" type="button" aria-haspopup="menu" aria-expanded="false">
@@ -322,7 +423,18 @@ class Folium_UI {
 				<aside id="wpd-nav" hidden></aside>
 				<div class="wpd-maincol">
 					<div id="wpd-tabsbar" hidden></div>
-					<div id="wpd-main"></div>
+					<div id="wpd-main">
+						<?php
+						if (
+							self::STUDIO_SLUG !== $current_slug
+							&& ! empty( $current['render'] )
+							&& is_callable( $current['render'] )
+							&& 'php' === ( $current['render_mode'] ?? 'app' )
+						) {
+							call_user_func( $current['render'] );
+						}
+						?>
+					</div>
 				</div>
 			</div>
 			<div id="wpd-toast" class="fl-card fl-card-pad" hidden></div>
@@ -392,18 +504,17 @@ class Folium_UI {
 				'file'  => 'wp-call-me-back/sitewise.php',
 				'wporg' => 'https://wordpress.org/plugins/wp-call-me-back/',
 				'home'  => 'https://foliumstudio.co.uk/plugins/sitewise/',
-				'coming' => true, // not publicly live yet — show "Coming soon", not a broken Install link.
 			),
 			array(
 				'id'     => 'cache-performance',
 				'mark'   => 'C',
-				'name'   => 'Folium Cache',
+				'name'   => 'Cache by Folium',
 				'tag'    => 'Performance',
 				'desc'   => 'Page and object caching with smart purge rules and edge support.',
 				'stats'  => array( array( '—', 'cached' ), array( '—', 'TTFB' ) ),
-				'file'   => 'cache-performance/speed-cache.php',
+				'file'   => 'cache-performance/optimisationio.php',
+				'wporg'  => 'https://wordpress.org/plugins/cache-performance/',
 				'home'   => 'https://foliumstudio.co.uk/plugins/folium-cache/',
-				'coming' => true,
 			),
 		);
 
@@ -440,6 +551,7 @@ class Folium_UI {
 			$has_file = $file && isset( $installed[ $file ] );
 			$active   = $on_fol || ( $file && is_plugin_active( $file ) );
 			$coming   = ! empty( $c['coming'] ) && ! $has_file;     // unreleased, not yet installed.
+			$menu     = $on_fol ? ( self::$plugins[ $id ]['menu'] ?? $id ) : $id;
 
 			if ( $active ) {
 				$status = 'active';
@@ -455,7 +567,7 @@ class Folium_UI {
 			$open = false;
 			$note = '';
 			if ( $on_fol ) {
-				$url  = admin_url( 'admin.php?page=' . $id );
+				$url  = admin_url( 'admin.php?page=' . $menu );
 				$open = true;
 			} elseif ( $active && ! empty( $c['admin'] ) ) {
 				$url  = admin_url( $c['admin'] );
@@ -515,7 +627,7 @@ class Folium_UI {
 
 	/**
 	 * Plugins for the switcher dropdown: installed (active or inactive) Folium
-	 * plugins from the catalog, so non-adopted ones (e.g. Folium Cache) appear too.
+	 * plugins from the catalog, so non-adopted ones (e.g. Cache by Folium) appear too.
 	 *
 	 * @return array<int,array>
 	 */
